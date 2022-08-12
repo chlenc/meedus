@@ -126,7 +126,6 @@ const DiscoverBlock: React.FC<IProps> = () => {
                     name={v.name}
                     key={v.assetId}
                     num={index + 1}
-                    assetId={v.assetId}
                     value={`$${v.currentPrice.toFormat(2)}`}
                     logo={TOKEN_LOGO_BY_ASSET_ID[v.assetId]}
                     symbol={v.symbol}
@@ -146,7 +145,6 @@ const DiscoverBlock: React.FC<IProps> = () => {
                     name={v.name}
                     key={v.assetId}
                     num={index + 1}
-                    assetId={v.assetId}
                     value={`${v.change24H.toFormat(2)}%`}
                     logo={TOKEN_LOGO_BY_ASSET_ID[v.assetId]}
                     valueColor={v.change24H.gte(0) ? "#7CE34F" : "#E34744"}
@@ -167,7 +165,6 @@ const DiscoverBlock: React.FC<IProps> = () => {
                     name={v.name}
                     key={v.assetId}
                     num={index + 1}
-                    assetId={v.assetId}
                     value={`${v.change24H.toFormat(2)}%`}
                     valueColor={v.change24H.gte(0) ? "#7CE34F" : "#E34744"}
                     logo={TOKEN_LOGO_BY_ASSET_ID[v.assetId]}
