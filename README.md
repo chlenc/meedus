@@ -1,46 +1,89 @@
-# Getting Started with Create React App
+## 🔍 Overview
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+LineUp is gonna be a land of calm place in Waves Ecosystem where users can place their money and not worry anymore about locks, missing opportunities and impermanent losses. One crypto dashboard to rule them all in one place.
+We are providing a protocol of automation liquidity transfer between DeFi projects in Waves Platform like Vires Finance, Swopfi, Puzzle Swap and Waves Exchange.
 
-## Available Scripts
+- Short description of the solution you suggest
+  We suggest Dapp application that will provide deep analytics of most reliable and trusted application on Waves with ability to replace liquidity provided by user to different pools, staking and farming positions to achieve the highest possible profit.
 
-In the project directory, you can run:
+- How does it solve the specified problem?
+  There won't be a need to waste time by checking all the time if the APR has changed and you can replace your money to different protocol.
 
-### `npm start`
+- How you will integrate this project into Waves / Neutrino.
+  Project will be integrated to allmost all of dapps made on Waves, Neutrino as well.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Why your team is interested in creating this project.
+  We want to realize ourselves as a product team of a large and serious project that would have reall practical use.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- What is the target audience of the final solution?
+  From big wheels to small players who want to make their money work better.
 
-### `npm test`
+- What is the “secret sauce” of it?
+  In quality development and thoughtful UI and UX that helps people to be more conscious about what their money do.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- What is the duration of the whole project?
+  We need 2-3 months to develop mvp that will collaborate with Vires and other. For more detailed info please check roadmap below.
 
-### `npm run build`
+- Resources required to implement the grant task
+  Funds that will be used for development and design, marketing assistance, advising.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Ecosystem Fit
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+There are no similar projects on the Waves blockchain, here is some project references that exists already on other chaines. 👉
 
-### `npm run eject`
+- [Beefy Finance](https://beefy.finance/)
+- [Defi Helper](https://defihelper.io/)
+- [Autofarm](https://autofarm.network/)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🔩 Development Roadmap
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Q3-Q4 2022
+- MVP that will incude analytics service for account, smart contract for money transfer beetween Vires Markets with algoritm that finds better incomes
+- Dapp that integrates all staking/farming possition in Waves in one place with higly developed UI/UX
+- Notification system for daily updates on your portfolio’s balance, APY updates on contracts you have invested in and etc
+- Launch of $LNP token
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Q1 2023
+-  Development of analytic system that can make token price forecasts and replacement of fands using smart contacts
+- Functional improvement as addiditional settings for investemnts that can be used like:
+  -- withdrawal of asset out of the pool if there are limits
+  -- minimal limit of money that can't be locked for any time withdrawal
+  -- filter for assets can can be used and exchanged
+- Additional intergations with Puzzle Swap to its pools and staking positions
 
-## Learn More
+Q2 2023
+- DAO
+- Swap based on different protocols like Swopfi, Puzzle, WX
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Q3 2023
+- Crosschain integrations with other networks
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+
+**Total Costs:**
+For development of Q3-Q4 2022
+- FE - $10 000
+- BE for analytics and notifications - $ 10 000
+- Design system - $7 000
+- Smart contract - $15 000
+- Marketing - $15 000
+
+For development of Q1 2023
+- Smart contract - $15 000
+- Marketing - $10 000
+- FE - $5 000
+
+**Tokemonics:**
+- 12% Team
+- 10% Early investors
+- 1% Public round
+- 4% Strategic Round
+- 7% Seed Round
+- 5% Pre-seed Round
+- 10% Liquidity rewards
+- 11% Marketing Subject
+- 25% Development. Subject to 3-year per-block vesting (locked in treasury, allocation by governance voting)
+- 7% Advisors
+- 8% Early ecosystem reward Subject to 12-month per-block vesting
+
