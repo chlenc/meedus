@@ -101,9 +101,9 @@ export default class TokenStore {
     this.rootStore = rootStore;
     makeAutoObservable(this);
     this.watchList = initState?.watchList ?? [];
-    // Promise.all([this.syncTokenStatistics()]).then(() =>
-    //   this.setInitialized(true)
-    // );
+    Promise.all([this.syncTokenStatistics()]).then(() =>
+      this.setInitialized(true)
+    );
     setInterval(this.syncTokenStatistics, 60 * 1000);
   }
 
