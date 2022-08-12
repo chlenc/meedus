@@ -11,13 +11,20 @@ interface IProps {}
 const Root = styled.div`
   display: flex;
   box-sizing: border-box;
-  padding: 12px;
+  padding: 0 16px;
+  height: 64px;
   align-items: center;
   max-width: calc(1160px + 32px);
+  width: 100%;
   justify-content: space-between;
   color: white;
+  background: #1f1e25;
+  border-bottom: 1px solid #3b3b46;
   @media (min-width: 768px) {
-    padding: 20px;
+    padding: 24px;
+    border-bottom: 1px solid transparent;
+    background: transparent;
+    height: 80px;
   }
 `;
 const Logo = styled.img`

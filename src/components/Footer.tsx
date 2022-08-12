@@ -24,7 +24,7 @@ const Footer: React.FC<IProps> = () => {
   return (
     <Root>
       <Text type="secondary" fitContent>
-        LineUp Protocol, Escape, 2022
+        LineUp finance, 2022
       </Text>
       <Row mainAxisSize="fit-content">
         <SizedBox width={20} />

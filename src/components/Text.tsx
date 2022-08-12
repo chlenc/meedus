@@ -1,6 +1,12 @@
 import styled from "@emotion/styled";
 
-type TTextType = "primary" | "secondary" | "light" | "purple" | "error";
+type TTextType =
+  | "primary"
+  | "secondary"
+  | "light"
+  | "purple"
+  | "error"
+  | "success";
 type TTextSize = "small" | "medium" | "large" | "big" | "title";
 type TTextAlign = "center" | "left" | "right" | "justify";
 
@@ -30,6 +36,8 @@ const Text = styled.div<{
           return "font-size: 20px; line-height: 28px;";
         case "medium":
           return "font-size: 16px; line-height: 24px;";
+        case "small":
+          return "font-size: 12px; line-height: 16px;";
         default:
           return "font-size: 14px; line-height: 20px;";
       }
@@ -45,6 +53,8 @@ const Text = styled.div<{
           return "color: #767EFF;";
         case "error":
           return "color: #E34744;";
+        case "success":
+          return "color: #7CE34F;";
         default:
           return "color: #ffffff";
       }

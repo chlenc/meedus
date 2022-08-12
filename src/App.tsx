@@ -1,10 +1,12 @@
 import React from "react";
 import styled from "@emotion/styled";
 import Header from "@components/Header";
-import { Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Footer from "@components/Footer";
 // import { AnimatePresence } from "framer-motion";
 import { observer } from "mobx-react-lite";
+import { ROUTES } from "@src/constants";
+import ExploreScreen from "@screens/ExploreScreen";
 
 interface IProps {}
 
@@ -23,9 +25,13 @@ const Root = styled.div`
 const Content = styled.div`
   display: flex;
   min-height: calc(100vh - 194px);
-  padding-top: 32px;
+  //padding-top: 32px;
   @media (min-width: 768px) {
     min-height: calc(100vh - 210px);
+    max-width: calc(1160px + 32px);
+    //padding: 12px;
+    width: 100%;
+    box-sizing: border-box;
   }
 `;
 
@@ -40,7 +46,9 @@ const App: React.FunctionComponent<IProps> = () => {
           {/*<Route path={ROUTES.INVEST} element={<Invest />} />*/}
           {/*<Route path={ROUTES.INVEST_CARD} element={<InvestCard />} />*/}
           {/*<Route path={ROUTES.DASHBOARD} element={<Dashboard />} />*/}
-          {/*<Route path="*" element={<Navigate to={ROUTES.DASHBOARD} />} />*/}
+          <Route path={ROUTES.ROOT} element={<ExploreScreen />} />
+          <Route path={ROUTES.EXPLORE} element={<ExploreScreen />} />
+          <Route path="*" element={<Navigate to={ROUTES.EXPLORE} />} />
         </Routes>
         {/*</AnimatePresence>*/}
       </Content>
