@@ -67,6 +67,11 @@ const menuItems = [
     link: ROUTES.DAPPS,
     routes: [ROUTES.DAPPS],
   },
+  {
+    title: "Swap",
+    link: ROUTES.SWAP,
+    routes: [ROUTES.SWAP],
+  },
 ];
 
 const Header: React.FC<IProps> = () => {

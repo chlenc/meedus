@@ -2,6 +2,7 @@ const logos = require("./tokenLogos.json");
 
 export const ROUTES = {
   ROOT: "/",
+  SWAP: "/swap",
   TOKENS: "/tokens",
   DAPPS: "/dapps",
 };

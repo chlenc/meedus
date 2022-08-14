@@ -50,6 +50,7 @@ const App: React.FunctionComponent<IProps> = () => {
           <Route path={ROUTES.ROOT} element={<ExploreScreen />} />
           <Route path={ROUTES.TOKENS} element={<ExploreScreen />} />
           <Route path={ROUTES.DAPPS} element={<RankingScreen />} />
+          {/*<Route path={ROUTES.SWAP} element={<SwapScreen />} />*/}
           <Route path="*" element={<Navigate to={ROUTES.TOKENS} />} />
         </Routes>
         {/*</AnimatePresence>*/}
