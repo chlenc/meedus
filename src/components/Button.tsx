@@ -26,8 +26,8 @@ const Button = styled.button<{
   width: ${({ fixed }) => (fixed ? "100%" : "fit-content")};
 
   padding: 0 24px;
-  border-radius: ${({ size }) => (size === "medium" ? 20 : 26)}px;
-  height: ${({ size }) => (size === "medium" ? 32 : 52)}px;
+  border-radius: 20px;
+  height: ${({ size }) => (size === "medium" ? 32 : 40)}px;
 
   :hover {
     background: ${({ kind }) => (kind === "secondary" ? "#535362" : "#767EFF")};
@@ -39,10 +39,6 @@ const Button = styled.button<{
     color: #e3e3ff;
     cursor: not-allowed;
     //opacity: 0.4;
-  }
-
-  @media (min-width: 768px) {
-    border-radius: ${({ size }) => (size === "medium" ? 20 : 16)}px;
   }
 `;
 

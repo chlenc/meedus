@@ -5,7 +5,7 @@ import { ReactComponent as SortDescendingIcon } from "@src/assets/icons/sortDesc
 import {
   TSortType,
   useExploreScreenVM,
-} from "@screens/ExploreScreen/ExploreScreenVm";
+} from "@screens/ExploreTokensScreen/ExploreScreenVm";
 
 interface IProps {
   sort?: TSortType;

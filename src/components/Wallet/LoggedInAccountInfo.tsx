@@ -9,6 +9,7 @@ import { observer } from "mobx-react-lite";
 import { useStores } from "@stores";
 import Tooltip from "@components/Tooltip";
 import arrowIcon from "@src/assets/icons/arrowRightBorderless.svg";
+import WalletActionsTooltip from "@components/Wallet/WalletActionsTooltip";
 
 interface IProps {}
 
@@ -72,7 +73,7 @@ const LoggedInAccountInfo: React.FC<IProps> = () => {
           trigger: "click",
           onVisibleChange: setAccountOpened,
         }}
-        content={<Text onClick={() => accountStore.logout()}>Disconnect</Text>}
+        content={<WalletActionsTooltip />}
       >
         <AddressContainer expanded={accountOpened}>
           <img className="avatar" src={avatar!} alt="avatar" />

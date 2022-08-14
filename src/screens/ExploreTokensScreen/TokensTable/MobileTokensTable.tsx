@@ -6,9 +6,10 @@ import Text from "@components/Text";
 import { assetPriceFormat } from "@src/utils/assetPriceFormat";
 import { observer } from "mobx-react-lite";
 import Button from "@components/Button";
-import TokenLogoAndName from "@screens/ExploreScreen/TokensTable/TokenLogoAndName";
-import { useExploreScreenVM } from "@screens/ExploreScreen/ExploreScreenVm";
-import SortIcon from "@screens/ExploreScreen/TokensTable/SortIcon";
+import TokenLogoAndName from "@screens/ExploreTokensScreen/TokensTable/TokenLogoAndName";
+import { useExploreScreenVM } from "@screens/ExploreTokensScreen/ExploreScreenVm";
+import SortIcon from "@screens/ExploreTokensScreen/TokensTable/SortIcon";
+import Divider from "@components/Divider";
 
 interface IProps {}
 
@@ -20,10 +21,8 @@ const TokenTableRow = styled(Row)`
   justify-content: space-between;
 `;
 
-const Divider = styled.div`
+const StyledDivider = styled(Divider)`
   width: calc(100% - 56px);
-  height: 1px;
-  background: #3b3b46;
   margin-left: 56px;
 `;
 
@@ -83,7 +82,7 @@ const MobileTokensTable: React.FC<IProps> = () => {
               </Text>
             </Column>
           </TokenTableRow>
-          <Divider />
+          <StyledDivider />
         </React.Fragment>
       ))}
     </Column>

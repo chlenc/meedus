@@ -3,8 +3,10 @@ import styled from "@emotion/styled";
 import logo from "@src/assets/images/bigLogo.svg";
 import { observer } from "mobx-react-lite";
 import Wallet from "@components/Wallet/Wallet";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ROUTES } from "@src/constants";
+import { Row } from "../Flex";
+import Button from "@components/Button";
 
 interface IProps {}
 
@@ -33,12 +35,57 @@ const Logo = styled.img`
     height: 32px;
   }
 `;
+
+const MenuWrapper = styled(Row)`
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  & > * {
+    margin-right: 8px;
+  }
+  &:last-of-type {
+    margin-right: 0;
+  }
+`;
+
+const MenuItem = styled(Button)<{ selected?: boolean }>`
+  height: 32px;
+  background: ${({ selected }) => (selected ? "#3B3B46" : "transparent")};
+  :hover {
+    background: #3b3b46;
+  }
+`;
+
+const menuItems = [
+  {
+    title: "Tokens",
+    link: ROUTES.TOKENS,
+    routes: [ROUTES.TOKENS, ROUTES.ROOT],
+  },
+  {
+    title: "Dapps",
+    link: ROUTES.DAPPS,
+    routes: [ROUTES.DAPPS],
+  },
+];
+
 const Header: React.FC<IProps> = () => {
+  const location = useLocation();
+
   return (
     <Root>
       <Link to={ROUTES.ROOT}>
         <Logo src={logo} />
       </Link>
+      <MenuWrapper>
+        {menuItems.map((item, i) => (
+          <Link to={item.link} key={i}>
+            <MenuItem selected={item.routes.includes(location.pathname)}>
+              {item.title}
+            </MenuItem>
+          </Link>
+        ))}
+      </MenuWrapper>
       <Wallet />
     </Root>
   );

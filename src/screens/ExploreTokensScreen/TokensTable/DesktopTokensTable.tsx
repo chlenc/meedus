@@ -3,10 +3,10 @@ import React from "react";
 import { Column, Row } from "@components/Flex";
 import Text from "@components/Text";
 import { observer } from "mobx-react-lite";
-import TokenLogoAndName from "@screens/ExploreScreen/TokensTable/TokenLogoAndName";
+import TokenLogoAndName from "@screens/ExploreTokensScreen/TokensTable/TokenLogoAndName";
 import { assetPriceFormat } from "@src/utils/assetPriceFormat";
-import { useExploreScreenVM } from "@screens/ExploreScreen/ExploreScreenVm";
-import SortIcon from "@screens/ExploreScreen/TokensTable/SortIcon";
+import { useExploreScreenVM } from "@screens/ExploreTokensScreen/ExploreScreenVm";
+import SortIcon from "@screens/ExploreTokensScreen/TokensTable/SortIcon";
 import SearchInput from "@components/SearchInput";
 import SizedBox from "@components/SizedBox";
 

@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
 import React from "react";
-import { ExploreScreenVMProvider } from "@screens/ExploreScreen/ExploreScreenVm";
+import { ExploreScreenVMProvider } from "@screens/ExploreTokensScreen/ExploreScreenVm";
 import { observer } from "mobx-react-lite";
-import DiscoverBlock from "@screens/ExploreScreen/DiscoverBlock";
-import TokensTable from "@screens/ExploreScreen/TokensTable";
+import DiscoverBlock from "@screens/ExploreTokensScreen/DiscoverBlock";
+import TokensTable from "@screens/ExploreTokensScreen/TokensTable";
 
 interface IProps {}
 

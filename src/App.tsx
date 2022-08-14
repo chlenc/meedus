@@ -6,7 +6,8 @@ import Footer from "@components/Footer";
 // import { AnimatePresence } from "framer-motion";
 import { observer } from "mobx-react-lite";
 import { ROUTES } from "@src/constants";
-import ExploreScreen from "@screens/ExploreScreen";
+import ExploreScreen from "@screens/ExploreTokensScreen";
+import RankingScreen from "@screens/RankingScreen";
 
 interface IProps {}
 
@@ -47,8 +48,9 @@ const App: React.FunctionComponent<IProps> = () => {
           {/*<Route path={ROUTES.INVEST_CARD} element={<InvestCard />} />*/}
           {/*<Route path={ROUTES.DASHBOARD} element={<Dashboard />} />*/}
           <Route path={ROUTES.ROOT} element={<ExploreScreen />} />
-          <Route path={ROUTES.EXPLORE} element={<ExploreScreen />} />
-          <Route path="*" element={<Navigate to={ROUTES.EXPLORE} />} />
+          <Route path={ROUTES.TOKENS} element={<ExploreScreen />} />
+          <Route path={ROUTES.DAPPS} element={<RankingScreen />} />
+          <Route path="*" element={<Navigate to={ROUTES.TOKENS} />} />
         </Routes>
         {/*</AnimatePresence>*/}
       </Content>

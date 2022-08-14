@@ -1,6 +1,6 @@
 import axios from "axios";
 
-interface IAssetResponse {
+export interface IAssetResponse {
   id: string;
   start: string;
   totalSupply: number;
@@ -13,6 +13,32 @@ interface IAssetResponse {
     "firstPrice_usd-n": number;
     "lastPrice_usd-n": number;
   } | null;
+}
+
+export interface IDappResponse {
+  id: string;
+  name: string;
+  url: string;
+  logo: string;
+  description: string;
+  github: string;
+  telegram: string;
+  medium: string;
+  twitter: string;
+  facebook: string;
+  video: string;
+  tags: string[];
+  last_totals: {
+    "usd-n": number;
+  };
+  "volume_1d_usd-n": number;
+  "last_volume_7d_usd-n": number;
+  unique_interacting_addresses_1d: number;
+  unique_interacting_addresses_7d: number;
+  totals: {
+    "usd-n": number;
+  };
+  "volume_7d_usd-n": number;
 }
 
 const wavesCapService = {
@@ -29,6 +55,10 @@ const wavesCapService = {
   },
   getAllAssetsStats: async (): Promise<IAssetResponse[]> => {
     const response = await axios.get("https://wavescap.com/api/assets.json");
+    return response.data;
+  },
+  getAllDappsStats: async (): Promise<IDappResponse[]> => {
+    const response = await axios.get("https://wavescap.com/api/dapps.json");
     return response.data;
   },
 };

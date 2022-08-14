@@ -10,9 +10,7 @@ import { Anchor } from "@components/Anchor";
 import { EXPLORER_URL } from "@src/constants";
 import { toast } from "react-toastify";
 
-interface IProps {
-  address: string;
-}
+interface IProps {}
 
 const Root = styled(Column)`
   .menu-item {
@@ -34,9 +32,9 @@ const Root = styled(Column)`
   }
 `;
 
-const WalletActionsTooltip: React.FC<IProps> = ({ address }) => {
+const WalletActionsTooltip: React.FC<IProps> = () => {
   const { accountStore } = useStores();
-
+  const address = accountStore.address;
   const handleCopyAddress = () => {
     address && copy(address);
     toast.success("Your address was copied");

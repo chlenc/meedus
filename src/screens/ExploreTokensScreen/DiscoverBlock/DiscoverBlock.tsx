@@ -4,7 +4,7 @@ import Text from "@components/Text";
 import SizedBox from "@components/SizedBox";
 import { Row } from "@src/components/Flex";
 import { observer } from "mobx-react-lite";
-import { useExploreScreenVM } from "@screens/ExploreScreen/ExploreScreenVm";
+import { useExploreScreenVM } from "@screens/ExploreTokensScreen/ExploreScreenVm";
 import TokenInfo, {
   DiscoverBlockTokenInfoSkeleton,
 } from "./DiscoverBlockTokenInfo";

@@ -12,7 +12,7 @@ const Root = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  width: 100%;
+  width: fit-content;
 `;
 
 const Wallet: React.FC<IProps> = () => {

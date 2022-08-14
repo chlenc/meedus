@@ -1,7 +1,7 @@
 import React from "react";
-import MobileTokensTable from "@screens/ExploreScreen/TokensTable/MobileTokensTable";
+import MobileTokensTable from "@screens/ExploreTokensScreen/TokensTable/MobileTokensTable";
 import useWindowSize from "@src/hooks/useWindowSize";
-import DesktopTokensTable from "@screens/ExploreScreen/TokensTable/DesktopTokensTable";
+import DesktopTokensTable from "@screens/ExploreTokensScreen/TokensTable/DesktopTokensTable";
 
 interface IProps {}
 

@@ -2,22 +2,8 @@ const logos = require("./tokenLogos.json");
 
 export const ROUTES = {
   ROOT: "/",
-  NOT_FOUND: "/404",
-  STAKE: "/stake",
-  TRADE: "/trade",
-  OLD_EXPLORE: "/classic-explore",
-  EXPLORE: "/explore",
-  EXPLORE_TOKEN: "/explore/token/:assetId",
-  INVEST: "/invest",
-  ULTRASTAKE: "/ultrastake",
-  WALLET: "/wallet",
-  TRANSFER: "/transfer",
-  POOLS_WITHDRAW: "/pools/:poolDomain/withdraw",
-  POOLS_ADD_LIQUIDITY: "/pools/:poolDomain/addLiquidity",
-  POOLS_ADD_ONE_TOKEN: "/pools/:poolDomain/addOneToken",
-  POOLS_INVEST: "/pools/:poolDomain/invest",
-  POOLS_CREATE: "/pools/create",
-  POOL_SWAP: "/pools/:poolDomain",
+  TOKENS: "/tokens",
+  DAPPS: "/dapps",
 };
 
 export const TOKEN_LOGO_BY_ASSET_ID: Record<string, string> = logos;
