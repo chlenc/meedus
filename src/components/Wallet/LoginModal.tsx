@@ -56,7 +56,7 @@ const LoginModal: React.FC<IProps> = ({ onLogin, ...rest }) => {
         <Anchor
           target="_blank"
           rel="noreferrer noopener"
-          href="https://t.me/nftescape"
+          // href="https://t.me/nftescape"
         >
           Learn more about wallets
         </Anchor>

@@ -30,7 +30,7 @@ const Footer: React.FC<IProps> = () => {
         <SizedBox width={20} />
         <Telegram
           style={{ minWidth: 21, cursor: "pointer" }}
-          onClick={() => window.open("https://t.me/nftescape", "_blank")}
+          // onClick={() => window.open("https://t.me/nftescape", "_blank")}
         />
       </Row>
     </Root>

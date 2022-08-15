@@ -8,6 +8,7 @@ import { observer } from "mobx-react-lite";
 import { ROUTES } from "@src/constants";
 import ExploreScreen from "@screens/ExploreTokensScreen";
 import RankingScreen from "@screens/RankingScreen";
+import SwapScreen from "@screens/SwapScreen";
 
 interface IProps {}
 
@@ -50,7 +51,7 @@ const App: React.FunctionComponent<IProps> = () => {
           <Route path={ROUTES.ROOT} element={<ExploreScreen />} />
           <Route path={ROUTES.TOKENS} element={<ExploreScreen />} />
           <Route path={ROUTES.DAPPS} element={<RankingScreen />} />
-          {/*<Route path={ROUTES.SWAP} element={<SwapScreen />} />*/}
+          <Route path={ROUTES.SWAP} element={<SwapScreen />} />
           <Route path="*" element={<Navigate to={ROUTES.TOKENS} />} />
         </Routes>
         {/*</AnimatePresence>*/}
