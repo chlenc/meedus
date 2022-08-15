@@ -10,6 +10,7 @@ const Button = styled.button<{
   round?: TButtonRound;
   fixed?: boolean;
 }>`
+  white-space: nowrap;
   display: flex;
   justify-content: center;
   align-items: center;
