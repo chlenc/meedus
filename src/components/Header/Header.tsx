@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import logo from "@src/assets/images/bigLogo.svg";
 import { observer } from "mobx-react-lite";
@@ -7,7 +7,10 @@ import { Link, useLocation } from "react-router-dom";
 import { ROUTES } from "@src/constants";
 import { Row } from "../Flex";
 import Button from "@components/Button";
-
+import SizedBox from "@components/SizedBox";
+import { ReactComponent as BurgerIcon } from "@src/assets/icons/burger.svg";
+import Text from "@components/Text";
+import BottomMenu from "@components/BottomMenu";
 interface IProps {}
 
 const Root = styled.div`
@@ -36,15 +39,26 @@ const Logo = styled.img`
   }
 `;
 
-const MenuWrapper = styled(Row)`
+const MenuWrapperDesktop = styled(Row)`
   width: 100%;
   align-items: center;
   justify-content: center;
+  display: none;
   & > * {
     margin-right: 8px;
   }
   &:last-of-type {
     margin-right: 0;
+  }
+  @media (min-width: 768px) {
+    display: flex;
+  }
+`;
+const MenuWrapperMobile = styled(Row)`
+  max-width: fit-content;
+  align-items: center;
+  @media (min-width: 768px) {
+    display: none;
   }
 `;
 
@@ -54,6 +68,14 @@ const MenuItem = styled(Button)<{ selected?: boolean }>`
   :hover {
     background: #3b3b46;
   }
+`;
+
+const MobileMenuItem = styled(Text)<{ selected: boolean }>`
+  font-size: 16px;
+  line-height: 24px;
+  padding: 8px 0;
+  color: ${({ selected }) => (selected ? "#fff" : "#A2A2C0")};
+  width: 100%;
 `;
 
 const menuItems = [
@@ -76,13 +98,13 @@ const menuItems = [
 
 const Header: React.FC<IProps> = () => {
   const location = useLocation();
-
+  const [open, setOpen] = useState(false);
   return (
     <Root>
-      <Link to={ROUTES.ROOT}>
+      <a href="https://lineup.finance">
         <Logo src={logo} />
-      </Link>
-      <MenuWrapper>
+      </a>
+      <MenuWrapperDesktop>
         {menuItems.map((item, i) => (
           <Link to={item.link} key={i}>
             <MenuItem selected={item.routes.includes(location.pathname)}>
@@ -90,8 +112,24 @@ const Header: React.FC<IProps> = () => {
             </MenuItem>
           </Link>
         ))}
-      </MenuWrapper>
-      <Wallet />
+      </MenuWrapperDesktop>
+      <Row alignItems="center" mainAxisSize="fit-content">
+        <Wallet />
+        <MenuWrapperMobile>
+          <SizedBox width={16} />
+          <BurgerIcon onClick={() => setOpen(true)} />
+        </MenuWrapperMobile>
+      </Row>
+
+      <BottomMenu open={open} onClose={() => setOpen(false)}>
+        {menuItems.map((item, i) => (
+          <Link to={item.link} key={i}>
+            <MobileMenuItem selected={item.routes.includes(location.pathname)}>
+              {item.title}
+            </MobileMenuItem>
+          </Link>
+        ))}
+      </BottomMenu>
     </Root>
   );
 };

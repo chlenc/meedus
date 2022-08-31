@@ -72,6 +72,7 @@
     "react-popper-tooltip": "^4.4.2",
     "react-refresh": "^0.11.0",
     "react-router-dom": "^6.3.0",
+    "react-spring-bottom-sheet": "^3.4.1",
     "react-toastify": "^9.0.8",
     "resolve": "^1.20.0",
     "resolve-url-loader": "^4.0.0",

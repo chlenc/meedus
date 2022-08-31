@@ -10,6 +10,7 @@ import { ToastContainer } from "react-toastify";
 import { createRoot } from "react-dom/client";
 import "react-toastify/dist/ReactToastify.css";
 import "react-loading-skeleton/dist/skeleton.css";
+import "react-spring-bottom-sheet/dist/style.css";
 
 const initState = loadState();
 
