@@ -52,11 +52,11 @@ const LoginModal: React.FC<IProps> = ({ onLogin, ...rest }) => {
       )}
       <SizedBox height={8} />
       <Text weight={500} textAlign="center">
-        <span style={{ color: "#A2A2C0" }}> New to LineUp? </span>{" "}
+        <span style={{ color: "#A2A2C0" }}> New in MEEDUS? </span>{" "}
         <Anchor
           target="_blank"
           rel="noreferrer noopener"
-          // href="https://t.me/nftescape"
+          href="https://t.me/meedus_nft"
         >
           Learn more about wallets
         </Anchor>

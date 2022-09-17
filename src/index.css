@@ -1,9 +1,9 @@
 body {
     margin: 0;
-    font-family: "Inter", sans-serif;
+    font-family: "Epilogue", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: #0B0B0D;
+    background: #fff;
     user-select: none;
 }
 
@@ -30,19 +30,25 @@ a {
 }
 
 @font-face {
-    font-family: 'Inter';
-    src: local('Inter'), url(assets/fonts/Inter-Regular.ttf) format('truetype');
+    font-family: 'Epilogue';
+    src: local('Epilogue'), url(assets/fonts/Epilogue-Regular.ttf) format('truetype');
 }
 
 @font-face {
-    font-family: 'Inter';
-    src: local('Inter'), url(assets/fonts/Inter-Medium.ttf) format('truetype');
+    font-family: 'Epilogue';
+    src: local('Epilogue'), url(assets/fonts/Epilogue-Medium.ttf) format('truetype');
     font-weight: 500;
 }
 
 @font-face {
-    font-family: 'Inter';
-    src: local('Inter'), url(assets/fonts/Inter-SemiBold.ttf) format('truetype');
+    font-family: 'Epilogue';
+    src: local('Epilogue'), url(assets/fonts/Epilogue-SemiBold.ttf) format('truetype');
     font-weight: 600;
+}
+
+@font-face {
+    font-family: 'Epilogue';
+    src: local('Epilogue'), url(assets/fonts/Epilogue-Bold.ttf) format('truetype');
+    font-weight: 700;
 }
 

@@ -3,14 +3,10 @@ import styled from "@emotion/styled";
 import logo from "@src/assets/images/bigLogo.svg";
 import { observer } from "mobx-react-lite";
 import Wallet from "@components/Wallet/Wallet";
-import { Link, useLocation } from "react-router-dom";
-import { ROUTES } from "@src/constants";
 import { Row } from "../Flex";
-import Button from "@components/Button";
 import SizedBox from "@components/SizedBox";
-import { ReactComponent as BurgerIcon } from "@src/assets/icons/burger.svg";
 import Text from "@components/Text";
-import BottomMenu from "@components/BottomMenu";
+
 interface IProps {}
 
 const Root = styled.div`
@@ -39,97 +35,28 @@ const Logo = styled.img`
   }
 `;
 
-const MenuWrapperDesktop = styled(Row)`
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  display: none;
-  & > * {
-    margin-right: 8px;
-  }
-  &:last-of-type {
-    margin-right: 0;
-  }
+const LogoText = styled(Text)`
+  font-weight: 700;
+  color: #ffffff;
   @media (min-width: 768px) {
-    display: flex;
+    font-size: 22px;
+    line-height: 27px;
   }
 `;
-const MenuWrapperMobile = styled(Row)`
-  max-width: fit-content;
-  align-items: center;
-  @media (min-width: 768px) {
-    display: none;
-  }
-`;
-
-const MenuItem = styled(Button)<{ selected?: boolean }>`
-  height: 32px;
-  background: ${({ selected }) => (selected ? "#3B3B46" : "transparent")};
-  :hover {
-    background: #3b3b46;
-  }
-`;
-
-const MobileMenuItem = styled(Text)<{ selected: boolean }>`
-  font-size: 16px;
-  line-height: 24px;
-  padding: 8px 0;
-  color: ${({ selected }) => (selected ? "#fff" : "#A2A2C0")};
-  width: 100%;
-`;
-
-const menuItems = [
-  {
-    title: "Tokens",
-    link: ROUTES.TOKENS,
-    routes: [ROUTES.TOKENS, ROUTES.ROOT],
-  },
-  {
-    title: "Dapps",
-    link: ROUTES.DAPPS,
-    routes: [ROUTES.DAPPS],
-  },
-  {
-    title: "Swap",
-    link: ROUTES.SWAP,
-    routes: [ROUTES.SWAP],
-  },
-];
+console.log(process.env.REACT_APP_NFT_STORAGE_KEY);
 
 const Header: React.FC<IProps> = () => {
-  const location = useLocation();
-  const [open, setOpen] = useState(false);
   return (
     <Root>
-      <a href="https://lineup.finance">
-        <Logo src={logo} />
+      <a href="/">
+        <Row alignItems="center">
+          <Logo src={logo} />
+          <SizedBox width={8} />
+          <LogoText nowrap>.waves ns</LogoText>
+        </Row>
       </a>
-      <MenuWrapperDesktop>
-        {menuItems.map((item, i) => (
-          <Link to={item.link} key={i}>
-            <MenuItem selected={item.routes.includes(location.pathname)}>
-              {item.title}
-            </MenuItem>
-          </Link>
-        ))}
-      </MenuWrapperDesktop>
-      <Row alignItems="center" mainAxisSize="fit-content">
-        <Wallet />
-        <MenuWrapperMobile>
-          <SizedBox width={16} />
-          <BurgerIcon onClick={() => setOpen(true)} />
-        </MenuWrapperMobile>
-      </Row>
 
-      <BottomMenu open={open} onClose={() => setOpen(false)}>
-        {menuItems.map((item, i) => (
-          <Link to={item.link} key={i}>
-            <MobileMenuItem selected={item.routes.includes(location.pathname)}>
-              {item.title}
-            </MobileMenuItem>
-          </Link>
-        ))}
-      </BottomMenu>
+      <Wallet />
     </Root>
   );
 };

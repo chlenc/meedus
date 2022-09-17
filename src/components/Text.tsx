@@ -12,7 +12,7 @@ type TTextAlign = "center" | "left" | "right" | "justify";
 
 const Text = styled.div<{
   type?: TTextType;
-  weight?: 400 | 500 | 600;
+  weight?: 400 | 500 | 600 | 700;
   size?: TTextSize;
   fitContent?: boolean;
   nowrap?: boolean;
@@ -22,7 +22,7 @@ const Text = styled.div<{
   width: ${({ fitContent }) => (fitContent ? "fit-content" : "100%")};
   font-weight: ${({ weight }) => weight ?? 500};
   white-space: ${({ nowrap }) => (nowrap ? "nowrap" : "unset")};
-  text-align: ${({ textAlign }) => textAlign ?? "default"};
+  text-align: ${({ textAlign }) => textAlign ?? "unset"};
   ${({ onClick }) => onClick != null && "cursor: pointer;"};
 
   ${({ size }) =>
@@ -48,7 +48,7 @@ const Text = styled.div<{
         case "secondary":
           return "color: #A2A2C0;";
         case "primary":
-          return "color: #ffffff";
+          return "color: #ffffff;";
         case "purple":
           return "color: #767EFF;";
         case "error":
@@ -56,7 +56,7 @@ const Text = styled.div<{
         case "success":
           return "color: #7CE34F;";
         default:
-          return "color: #ffffff";
+          return "color: #000;";
       }
     })()}
 `;

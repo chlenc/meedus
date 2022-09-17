@@ -77,7 +77,7 @@ const LoggedInAccountInfo: React.FC<IProps> = () => {
       >
         <AddressContainer expanded={accountOpened}>
           <img className="avatar" src={avatar!} alt="avatar" />
-          <Text>{centerEllipsis(address ?? "", 10)}</Text>
+          <Text>{centerEllipsis(address ?? "", 8)}</Text>
           <SizedBox width={10} />
           <img src={arrowIcon} className="menu-arrow" alt="arrow" />
         </AddressContainer>

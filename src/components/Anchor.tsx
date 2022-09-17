@@ -2,7 +2,7 @@ import React, { AnchorHTMLAttributes } from "react";
 import styled from "@emotion/styled";
 
 const Root = styled.a`
-  color: #fff;
+  color: #000;
   text-decoration: none;
 `;
 

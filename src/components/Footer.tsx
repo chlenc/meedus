@@ -24,13 +24,13 @@ const Footer: React.FC<IProps> = () => {
   return (
     <Root>
       <Text type="secondary" fitContent>
-        LineUp finance, 2022
+        MEEDUS, 2022
       </Text>
       <Row mainAxisSize="fit-content">
         <SizedBox width={20} />
         <Telegram
           style={{ minWidth: 21, cursor: "pointer" }}
-          onClick={() => window.open("https://t.me/lineupFinance", "_blank")}
+          onClick={() => window.open("https://t.me/meedus_nft", "_blank")}
         />
       </Row>
     </Root>

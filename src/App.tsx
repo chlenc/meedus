@@ -1,14 +1,10 @@
 import React from "react";
 import styled from "@emotion/styled";
 import Header from "@components/Header";
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Footer from "@components/Footer";
 // import { AnimatePresence } from "framer-motion";
 import { observer } from "mobx-react-lite";
-import { ROUTES } from "@src/constants";
-import ExploreScreen from "@screens/ExploreTokensScreen";
-import RankingScreen from "@screens/RankingScreen";
-import SwapScreen from "@screens/SwapScreen";
+import NsScreen from "@screens/NsScreen";
 
 interface IProps {}
 
@@ -38,25 +34,21 @@ const Content = styled.div`
 `;
 
 const App: React.FunctionComponent<IProps> = () => {
-  const location = useLocation();
   return (
     <Root>
-      <Header />
+      {/*<Header />*/}
       <Content>
-        {/*<AnimatePresence exitBeforeEnter>*/}
-        <Routes key={location.pathname} location={location}>
-          {/*<Route path={ROUTES.INVEST} element={<Invest />} />*/}
-          {/*<Route path={ROUTES.INVEST_CARD} element={<InvestCard />} />*/}
-          {/*<Route path={ROUTES.DASHBOARD} element={<Dashboard />} />*/}
-          <Route path={ROUTES.ROOT} element={<ExploreScreen />} />
-          <Route path={ROUTES.TOKENS} element={<ExploreScreen />} />
-          <Route path={ROUTES.DAPPS} element={<RankingScreen />} />
-          <Route path={ROUTES.SWAP} element={<SwapScreen />} />
-          <Route path="*" element={<Navigate to={ROUTES.TOKENS} />} />
-        </Routes>
+        <NsScreen />
+        {/*<Routes key={location.pathname} location={location}>*/}
+        {/*  /!*<Route path={ROUTES.INVEST} element={<Invest />} />*!/*/}
+        {/*  /!*<Route path={ROUTES.INVEST_CARD} element={<InvestCard />} />*!/*/}
+        {/*  /!*<Route path={ROUTES.DASHBOARD} element={<Dashboard />} />*!/*/}
+        {/*  <Route path={ROUTES.NAMES} element={<NsScreen />} />*/}
+        {/*  <Route path="*" element={<Navigate to={ROUTES.TOKENS} />} />*/}
+        {/*</Routes>*/}
         {/*</AnimatePresence>*/}
       </Content>
-      <Footer />
+      {/*<Footer />*/}
     </Root>
   );
 };
