@@ -20,13 +20,16 @@ interface IProps {}
 
 const Root = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  height: 100%;
   box-sizing: border-box;
   padding: 0 16px;
   width: 100%;
   max-width: calc(1160px + 32px);
+  margin-top: 40px;
   @media (min-width: 768px) {
     padding: 0 24px;
   }
@@ -68,78 +71,85 @@ const categoriesOptions = [
 const NsScreenImpl: React.FC<IProps> = observer(() => {
   const vm = useNsScreenVM();
   return (
-    <Root>
-      <SizedBox height={56} />
-      <Row alignItems="center" justifyContent="center">
-        <Column
-          style={{ border: "1px solid #000" }}
-          crossAxisSize="max"
-          mainAxisSize="stretch"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Title style={{ background: "#a5ffc9", padding: "0 8px" }} fitContent>
-            .waves
-          </Title>
-          <SizedBox height={8} />
-          <Title fitContent>Name Service</Title>
-          <SizedBox height={40} />
-          <Input
-            // style={{ width: 210 }}
-            placeholder="Enter your name"
-            value={vm.name}
-            onChange={(e) => vm.setName(e.target.value)}
-          />
-          <SizedBox height={16} />
-          {/*<Select*/}
-          {/*  placeholder="A simple select component"*/}
-          {/*  // value={vm.color}*/}
-          {/*  onChange={(e) => vm.setColor(e.target.value)}*/}
-          {/*>*/}
-          {/*  {Object.keys(labelColorMap).map((color) => (*/}
-          {/*    <option value={color} key={color}>*/}
-          {/*      {color}*/}
-          {/*    </option>*/}
-          {/*  ))}*/}
-          {/*</Select>*/}
+    <>
+      <Root>
+        <Row alignItems="center" justifyContent="center">
+          <Column
+            style={{ border: "1px solid #000" }}
+            crossAxisSize="max"
+            mainAxisSize="stretch"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Title
+              style={{ background: "#a5ffc9", padding: "0 8px" }}
+              fitContent
+            >
+              .waves
+            </Title>
+            <SizedBox height={8} />
+            <Title fitContent>Name Service</Title>
+            <SizedBox height={40} />
+            <Input
+              // style={{ width: 210 }}
+              placeholder="Enter your name"
+              value={vm.name}
+              onChange={(e) => vm.setName(e.target.value)}
+            />
+            <SizedBox height={16} />
+            {/*<Select*/}
+            {/*  placeholder="A simple select component"*/}
+            {/*  // value={vm.color}*/}
+            {/*  onChange={(e) => vm.setColor(e.target.value)}*/}
+            {/*>*/}
+            {/*  {Object.keys(labelColorMap).map((color) => (*/}
+            {/*    <option value={color} key={color}>*/}
+            {/*      {color}*/}
+            {/*    </option>*/}
+            {/*  ))}*/}
+            {/*</Select>*/}
 
-          <Select
-            options={categoriesOptions}
-            selected={categoriesOptions[vm.colorIndex]}
-            onSelect={({ key }) => {
-              const index = categoriesOptions.findIndex((o) => o.key === key);
-              // vm.setTokenCategoryFilter(index);
-            }}
-          />
-          {/*<input placeholder="Select a color of your background" />*/}
-          <SizedBox height={16} />
-          {/*Enter the name*/}
-          {/*Set the background color*/}
-          {/*Buy for 15 WAVES*/}
-          {/*Name is already taken*/}
-          <GetNameBtn />
-          <SizedBox height={8} />
-          <Anchor>What is .waves name?</Anchor>
-        </Column>
-        <DesktopPreview
-          crossAxisSize="max"
-          alignItems="center"
-          mainAxisSize="stretch"
-        >
-          <Text fitContent>Preview</Text>
-          <Preview />
-        </DesktopPreview>
-      </Row>
-      <MobilePreview>
-        <Button kind="secondary" onClick={() => vm.setPreviewModalOpened(true)}>
-          Check preview
-        </Button>
-      </MobilePreview>
+            <Select
+              options={categoriesOptions}
+              selected={categoriesOptions[vm.colorIndex]}
+              onSelect={({ key }) => {
+                const index = categoriesOptions.findIndex((o) => o.key === key);
+                // vm.setTokenCategoryFilter(index);
+              }}
+            />
+            {/*<input placeholder="Select a color of your background" />*/}
+            <SizedBox height={16} />
+            {/*Enter the name*/}
+            {/*Set the background color*/}
+            {/*Buy for 15 WAVES*/}
+            {/*Name is already taken*/}
+            <GetNameBtn />
+            <SizedBox height={8} />
+            <Anchor>What is .waves name?</Anchor>
+          </Column>
+          <DesktopPreview
+            crossAxisSize="max"
+            alignItems="center"
+            mainAxisSize="stretch"
+          >
+            <Text fitContent>Preview</Text>
+            <Preview />
+          </DesktopPreview>
+        </Row>
+        <MobilePreview>
+          <Button
+            kind="secondary"
+            onClick={() => vm.setPreviewModalOpened(true)}
+          >
+            Check preview
+          </Button>
+        </MobilePreview>
+      </Root>
       <PreviewModal
         visible={vm.previewModalOpened}
         onClose={() => vm.setPreviewModalOpened(false)}
       />
-    </Root>
+    </>
   );
 });
 

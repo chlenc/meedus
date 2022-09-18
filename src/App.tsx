@@ -9,9 +9,9 @@ interface IProps {}
 const Root = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  //justify-content: space-between;
   width: 100%;
-  //min-height: 100vh;
+  min-height: 100vh;
   align-items: center;
 
   & > * {
@@ -20,6 +20,7 @@ const Root = styled.div`
 `;
 const Content = styled.div`
   display: flex;
+  flex: 1;
   //min-height: calc(100vh - 194px);
   //@media (min-width: 768px) {
   //  min-height: calc(100vh - 210px);

@@ -85,7 +85,7 @@ export const buildSuccessInvestDialogParams = ({
     buttons: [
       () => (
         <Link to="/dashboard" style={{ width: "100%" }}>
-          <Button size="medium" fixed>
+          <Button size="medium" fitContent>
             Go to the pool page
           </Button>
         </Link>

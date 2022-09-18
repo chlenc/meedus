@@ -26,7 +26,7 @@ const Wallet: React.FC<IProps> = () => {
           style={{ maxWidth: 170 }}
           size="medium"
           onClick={() => accountStore.setLoginModalOpened(true)}
-          fixed
+          fitContent
         >
           Connect wallet
         </Button>
