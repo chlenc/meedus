@@ -1,6 +1,6 @@
 
 .rc-dialog-mask {
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .rc-dialog-wrap {
@@ -15,7 +15,7 @@
 }
 
 .rc-dialog-content {
-    background: #2A2A32;
+    background: #FFFFFF;
     box-shadow: 0px 8px 56px rgba(54, 56, 112, 0.16);
     border-radius: 16px;
     overflow: hidden;

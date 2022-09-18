@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "@emotion/styled";
 import logo from "@src/assets/images/bigLogo.svg";
 import { observer } from "mobx-react-lite";
 import Wallet from "@components/Wallet/Wallet";
-import { Row } from "../Flex";
-import SizedBox from "@components/SizedBox";
 import Text from "@components/Text";
 
 interface IProps {}
@@ -19,8 +17,6 @@ const Root = styled.div`
   width: 100%;
   justify-content: space-between;
   color: white;
-  background: #1f1e25;
-  border-bottom: 1px solid #3b3b46;
   @media (min-width: 768px) {
     padding: 24px;
     border-bottom: 1px solid transparent;
@@ -43,19 +39,13 @@ const LogoText = styled(Text)`
     line-height: 27px;
   }
 `;
-console.log(process.env.REACT_APP_NFT_STORAGE_KEY);
 
 const Header: React.FC<IProps> = () => {
   return (
     <Root>
       <a href="/">
-        <Row alignItems="center">
-          <Logo src={logo} />
-          <SizedBox width={8} />
-          <LogoText nowrap>.waves ns</LogoText>
-        </Row>
+        <Logo src={logo} />
       </a>
-
       <Wallet />
     </Root>
   );

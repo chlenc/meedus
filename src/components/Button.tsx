@@ -15,20 +15,22 @@ const Button = styled.button<{
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  background: ${({ kind }) => (kind === "secondary" ? "#1F1E25" : "#666DE3")};
-  box-shadow: none;
-  font-weight: 500;
+  background: ${({ kind }) => (kind === "secondary" ? "#fffff" : "#a5ffc9")};
   font-size: 14px;
   line-height: 20px;
-  color: #ffffff;
+  color: #000000;
   outline: none;
-  border: none;
   transition: 0.4s;
   width: ${({ fixed }) => (fixed ? "100%" : "fit-content")};
 
-  padding: 0 24px;
-  border-radius: 20px;
   height: ${({ size }) => (size === "medium" ? 32 : 40)}px;
+
+  border: 2px solid #000000;
+  box-shadow: 4px 4px 0px #000000;
+  border-radius: 4px;
+  font-weight: 700;
+  padding: 10px 16px;
+  cursor: pointer;
 
   :hover {
     background: ${({ kind }) => (kind === "secondary" ? "#535362" : "#767EFF")};
@@ -36,10 +38,12 @@ const Button = styled.button<{
   }
 
   :disabled {
-    background: rgba(102, 109, 227, 0.4);
-    color: #e3e3ff;
     cursor: not-allowed;
     //opacity: 0.4;
+    color: #aaaaaa;
+    background: #eeeeee;
+    border: 2px solid #aaaaaa;
+    box-shadow: 4px 4px 0px #aaaaaa;
   }
 `;
 

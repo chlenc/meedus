@@ -38,7 +38,6 @@ const AddressContainer = styled.div<{ expanded: boolean }>`
   border-radius: 20px;
   padding: 8px 8px 8px 8px;
   cursor: pointer;
-  background-color: #2a2a32;
 
   :hover {
     //background: #f1f2fe;
@@ -46,10 +45,11 @@ const AddressContainer = styled.div<{ expanded: boolean }>`
 
   .avatar {
     transition: 0.4s;
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     margin-right: 8px;
+    border: 2px solid #000000;
   }
 
   .menu-arrow {
@@ -77,8 +77,10 @@ const LoggedInAccountInfo: React.FC<IProps> = () => {
       >
         <AddressContainer expanded={accountOpened}>
           <img className="avatar" src={avatar!} alt="avatar" />
-          <Text>{centerEllipsis(address ?? "", 8)}</Text>
-          <SizedBox width={10} />
+          <Text weight={700} size="medium">
+            {centerEllipsis(address ?? "", 8)}
+          </Text>
+          <SizedBox width={12} />
           <img src={arrowIcon} className="menu-arrow" alt="arrow" />
         </AddressContainer>
       </Tooltip>

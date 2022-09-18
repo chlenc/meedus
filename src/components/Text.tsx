@@ -35,7 +35,7 @@ const Text = styled.div<{
         case "big":
           return "font-size: 20px; line-height: 28px;";
         case "medium":
-          return "font-size: 16px; line-height: 24px;";
+          return "font-size: 17px; line-height: 24px;";
         case "small":
           return "font-size: 12px; line-height: 16px;";
         default:

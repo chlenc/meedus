@@ -10,6 +10,12 @@ import SizedBox from "@components/SizedBox";
 import { Column, Row } from "@src/components/Flex";
 import { Anchor } from "@components/Anchor";
 import Preview, { labelColorMap } from "@screens/NsScreen/Preview";
+import PreviewModal from "@screens/NsScreen/PreviewModal";
+import Button from "@components/Button";
+import GetNameBtn from "@screens/NsScreen/GetNameBtn";
+import Input from "@components/Input";
+import Select from "@components/Select";
+
 interface IProps {}
 
 const Root = styled.div`
@@ -25,12 +31,46 @@ const Root = styled.div`
     padding: 0 24px;
   }
 `;
+const DesktopPreview = styled(Column)`
+  display: none;
+  @media (min-width: 768px) {
+    display: flex;
+  }
+`;
+const MobilePreview = styled(Column)`
+  display: flex;
+  @media (min-width: 768px) {
+    display: none;
+  }
+`;
+const Title = styled(Text)`
+  border-radius: 8px;
+  padding: 0 8px;
 
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 48px;
+  @media (min-width: 768px) {
+    font-size: 56px;
+    line-height: 64px;
+  }
+`;
+const categoriesOptions = [
+  { title: "All categories", key: "all" },
+  {
+    title: "Global coins",
+    key: "global",
+  },
+  { title: "Stablecoins", key: "stable" },
+  { title: "Waves DeFi", key: "defi" },
+  { title: "Waves Ducks", key: "duck" },
+];
 const NsScreenImpl: React.FC<IProps> = observer(() => {
   const vm = useNsScreenVM();
   return (
     <Root>
-      <Row alignItems="center">
+      <SizedBox height={56} />
+      <Row alignItems="center" justifyContent="center">
         <Column
           style={{ border: "1px solid #000" }}
           crossAxisSize="max"
@@ -38,50 +78,67 @@ const NsScreenImpl: React.FC<IProps> = observer(() => {
           alignItems="center"
           justifyContent="center"
         >
-          <Text fitContent>.waves</Text>
-          <Text fitContent>Name Service</Text>
+          <Title style={{ background: "#a5ffc9", padding: "0 8px" }} fitContent>
+            .waves
+          </Title>
           <SizedBox height={8} />
-          <input
-            style={{ width: 210 }}
+          <Title fitContent>Name Service</Title>
+          <SizedBox height={40} />
+          <Input
+            // style={{ width: 210 }}
             placeholder="Enter your name"
             value={vm.name}
             onChange={(e) => vm.setName(e.target.value)}
           />
-          <SizedBox height={8} />
-          <select
-            style={{ width: 210 }}
-            placeholder="A simple select component"
-            value={vm.color}
-            onChange={(e) => vm.setColor(e.target.value)}
-          >
-            {Object.keys(labelColorMap).map((color) => (
-              <option value={color} key={color}>
-                {color}
-              </option>
-            ))}
-          </select>
+          <SizedBox height={16} />
+          {/*<Select*/}
+          {/*  placeholder="A simple select component"*/}
+          {/*  // value={vm.color}*/}
+          {/*  onChange={(e) => vm.setColor(e.target.value)}*/}
+          {/*>*/}
+          {/*  {Object.keys(labelColorMap).map((color) => (*/}
+          {/*    <option value={color} key={color}>*/}
+          {/*      {color}*/}
+          {/*    </option>*/}
+          {/*  ))}*/}
+          {/*</Select>*/}
+
+          <Select
+            options={categoriesOptions}
+            selected={categoriesOptions[vm.colorIndex]}
+            onSelect={({ key }) => {
+              const index = categoriesOptions.findIndex((o) => o.key === key);
+              // vm.setTokenCategoryFilter(index);
+            }}
+          />
           {/*<input placeholder="Select a color of your background" />*/}
           <SizedBox height={16} />
           {/*Enter the name*/}
           {/*Set the background color*/}
           {/*Buy for 15 WAVES*/}
           {/*Name is already taken*/}
-          <button onClick={vm.mint}>Get this .waves name</button>
+          <GetNameBtn />
           <SizedBox height={8} />
           <Anchor>What is .waves name?</Anchor>
         </Column>
-        <Column
-          style={{ border: "1px solid #000" }}
+        <DesktopPreview
           crossAxisSize="max"
           alignItems="center"
           mainAxisSize="stretch"
         >
           <Text fitContent>Preview</Text>
-          <div style={{ borderRadius: 8, overflow: "hidden" }}>
-            <Preview />
-          </div>
-        </Column>
+          <Preview />
+        </DesktopPreview>
       </Row>
+      <MobilePreview>
+        <Button kind="secondary" onClick={() => vm.setPreviewModalOpened(true)}>
+          Check preview
+        </Button>
+      </MobilePreview>
+      <PreviewModal
+        visible={vm.previewModalOpened}
+        onClose={() => vm.setPreviewModalOpened(false)}
+      />
     </Root>
   );
 });

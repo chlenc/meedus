@@ -33,8 +33,22 @@ class NsScreenVM {
     makeAutoObservable(this);
   }
 
+  get calcPrice() {
+    let len = this.name.length;
+    if (len >= 8) return String(15 * 1e8);
+    else if (len < 8 && len >= 6) return String(20 * 1e8);
+    else if (len < 6 && len >= 4) return String(25 * 1e8);
+    else return "0";
+  }
+
+  previewModalOpened: boolean = false;
+  setPreviewModalOpened = (state: boolean) => (this.previewModalOpened = state);
+
   color: string = Object.keys(labelColorMap)[0];
   setColor = (color: string) => (this.color = color);
+
+  colorIndex: number = 0;
+  setColorIndex = (color: number) => (this.colorIndex = color);
 
   name: string = "";
   setName = (name: string) => (this.name = name);
