@@ -5,8 +5,6 @@ import arrowIcon from "@src/assets/icons/arrowRightBorderless.svg";
 import SizedBox from "@components/SizedBox";
 import { Column } from "./Flex";
 import useElementSize from "@src/hooks/useElementSize";
-import { IOption } from "@screens/NsScreen/NsScreenVm";
-import Text from "@components/Text";
 
 interface IProps extends Omit<HTMLAttributes<HTMLDivElement>, "onSelect"> {
   options: IOption[];
@@ -15,24 +13,39 @@ interface IProps extends Omit<HTMLAttributes<HTMLDivElement>, "onSelect"> {
   onSelect: (key: IOption) => void;
 }
 
+export interface IOption {
+  key: string;
+  title: string;
+}
+
 const Root = styled.div<{ focused?: boolean }>`
   display: flex;
-
   background: #ffffff;
   border: 2px solid #000000;
   border-radius: 8px;
   //padding: 16px;
-  color: #aaaaaa;
+  color: #000;
   outline: none;
   font-weight: 500;
+  height: 56px;
   font-size: 17px;
   line-height: 24px;
   align-items: center;
   white-space: nowrap;
-
+  position: relative;
+  overflow: hidden;
+  transition: 0.4s;
+  :hover {
+    border: 2px solid #269995;
+    background: #fff;
+    & > * {
+      background: #fff !important;
+    }
+  }
   .menu-arrow {
     position: absolute;
     right: 24px;
+    transition: 0.4s;
     transform: ${({ focused }) =>
       focused ? "rotate(0deg)" : "rotate(-180deg)"};
   }
@@ -49,7 +62,7 @@ const Option = styled.div<{ active?: boolean }>`
   padding: 0 16px;
   margin: 0 -16px;
   white-space: nowrap;
-
+  transition: 0.4s;
   :hover {
     background: #eeeeee;
     cursor: pointer;
@@ -114,7 +127,9 @@ const Select: React.FC<IProps> = ({
         {...rest}
       >
         {selected == null ? (
-          <div style={{ padding: "14px 16px" }}>{placeholder}</div>
+          <div style={{ padding: "14px 16px", color: "#aaaaaa" }}>
+            {placeholder}
+          </div>
         ) : (
           <Option>
             <SizedBox width={17} />

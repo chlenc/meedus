@@ -34,8 +34,9 @@ const Root = styled.div<{ focused?: boolean; error?: boolean }>`
   background: #ffffff;
   border: 2px solid #000000;
   background: ${({ focused }) => (focused ? "#fffff" : "#fffff")};
-
+  transition: 0.4s;
   :hover {
+    border: 2px solid #269995;
   }
 
   align-items: center;

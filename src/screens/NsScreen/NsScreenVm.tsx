@@ -4,12 +4,7 @@ import { makeAutoObservable } from "mobx";
 import { RootStore, useStores } from "@stores";
 import { toBlob } from "html-to-image";
 import nftStorageService from "@src/services/nftStorageService";
-import { labelColorMap } from "@screens/NsScreen/Preview";
-
-export interface IOption {
-  key: string;
-  title: string;
-}
+import { IOption } from "@components/Select";
 
 const ctx = React.createContext<NsScreenVM | null>(null);
 
@@ -49,14 +44,11 @@ class NsScreenVM {
   previewModalOpened: boolean = false;
   setPreviewModalOpened = (state: boolean) => (this.previewModalOpened = state);
 
-  color: string = Object.keys(labelColorMap)[0];
-  setColor = (color: string) => (this.color = color);
-
   bg: IOption | null = null;
   setBg = (bg: IOption) => (this.bg = bg);
 
   name: string = "";
-  setName = (name: string) => (this.name = name);
+  setName = (name: string) => (this.name = name.toLowerCase());
 
   createImage = async () => {
     const element = document.getElementById("nft-preview");

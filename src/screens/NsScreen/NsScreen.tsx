@@ -14,6 +14,7 @@ import Button from "@components/Button";
 import GetNameBtn from "@screens/NsScreen/GetNameBtn";
 import Input from "@components/Input";
 import Select from "@components/Select";
+import { Anchor } from "@components/Anchor";
 
 interface IProps {}
 
@@ -31,11 +32,18 @@ const Root = styled.div`
   max-width: calc(1160px + 32px);
   margin-top: 40px;
   @media (min-width: 768px) {
+    justify-content: stretch;
     padding: 0 24px;
   } ;
 `;
 const DesktopPreview = styled(Column)`
+  background: #eeeeee;
+  box-sizing: border-box;
+  padding: 18vh 0;
+  border-radius: 8px;
   display: none;
+  height: 100%;
+  position: relative;
   @media (min-width: 768px) {
     display: flex;
   }
@@ -49,11 +57,11 @@ const MobilePreview = styled(Column)`
 const Title = styled(Text)`
   border-radius: 8px;
   padding: 0 8px;
-
+  white-space: nowrap;
   font-weight: 700;
   font-size: 40px;
   line-height: 48px;
-  @media (min-width: 768px) {
+  @media (min-width: 480px) {
     font-size: 56px;
     line-height: 64px;
   }
@@ -74,7 +82,7 @@ const NsScreenImpl: React.FC<IProps> = observer(() => {
   const vm = useNsScreenVM();
   return (
     <Root>
-      <Row alignItems="center" justifyContent="center" crossAxisSize="max">
+      <Row style={{ flex: 1 }}>
         <Column
           crossAxisSize="max"
           mainAxisSize="stretch"
@@ -87,34 +95,44 @@ const NsScreenImpl: React.FC<IProps> = observer(() => {
           <SizedBox height={8} />
           <Title fitContent>Name Service</Title>
           <SizedBox height={40} />
-          <Input
-            placeholder="Enter your name"
-            value={vm.name}
-            suffix=".waves"
-            onChange={(e) => vm.setName(e.target.value)}
-          />
-          <SizedBox height={16} />
+          <Column style={{ maxWidth: 360, width: "100%" }}>
+            <Input
+              placeholder="Enter your name"
+              value={vm.name}
+              suffix=".waves"
+              onChange={(e) => vm.setName(e.target.value)}
+            />
+            <SizedBox height={16} />
 
-          <Select
-            options={categoriesOptions}
-            selected={vm.bg}
-            placeholder="Select background color"
-            onSelect={(v) => vm.setBg(v)}
-          />
-          <SizedBox height={40} />
-          <GetNameBtn />
+            <Select
+              options={categoriesOptions}
+              selected={vm.bg}
+              placeholder="Select background color"
+              onSelect={(v) => vm.setBg(v)}
+            />
+            <SizedBox height={40} />
+            <GetNameBtn />
+          </Column>
           <SizedBox height={30} />
-          <Text weight={700} fitContent size="medium">
-            What is .waves name?
-          </Text>
+          <Anchor href="https://t.me/meedus_nft">
+            <Text weight={700} fitContent size="medium">
+              What is .waves name?
+            </Text>
+          </Anchor>
         </Column>
         <DesktopPreview
           crossAxisSize="max"
           alignItems="center"
           mainAxisSize="stretch"
         >
-          <Text fitContent>Preview</Text>
-          <Preview />
+          <Text
+            weight={700}
+            style={{ position: "absolute", top: 24, left: 24, fontSize: 32 }}
+            fitContent
+          >
+            Preview
+          </Text>
+          <Preview style={{ borderRadius: 8, overflow: "hidden" }} />
         </DesktopPreview>
       </Row>
       <MobilePreview>
