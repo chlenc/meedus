@@ -14,8 +14,8 @@ interface IProps
   icon?: string;
   value?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-  suffix?: JSX.Element;
-  prefix?: JSX.Element;
+  suffix?: string;
+  prefix?: string;
   suffixCondition?: boolean;
   error?: boolean;
   errorText?: string;
@@ -29,6 +29,7 @@ const Root = styled.div<{ focused?: boolean; error?: boolean }>`
   gap: 8px;
 
   height: 56px;
+  border-radius: 8px;
 
   background: #ffffff;
   border: 2px solid #000000;
@@ -38,7 +39,6 @@ const Root = styled.div<{ focused?: boolean; error?: boolean }>`
   }
 
   align-items: center;
-  border-radius: 12px;
   justify-content: space-between;
   display: flex;
   font-size: 16px;
@@ -83,7 +83,7 @@ const Input: React.FC<IProps> = ({
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
         />
-        {suffixCondition || (suffix != null && suffix)}
+        {suffix != null && <Text fitContent>{suffix}</Text>}
       </Root>
       {error ? (
         <Text size="small" type="error" style={{ paddingTop: 4 }}>

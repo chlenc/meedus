@@ -6,6 +6,11 @@ import { toBlob } from "html-to-image";
 import nftStorageService from "@src/services/nftStorageService";
 import { labelColorMap } from "@screens/NsScreen/Preview";
 
+export interface IOption {
+  key: string;
+  title: string;
+}
+
 const ctx = React.createContext<NsScreenVM | null>(null);
 
 export const NsScreenVMProvider: React.FC<PropsWithChildren> = ({
@@ -47,8 +52,8 @@ class NsScreenVM {
   color: string = Object.keys(labelColorMap)[0];
   setColor = (color: string) => (this.color = color);
 
-  colorIndex: number = 0;
-  setColorIndex = (color: number) => (this.colorIndex = color);
+  bg: IOption | null = null;
+  setBg = (bg: IOption) => (this.bg = bg);
 
   name: string = "";
   setName = (name: string) => (this.name = name);

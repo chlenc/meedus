@@ -21,6 +21,7 @@ const Root = styled.div`
 const Content = styled.div`
   display: flex;
   flex: 1;
+  height: 100%;
   //min-height: calc(100vh - 194px);
   //@media (min-width: 768px) {
   //  min-height: calc(100vh - 210px);

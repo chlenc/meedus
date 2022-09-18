@@ -6,15 +6,15 @@ import { Config } from "react-popper-tooltip/dist/types";
 interface IProps {
   content: string | JSX.Element;
   config?: Config;
+  width?: number;
 }
 
-const Root = styled.div`
+const Root = styled.div<{ width?: number }>`
   display: flex;
-  color: #ffffff;
-  background-color: #2a2a32;
+  background: #ffffff;
+  border: 2px solid #000000;
   border-radius: 8px;
-  max-width: 320px;
-  width: max-content;
+  ${({ width }) => (width != null ? `width: ${width}px` : "max-width: 320px")};
   box-sizing: border-box;
   padding: 8px 16px;
   box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.06),
@@ -24,16 +24,17 @@ const Tooltip: React.FC<IProps & PropsWithChildren> = ({
   children,
   content,
   config,
+  width,
 }) => {
   const { getTooltipProps, setTooltipRef, setTriggerRef, visible } =
     usePopperTooltip({ ...config });
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       <div ref={setTriggerRef} style={{ cursor: "pointer" }}>
         {children}
       </div>
       {visible && (
-        <Root ref={setTooltipRef} {...getTooltipProps()}>
+        <Root ref={setTooltipRef} {...getTooltipProps()} width={width}>
           {content}
         </Root>
       )}
