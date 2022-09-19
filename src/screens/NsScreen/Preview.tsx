@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
 import { Column, Row } from "@src/components/Flex";
-import React from "react";
+import React, { HTMLAttributes } from "react";
 import Text from "@components/Text";
 import { useNsScreenVM } from "@screens/NsScreen/NsScreenVm";
 import { observer } from "mobx-react-lite";
 import { ReactComponent as WavesLogo } from "@src/assets/icons/wavesLogo.svg";
 
-interface IProps {}
+interface IProps extends HTMLAttributes<HTMLDivElement> {}
 
 const Root = styled.div`
   display: flex;
@@ -36,13 +36,12 @@ const Footer = styled(Row)`
 `;
 
 export const labelColorMap: Record<string, { font: string; bg: string }> = {
-  "#ffffff": { font: "#000000", bg: "rgba(0, 0, 0, 0.2)" },
-  "#0055ff": { font: "#ffffff", bg: "rgba(255, 255, 255, 0.32)" },
-  "#ff4940": { font: "#ffffff", bg: "rgba(255, 255, 255, 0.24)" },
-  "#ff8d00": { font: "#ffffff", bg: "rgba(255, 255, 255, 0.32)" },
-  "#ffda0b": { font: "#000000", bg: "rgba(0, 0, 0, 0.16)" },
-  "#00cc5f": { font: "#000000", bg: "rgba(0, 0, 0, 0.16)" },
-  "#aa00ff": { font: "#ffffff", bg: "rgba(255, 255, 255, 0.32)" },
+  "#0055FF": { font: "#ffffff", bg: "rgba(255, 255, 255, 0.32)" },
+  "#FF4940": { font: "#ffffff", bg: "rgba(255, 255, 255, 0.24)" },
+  "#FF8D00": { font: "#ffffff", bg: "rgba(255, 255, 255, 0.32)" },
+  "#FFDA0B": { font: "#000000", bg: "rgba(0, 0, 0, 0.16)" },
+  "#00CC5F": { font: "#000000", bg: "rgba(0, 0, 0, 0.16)" },
+  "#AA00FF": { font: "#ffffff", bg: "rgba(255, 255, 255, 0.32)" },
 };
 
 const Label = styled.p`
@@ -58,13 +57,14 @@ const Label = styled.p`
   text-align: center;
 `;
 
-const Preview: React.FC<IProps> = () => {
+const Preview: React.FC<IProps> = ({ ...props }) => {
   const vm = useNsScreenVM();
-  const color = labelColorMap[vm.color]?.font ?? "#000";
-  const background = labelColorMap[vm.color]?.bg ?? "transparent";
+  const color = labelColorMap[vm.bg?.key ?? ""]?.font ?? "#000";
+  const background =
+    labelColorMap[vm.bg?.key ?? ""]?.bg ?? "rgba(0, 0, 0, 0.2)";
   return (
-    <Root id="nft-preview">
-      <Body style={{ background: vm.color ?? "#fff" }}>
+    <Root id="nft-preview" {...props}>
+      <Body style={{ background: vm.bg?.key ?? "#fff" }}>
         {vm.name !== "" ? (
           <>
             <Label style={{ color }}>{vm.name}</Label>

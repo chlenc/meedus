@@ -4,7 +4,10 @@ import { makeAutoObservable } from "mobx";
 import { RootStore, useStores } from "@stores";
 import { toBlob } from "html-to-image";
 import nftStorageService from "@src/services/nftStorageService";
-import { labelColorMap } from "@screens/NsScreen/Preview";
+import { IOption } from "@components/Select";
+import BN from "@src/utils/BN";
+import nodeService from "@src/services/nodeService";
+import { toast } from "react-toastify";
 
 const ctx = React.createContext<NsScreenVM | null>(null);
 
@@ -20,32 +23,47 @@ export const useNsScreenVM = () => useVM(ctx);
 let description =
   "Created by 3PGKEe4y59V3WLnHwPEUaMWdbzy8sb982fG. NFT namespace «.waves». Early adopter's NFT used for MEEDUS. Created by @meedus_nft, launched by @puzzle_swap.";
 
-const calcPrice = (name: string) => {
-  let len = name.length;
-  if (len >= 8) return String(15 * 1e8);
-  else if (len < 8 && len >= 6) return String(20 * 1e8);
-  else if (len < 6 && len >= 4) return String(25 * 1e8);
-  else return "0";
-};
-
 class NsScreenVM {
   constructor(private rootStore: RootStore) {
     makeAutoObservable(this);
   }
 
-  color: string = Object.keys(labelColorMap)[0];
-  setColor = (color: string) => (this.color = color);
+  get calcPrice(): number {
+    const len = this.name.toString().length;
+    if (len >= 8) return 1;
+    else if (len < 8 && len >= 6) return 2;
+    else if (len < 6 && len >= 4) return 3;
+    else return 0;
+  }
+
+  previewModalOpened: boolean = false;
+  setPreviewModalOpened = (state: boolean) => (this.previewModalOpened = state);
+
+  existingNftId: string | null = null;
+  setExistingNftId = (v: string | null) => (this.existingNftId = v);
+
+  loading = false;
+  setLoading = (v: boolean) => (this.loading = v);
+
+  bg: IOption | null = null;
+  setBg = (bg: IOption) => (this.bg = bg);
 
   name: string = "";
-  setName = (name: string) => (this.name = name);
+  setName = (name: string) => (this.name = name.toLowerCase());
 
   createImage = async () => {
     const element = document.getElementById("nft-preview");
-    if (element == null) return;
-    //todo handle error
+    if (element == null) {
+      console.error("Error while getting element out of pic");
+      toast.error("Something went wrong");
+      return;
+    }
     const blob = await toBlob(element);
-    if (blob == null) return;
-    //todo handle error
+    if (blob == null) {
+      console.error("Error while creating blob from pic");
+      toast.error("Something went wrong");
+      return;
+    }
     const file = new File([blob], this.name);
     const res = await nftStorageService.storeNFT(file, this.name, description);
     return res.data.image
@@ -54,27 +72,44 @@ class NsScreenVM {
   };
 
   mint = async () => {
+    this.setLoading(true);
     const link = await this.createImage();
-    console.log(link);
-    // if (link == null) {
-    //   //todo handle error
-    //   return;
-    // }
-    // const tx = await this.rootStore.accountStore.invoke({
-    //   dApp: "3PGKEe4y59V3WLnHwPEUaMWdbzy8sb982fG",
-    //   payment: [
-    //     {
-    //       assetId: "WAVES",
-    //       amount: calcPrice(this.name).toString(),
-    //     },
-    //   ],
-    //   call: {
-    //     function: "mint",
-    //     args: [
-    //       { type: "string", value: this.name },
-    //       { type: "string", value: link },
-    //     ],
-    //   },
-    // });
+    if (this.name == null || this.existingNftId != null) {
+      return;
+    }
+    if (link == null) {
+      toast.error("Something went wrong");
+      return;
+    }
+    const txId = await this.rootStore.accountStore.invoke({
+      dApp: "3PGKEe4y59V3WLnHwPEUaMWdbzy8sb982fG",
+      payment: [
+        {
+          assetId: "WAVES",
+          amount: BN.parseUnits(new BN(this.calcPrice), 8).toString(),
+        },
+      ],
+      call: {
+        function: "mint",
+        args: [
+          { type: "string", value: this.name },
+          { type: "string", value: link },
+        ],
+      },
+    });
+    this.setLoading(false);
+    if (txId != null) {
+      toast.success("Congrats! You can check your name on puzzlemarket.org");
+      return;
+    } else {
+      toast.error("Something went wrong");
+      return;
+    }
   };
+
+  checkIfNameTaken = async () =>
+    await nodeService.nodeKeysRequest(
+      "3PGKEe4y59V3WLnHwPEUaMWdbzy8sb982fG",
+      this.name
+    );
 }

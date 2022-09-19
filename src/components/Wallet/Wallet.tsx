@@ -26,18 +26,19 @@ const Wallet: React.FC<IProps> = () => {
           style={{ maxWidth: 170 }}
           size="medium"
           onClick={() => accountStore.setLoginModalOpened(true)}
-          fixed
+          fitContent
         >
           Connect wallet
         </Button>
       ) : (
         <LoggedInAccountInfo />
       )}
-      <LoginModal
-        visible={accountStore.loginModalOpened}
-        onLogin={(loginType) => accountStore.login(loginType)}
-        onClose={() => accountStore.setLoginModalOpened(false)}
-      />
+      {accountStore.loginModalOpened && (
+        <LoginModal
+          onLogin={(loginType) => accountStore.login(loginType)}
+          onClose={() => accountStore.setLoginModalOpened(false)}
+        />
+      )}
     </Root>
   );
 };
