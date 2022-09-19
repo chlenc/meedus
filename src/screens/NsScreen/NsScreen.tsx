@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import {
   NsScreenVMProvider,
   useNsScreenVM,
@@ -86,8 +86,6 @@ const NsScreenImpl: React.FC<IProps> = observer(() => {
         return;
       }
       vm.checkIfNameTaken().then((d) => {
-        console.log("checkIfNameTaken");
-        console.log(d);
         d.length === 0
           ? vm.setNameError(null)
           : vm.setNameError("Name is already taken");

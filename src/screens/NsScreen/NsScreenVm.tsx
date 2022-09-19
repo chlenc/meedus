@@ -7,6 +7,7 @@ import nftStorageService from "@src/services/nftStorageService";
 import { IOption } from "@components/Select";
 import BN from "@src/utils/BN";
 import nodeService from "@src/services/nodeService";
+import { toast } from "react-toastify";
 
 const ctx = React.createContext<NsScreenVM | null>(null);
 
@@ -29,7 +30,6 @@ class NsScreenVM {
 
   get calcPrice(): number {
     const len = this.name.toString().length;
-    console.log(len);
     if (len >= 8) return 15;
     else if (len < 8 && len >= 6) return 20;
     else if (len < 6 && len >= 4) return 25;
@@ -50,11 +50,17 @@ class NsScreenVM {
 
   createImage = async () => {
     const element = document.getElementById("nft-preview");
-    if (element == null) return;
-    //todo handle error
+    if (element == null) {
+      console.error("Error while getting element out of pic");
+      toast.error("Something went wrong");
+      return;
+    }
     const blob = await toBlob(element);
-    if (blob == null) return;
-    //todo handle error
+    if (blob == null) {
+      console.error("Error while creating blob from pic");
+      toast.error("Something went wrong");
+      return;
+    }
     const file = new File([blob], this.name);
     const res = await nftStorageService.storeNFT(file, this.name, description);
     return res.data.image
@@ -64,12 +70,14 @@ class NsScreenVM {
 
   mint = async () => {
     const link = await this.createImage();
-    console.log(link);
-    if (link == null) {
-      //todo handle error
+    if (this.name == null || this.nameError != null) {
       return;
     }
-    const tx = await this.rootStore.accountStore.invoke({
+    if (link == null) {
+      toast.error("Something went wrong");
+      return;
+    }
+    const txId = await this.rootStore.accountStore.invoke({
       dApp: "3PGKEe4y59V3WLnHwPEUaMWdbzy8sb982fG",
       payment: [
         {
@@ -85,6 +93,13 @@ class NsScreenVM {
         ],
       },
     });
+    if (txId != null) {
+      toast.success("Congrats! You can check your name on puzzlemarket.org");
+      return;
+    } else {
+      toast.error("Something went wrong");
+      return;
+    }
   };
 
   checkIfNameTaken = async () =>

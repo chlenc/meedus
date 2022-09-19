@@ -3,7 +3,6 @@ import { useStores } from "@stores";
 import Button from "@components/Button";
 import { observer } from "mobx-react-lite";
 import { useNsScreenVM } from "@screens/NsScreen/NsScreenVm";
-import { labelColorMap } from "@screens/NsScreen/Preview";
 
 interface IProps extends HTMLAttributes<HTMLButtonElement> {
   fitContent?: boolean;
