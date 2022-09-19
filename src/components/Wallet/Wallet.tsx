@@ -33,11 +33,12 @@ const Wallet: React.FC<IProps> = () => {
       ) : (
         <LoggedInAccountInfo />
       )}
-      <LoginModal
-        visible={accountStore.loginModalOpened}
-        onLogin={(loginType) => accountStore.login(loginType)}
-        onClose={() => accountStore.setLoginModalOpened(false)}
-      />
+      {accountStore.loginModalOpened && (
+        <LoginModal
+          onLogin={(loginType) => accountStore.login(loginType)}
+          onClose={() => accountStore.setLoginModalOpened(false)}
+        />
+      )}
     </Root>
   );
 };

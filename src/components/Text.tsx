@@ -29,7 +29,7 @@ const Text = styled.div<{
     (() => {
       switch (size) {
         case "large":
-          return "font-size: 40px;line-height: 56px;";
+          return "font-size: 40px;line-height: 48px;";
         case "title":
           return "font-size: 26px;line-height: 34px;";
         case "big":

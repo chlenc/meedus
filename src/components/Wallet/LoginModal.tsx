@@ -1,5 +1,4 @@
 import React from "react";
-import Dialog from "@components/Dialog";
 import { LOGIN_TYPE } from "@stores/AccountStore";
 import seed from "@src/assets/icons/seed.svg";
 import email from "@src/assets/icons/email.svg";
@@ -10,11 +9,13 @@ import SizedBox from "@components/SizedBox";
 import { Anchor } from "@components/Anchor";
 import Text from "@components/Text";
 import styled from "@emotion/styled";
+import logo from "@src/assets/images/bigLogo.svg";
+import btn from "@src/assets/icons/closeBtn.svg";
+import { Column, Row } from "../Flex";
 
 interface IProps {
   onClose: () => void;
   onLogin: (loginType: LOGIN_TYPE) => void;
-  visible: boolean;
 }
 
 const loginTypes = [
@@ -38,7 +39,8 @@ const LoginBtn = styled.div`
   font-weight: 700;
   font-size: 17px;
   line-height: 24px;
-
+  align-items: center;
+  justify-content: center;
   padding: 16px;
   letter-spacing: -0.01em;
   border: 2px solid #000000;
@@ -47,29 +49,69 @@ const LoginBtn = styled.div`
   color: #000000;
   margin-bottom: 16px;
   cursor: pointer;
+  width: 100%;
+  text-align: center;
 `;
-const LoginModal: React.FC<IProps> = ({ onLogin, ...rest }) => {
+
+const Root = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: #ffffff;
+  z-index: 10;
+  padding: 16px;
+  @media (min-width: 768px) {
+    padding: 40px;
+  }
+`;
+const Logo = styled.img`
+  height: 48px;
+`;
+const Btn = styled.img`
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+`;
+const Types = styled(Column)``;
+const LoginModal: React.FC<IProps> = ({ onLogin, onClose, ...rest }) => {
   const handleLogin = (loginType: LOGIN_TYPE) => () => {
-    rest.onClose();
+    onClose();
     onLogin(loginType);
   };
   const { accountStore } = useStores();
   const isKeeperDisabled = !accountStore.isWavesKeeperInstalled;
   return (
-    <Dialog style={{ maxWidth: 360 }} {...rest}>
-      {loginTypes.map((t) =>
-        t.type === LOGIN_TYPE.KEEPER && isKeeperDisabled ? (
-          <LoginBtn key={t.type}> {t.title}</LoginBtn>
-        ) : (
-          <LoginBtn key={t.type} onClick={handleLogin(t.type)}>
-            {t.title}
-          </LoginBtn>
-        )
-      )}
+    <Root>
+      <Row justifyContent="space-between" alignItems="center">
+        <Logo src={logo} alt="logo" />
+        <Btn src={btn} alt="btn" onClick={onClose} />
+      </Row>
+      <SizedBox height={112} />
+      <Types justifyContent="center" alignItems="center">
+        <Text weight={700} size="large">
+          Connect wallet
+        </Text>
+        <SizedBox height={40} />
+        {loginTypes.map((t) =>
+          t.type === LOGIN_TYPE.KEEPER && isKeeperDisabled ? (
+            <LoginBtn key={t.type}> {t.title}</LoginBtn>
+          ) : (
+            <LoginBtn key={t.type} onClick={handleLogin(t.type)}>
+              {t.title}
+            </LoginBtn>
+          )
+        )}
+      </Types>
       <SizedBox height={8} />
       <Text weight={500} textAlign="center">
-        <span style={{ color: "#A2A2C0" }}> New in MEEDUS? </span>{" "}
+        <span> New in MEEDUS? </span> <br />
         <Anchor
+          style={{ color: "#269995" }}
           target="_blank"
           rel="noreferrer noopener"
           href="https://t.me/meedus_nft"
@@ -78,7 +120,7 @@ const LoginModal: React.FC<IProps> = ({ onLogin, ...rest }) => {
         </Anchor>
       </Text>
       <SizedBox height={16} />
-    </Dialog>
+    </Root>
   );
 };
 export default observer(LoginModal);
