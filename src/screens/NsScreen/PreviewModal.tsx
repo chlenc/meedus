@@ -5,6 +5,8 @@ import Preview from "@screens/NsScreen/Preview";
 import styled from "@emotion/styled";
 import SizedBox from "@components/SizedBox";
 import GetNameBtn from "@screens/NsScreen/GetNameBtn";
+import { useNsScreenVM } from "@screens/NsScreen/NsScreenVm";
+import Button from "@components/Button";
 
 interface IProps {
   onClose: () => void;
@@ -22,12 +24,23 @@ const Container = styled.div`
   }
 `;
 const PreviewModal: React.FC<IProps> = ({ ...rest }) => {
+  const vm = useNsScreenVM();
   return (
     <Dialog style={{ maxWidth: 400 }} {...rest}>
       <Container>
         <Preview />
         <SizedBox height={40} />
-        <GetNameBtn fitContent />
+        {vm.existingNftId == null ? (
+          <GetNameBtn fitContent />
+        ) : (
+          <Button
+            onClick={() =>
+              window.open(`https://puzzlemarket.org/nft/${vm.existingNftId}`)
+            }
+          >
+            View on Puzzle Market
+          </Button>
+        )}
       </Container>
     </Dialog>
   );

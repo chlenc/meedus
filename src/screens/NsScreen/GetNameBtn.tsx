@@ -29,16 +29,28 @@ const GetNameBtn: React.FC<IProps> = ({ fitContent, ...rest }) => {
           Enter the name
         </Button>
       );
+    case /[^A-Za-z0-9]/.test(vm.name):
+      return (
+        <Button {...rest} fitContent={fitContent} disabled>
+          No special symbols
+        </Button>
+      );
+    case vm.loading:
+      return (
+        <Button {...rest} fitContent={fitContent} disabled>
+          Loading ...
+        </Button>
+      );
     case vm.name.length < 4:
       return (
         <Button {...rest} fitContent={fitContent} disabled>
           At least 4 symbols
         </Button>
       );
-    case vm.nameError != null:
+    case vm.existingNftId != null:
       return (
         <Button {...rest} fitContent={fitContent} disabled>
-          Oops...
+          Name is already taken
         </Button>
       );
     case vm.bg == null:

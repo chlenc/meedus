@@ -30,17 +30,20 @@ class NsScreenVM {
 
   get calcPrice(): number {
     const len = this.name.toString().length;
-    if (len >= 8) return 15;
-    else if (len < 8 && len >= 6) return 20;
-    else if (len < 6 && len >= 4) return 25;
+    if (len >= 8) return 1;
+    else if (len < 8 && len >= 6) return 2;
+    else if (len < 6 && len >= 4) return 3;
     else return 0;
   }
 
   previewModalOpened: boolean = false;
   setPreviewModalOpened = (state: boolean) => (this.previewModalOpened = state);
 
-  nameError: string | null = null;
-  setNameError = (v: string | null) => (this.nameError = v);
+  existingNftId: string | null = null;
+  setExistingNftId = (v: string | null) => (this.existingNftId = v);
+
+  loading = false;
+  setLoading = (v: boolean) => (this.loading = v);
 
   bg: IOption | null = null;
   setBg = (bg: IOption) => (this.bg = bg);
@@ -69,8 +72,9 @@ class NsScreenVM {
   };
 
   mint = async () => {
+    this.setLoading(true);
     const link = await this.createImage();
-    if (this.name == null || this.nameError != null) {
+    if (this.name == null || this.existingNftId != null) {
       return;
     }
     if (link == null) {
@@ -93,6 +97,7 @@ class NsScreenVM {
         ],
       },
     });
+    this.setLoading(false);
     if (txId != null) {
       toast.success("Congrats! You can check your name on puzzlemarket.org");
       return;

@@ -79,23 +79,16 @@ const categoriesOptions = [
 ];
 const NsScreenImpl: React.FC<IProps> = observer(() => {
   const vm = useNsScreenVM();
-  const checkName = useCallback(
-    (name: string) => {
-      if (/[^A-Za-z0-9]/.test(name)) {
-        vm.setNameError("No special symbols");
-        return;
+  const checkName = useCallback(() => {
+    vm.checkIfNameTaken().then((d) => {
+      if (d.length === 0) {
+        vm.setExistingNftId(null);
+      } else {
+        vm.setExistingNftId(d[0].value.toString());
       }
-      vm.checkIfNameTaken().then((d) => {
-        d.length === 0
-          ? vm.setNameError(null)
-          : vm.setNameError("Name is already taken");
-      });
-    },
-    [vm]
-  );
-  useEffect(() => {
-    checkName(vm.name);
-  }, [vm.name, checkName]);
+    });
+  }, [vm]);
+  useEffect(() => checkName(), [vm.name, checkName]);
   return (
     <Root>
       <Row style={{ flex: 1 }}>
@@ -113,14 +106,12 @@ const NsScreenImpl: React.FC<IProps> = observer(() => {
           <SizedBox height={40} />
           <Column style={{ maxWidth: 360, width: "100%" }}>
             <Input
-              onBlur={(e) => checkName(e.target.value)}
-              onFocus={() => vm.setNameError(null)}
+              onBlur={(e) => checkName()}
+              onFocus={() => vm.setExistingNftId(null)}
               placeholder="Enter your name"
               value={vm.name}
               suffix=".waves"
               onChange={(e) => vm.setName(e.target.value)}
-              errorText={vm.nameError ?? ""}
-              error={vm.nameError != null}
             />
             <SizedBox height={16} />
 
@@ -147,11 +138,35 @@ const NsScreenImpl: React.FC<IProps> = observer(() => {
         >
           <Text
             weight={700}
-            style={{ position: "absolute", top: 24, left: 24, fontSize: 32 }}
+            style={{
+              position: "absolute",
+              top: 24,
+              left: 24,
+              fontSize: 32,
+              lineHeight: "40px",
+            }}
             fitContent
           >
             Preview
           </Text>
+          {vm.existingNftId != null && (
+            <Button
+              style={{
+                position: "absolute",
+                top: 24,
+                right: 24,
+                fontSize: 13,
+                height: 40,
+                padding: "10ps 16px",
+              }}
+              fitContent
+              onClick={() =>
+                window.open(`https://puzzlemarket.org/nft/${vm.existingNftId}`)
+              }
+            >
+              View on Puzzle Market
+            </Button>
+          )}
           <Preview style={{ borderRadius: 8, overflow: "hidden" }} />
         </DesktopPreview>
       </Row>
