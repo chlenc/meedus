@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   NsScreenVMProvider,
   useNsScreenVM,
@@ -67,7 +67,6 @@ const Title = styled(Text)`
   }
 `;
 const categoriesOptions = [
-  // { title: "Select background color", key: "none" },
   {
     title: "Waves Blue",
     key: "#0055FF",
@@ -80,6 +79,25 @@ const categoriesOptions = [
 ];
 const NsScreenImpl: React.FC<IProps> = observer(() => {
   const vm = useNsScreenVM();
+  const checkName = useCallback(
+    (name: string) => {
+      if (/[^A-Za-z0-9]/.test(name)) {
+        vm.setNameError("No special symbols");
+        return;
+      }
+      vm.checkIfNameTaken().then((d) => {
+        console.log("checkIfNameTaken");
+        console.log(d);
+        d.length === 0
+          ? vm.setNameError(null)
+          : vm.setNameError("Name is already taken");
+      });
+    },
+    [vm]
+  );
+  useEffect(() => {
+    checkName(vm.name);
+  }, [vm.name, checkName]);
   return (
     <Root>
       <Row style={{ flex: 1 }}>
@@ -97,10 +115,14 @@ const NsScreenImpl: React.FC<IProps> = observer(() => {
           <SizedBox height={40} />
           <Column style={{ maxWidth: 360, width: "100%" }}>
             <Input
+              onBlur={(e) => checkName(e.target.value)}
+              onFocus={() => vm.setNameError(null)}
               placeholder="Enter your name"
               value={vm.name}
               suffix=".waves"
               onChange={(e) => vm.setName(e.target.value)}
+              errorText={vm.nameError ?? ""}
+              error={vm.nameError != null}
             />
             <SizedBox height={16} />
 

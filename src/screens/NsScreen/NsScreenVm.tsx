@@ -5,6 +5,8 @@ import { RootStore, useStores } from "@stores";
 import { toBlob } from "html-to-image";
 import nftStorageService from "@src/services/nftStorageService";
 import { IOption } from "@components/Select";
+import BN from "@src/utils/BN";
+import nodeService from "@src/services/nodeService";
 
 const ctx = React.createContext<NsScreenVM | null>(null);
 
@@ -20,29 +22,25 @@ export const useNsScreenVM = () => useVM(ctx);
 let description =
   "Created by 3PGKEe4y59V3WLnHwPEUaMWdbzy8sb982fG. NFT namespace «.waves». Early adopter's NFT used for MEEDUS. Created by @meedus_nft, launched by @puzzle_swap.";
 
-const calcPrice = (name: string) => {
-  let len = name.length;
-  if (len >= 8) return String(15 * 1e8);
-  else if (len < 8 && len >= 6) return String(20 * 1e8);
-  else if (len < 6 && len >= 4) return String(25 * 1e8);
-  else return "0";
-};
-
 class NsScreenVM {
   constructor(private rootStore: RootStore) {
     makeAutoObservable(this);
   }
 
-  get calcPrice() {
-    let len = this.name.length;
-    if (len >= 8) return String(15 * 1e8);
-    else if (len < 8 && len >= 6) return String(20 * 1e8);
-    else if (len < 6 && len >= 4) return String(25 * 1e8);
-    else return "0";
+  get calcPrice(): number {
+    const len = this.name.toString().length;
+    console.log(len);
+    if (len >= 8) return 15;
+    else if (len < 8 && len >= 6) return 20;
+    else if (len < 6 && len >= 4) return 25;
+    else return 0;
   }
 
   previewModalOpened: boolean = false;
   setPreviewModalOpened = (state: boolean) => (this.previewModalOpened = state);
+
+  nameError: string | null = null;
+  setNameError = (v: string | null) => (this.nameError = v);
 
   bg: IOption | null = null;
   setBg = (bg: IOption) => (this.bg = bg);
@@ -67,25 +65,31 @@ class NsScreenVM {
   mint = async () => {
     const link = await this.createImage();
     console.log(link);
-    // if (link == null) {
-    //   //todo handle error
-    //   return;
-    // }
-    // const tx = await this.rootStore.accountStore.invoke({
-    //   dApp: "3PGKEe4y59V3WLnHwPEUaMWdbzy8sb982fG",
-    //   payment: [
-    //     {
-    //       assetId: "WAVES",
-    //       amount: calcPrice(this.name).toString(),
-    //     },
-    //   ],
-    //   call: {
-    //     function: "mint",
-    //     args: [
-    //       { type: "string", value: this.name },
-    //       { type: "string", value: link },
-    //     ],
-    //   },
-    // });
+    if (link == null) {
+      //todo handle error
+      return;
+    }
+    const tx = await this.rootStore.accountStore.invoke({
+      dApp: "3PGKEe4y59V3WLnHwPEUaMWdbzy8sb982fG",
+      payment: [
+        {
+          assetId: "WAVES",
+          amount: BN.parseUnits(new BN(this.calcPrice), 8).toString(),
+        },
+      ],
+      call: {
+        function: "mint",
+        args: [
+          { type: "string", value: this.name },
+          { type: "string", value: link },
+        ],
+      },
+    });
   };
+
+  checkIfNameTaken = async () =>
+    await nodeService.nodeKeysRequest(
+      "3PGKEe4y59V3WLnHwPEUaMWdbzy8sb982fG",
+      this.name
+    );
 }

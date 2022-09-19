@@ -5,9 +5,11 @@ import { observer } from "mobx-react-lite";
 import { useNsScreenVM } from "@screens/NsScreen/NsScreenVm";
 import { labelColorMap } from "@screens/NsScreen/Preview";
 
-interface IProps extends HTMLAttributes<HTMLButtonElement> {}
+interface IProps extends HTMLAttributes<HTMLButtonElement> {
+  fitContent?: boolean;
+}
 
-const GetNameBtn: React.FC<IProps> = ({ ...rest }) => {
+const GetNameBtn: React.FC<IProps> = ({ fitContent, ...rest }) => {
   const { accountStore } = useStores();
   const vm = useNsScreenVM();
   switch (true) {
@@ -16,6 +18,7 @@ const GetNameBtn: React.FC<IProps> = ({ ...rest }) => {
         <Button
           {...rest}
           {...rest}
+          fitContent={fitContent}
           onClick={() => accountStore.setLoginModalOpened(true)}
         >
           Connect wallet
@@ -23,19 +26,31 @@ const GetNameBtn: React.FC<IProps> = ({ ...rest }) => {
       );
     case vm.name.length === 0:
       return (
-        <Button {...rest} disabled>
+        <Button {...rest} fitContent={fitContent} disabled>
           Enter the name
         </Button>
       );
-    case vm.bg?.key === Object.keys(labelColorMap)[0]:
+    case vm.name.length < 4:
       return (
-        <Button {...rest} disabled>
+        <Button {...rest} fitContent={fitContent} disabled>
+          At least 4 symbols
+        </Button>
+      );
+    case vm.nameError != null:
+      return (
+        <Button {...rest} fitContent={fitContent} disabled>
+          Oops...
+        </Button>
+      );
+    case vm.bg == null:
+      return (
+        <Button {...rest} fitContent={fitContent} disabled>
           Set the background color
         </Button>
       );
     default:
       return (
-        <Button {...rest} onClick={vm.mint}>
+        <Button {...rest} fitContent={fitContent} onClick={vm.mint}>
           Buy for {vm.calcPrice} WAVES
         </Button>
       );
