@@ -27,7 +27,7 @@ const Container = styled.div`
 const PreviewModal: React.FC<IProps> = ({ ...rest }) => {
   const vm = useNsScreenVM();
   return (
-    <Dialog style={{ maxWidth: 400 }} {...rest}>
+    <Dialog {...rest}>
       <Container>
         <Preview />
         <SizedBox height={40} />

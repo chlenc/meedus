@@ -55,7 +55,13 @@ const AddressContainer = styled.div<{ expanded: boolean }>`
   .menu-arrow {
     transition: 0.4s;
     transform: ${({ expanded }) =>
-      expanded ? "rotate(-90deg)" : "rotate(0deg)"};
+      expanded ? "rotate(0deg)" : "rotate(180deg)"};
+  }
+  :hover {
+    .menu-arrow {
+      transform: ${({ expanded }) =>
+        expanded ? "rotate(0deg)" : "rotate(90deg)"};
+    }
   }
 `;
 

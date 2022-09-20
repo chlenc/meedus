@@ -16,7 +16,7 @@ const Root = styled.div<{ width?: number }>`
   border-radius: 8px;
   ${({ width }) => (width != null ? `width: ${width}px` : "max-width: 320px")};
   box-sizing: border-box;
-  padding: 8px 16px;
+  padding: 10px 16px;
   box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.06),
     0px 16px 28px rgba(0, 0, 0, 0.07);
   z-index: 1;

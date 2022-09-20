@@ -30,7 +30,7 @@ root.render(
   <storesContext.Provider value={mobxStore}>
     <Router>
       <App />
-      <ToastContainer theme={"dark"} />
+      <ToastContainer />
     </Router>
   </storesContext.Provider>
 );

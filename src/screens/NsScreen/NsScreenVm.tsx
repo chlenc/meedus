@@ -31,6 +31,7 @@ type TNftData = { id: string; img: string };
 class NsScreenVM {
   constructor(private rootStore: RootStore) {
     makeAutoObservable(this);
+    setInterval(() => this.getNftData().then(this.setExistingNft), 30 * 1000);
   }
 
   get calcPrice(): number {

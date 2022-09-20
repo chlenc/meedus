@@ -9,6 +9,7 @@ export const TOKEN_LOGO_BY_ASSET_ID: Record<string, string> = logos;
 
 export const NODE_URL = "https://nodes-puzzle.wavesnodes.com";
 export const EXPLORER_URL = "https://new.wavesexplorer.com";
+export const PUZZLE_MARKET_URL = "https://puzzlemarket.org";
 
 export const NODES = [
   "https://nodes-puzzle.wavesnodes.com",
