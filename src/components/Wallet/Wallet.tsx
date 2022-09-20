@@ -23,7 +23,7 @@ const Wallet: React.FC<IProps> = () => {
   return (
     <Root>
       {address == null ? (
-        <Link to={ROUTES.LOGIN}>
+        <Link to={ROUTES.LOGIN} style={{ width: "100%" }}>
           <Button style={{ maxWidth: 170 }} size="medium" fitContent>
             Connect wallet
           </Button>
