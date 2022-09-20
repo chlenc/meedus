@@ -18,7 +18,7 @@ const Root = styled(Row)`
   height: fit-content;
   justify-content: space-between;
   color: #ffffff;
-  @media (min-width: 768px) {
+  @media (min-width: 1280px) {
     justify-content: flex-end;
   }
 

@@ -69,20 +69,20 @@ class AccountStore {
   isWavesKeeperInstalled = false;
   setWavesKeeperInstalled = (state: boolean) =>
     (this.isWavesKeeperInstalled = state);
-
-  assetsBalancesLoading = false;
-  setAssetsBalancesLoading = (state: boolean) =>
-    (this.assetsBalancesLoading = state);
-
-  loginModalOpened: boolean = false;
-  setLoginModalOpened = (state: boolean) => (this.loginModalOpened = state);
-
-  walletModalOpened: boolean = false;
-  setWalletModalOpened = (state: boolean) => (this.walletModalOpened = state);
-
-  sendAssetModalOpened: boolean = false;
-  setSendAssetModalOpened = (state: boolean) =>
-    (this.sendAssetModalOpened = state);
+  //
+  // assetsBalancesLoading = false;
+  // setAssetsBalancesLoading = (state: boolean) =>
+  //   (this.assetsBalancesLoading = state);
+  //
+  // loginModalOpened: boolean = false;
+  // setLoginModalOpened = (state: boolean) => (this.loginModalOpened = state);
+  //
+  // walletModalOpened: boolean = false;
+  // setWalletModalOpened = (state: boolean) => (this.walletModalOpened = state);
+  //
+  // sendAssetModalOpened: boolean = false;
+  // setSendAssetModalOpened = (state: boolean) =>
+  //   (this.sendAssetModalOpened = state);
 
   // assetToSend: Balance | null = null;
   // setAssetToSend = (state: Balance | null) => (this.assetToSend = state);

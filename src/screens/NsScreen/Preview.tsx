@@ -6,7 +6,9 @@ import { useNsScreenVM } from "@screens/NsScreen/NsScreenVm";
 import { observer } from "mobx-react-lite";
 import { ReactComponent as WavesLogo } from "@src/assets/icons/wavesLogo.svg";
 
-interface IProps extends HTMLAttributes<HTMLDivElement> {}
+interface IProps extends HTMLAttributes<HTMLDivElement> {
+  src?: string;
+}
 
 const Root = styled.div`
   display: flex;
@@ -57,28 +59,46 @@ const Label = styled.p`
   text-align: center;
 `;
 
+const PreviewImg = styled.img`
+  width: 320px;
+  height: 320px;
+`;
+
+const Wrapper = styled.div`
+  width: 320px;
+  height: 320px;
+  overflow: hidden;
+  border-radius: 8px;
+`;
+
 const Preview: React.FC<IProps> = ({ ...props }) => {
   const vm = useNsScreenVM();
   const color = labelColorMap[vm.bg?.key ?? ""]?.font ?? "#000";
   const background =
     labelColorMap[vm.bg?.key ?? ""]?.bg ?? "rgba(0, 0, 0, 0.2)";
   return (
-    <Root id="nft-preview" {...props}>
-      <Body style={{ background: vm.bg?.key ?? "#fff" }}>
-        {vm.name !== "" ? (
-          <>
-            <Label style={{ color }}>{vm.name}</Label>
-            <Label style={{ color, background }}>.waves</Label>
-          </>
-        ) : null}
-      </Body>
-      <Footer>
-        <Text style={{ color: "#ffffff" }} size="small" weight={600}>
-          Waves Name Service
-        </Text>
-        <WavesLogo />
-      </Footer>
-    </Root>
+    <Wrapper>
+      {vm.existingNft?.img != null ? (
+        <PreviewImg src={vm.existingNft?.img} alt={vm.name} />
+      ) : (
+        <Root id="nft-preview" {...props}>
+          <Body style={{ background: vm.bg?.key ?? "#fff" }}>
+            {vm.name !== "" ? (
+              <>
+                <Label style={{ color }}>{vm.name}</Label>
+                <Label style={{ color, background }}>.waves</Label>
+              </>
+            ) : null}
+          </Body>
+          <Footer>
+            <Text style={{ color: "#ffffff" }} size="small" weight={600}>
+              Waves Name Service
+            </Text>
+            <WavesLogo />
+          </Footer>
+        </Root>
+      )}
+    </Wrapper>
   );
 };
 export default observer(Preview);

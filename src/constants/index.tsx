@@ -2,10 +2,7 @@ const logos = require("./tokenLogos.json");
 
 export const ROUTES = {
   ROOT: "/",
-  SWAP: "/swap",
-  TOKENS: "/tokens",
-  DAPPS: "/dapps",
-  NAMES: "/names",
+  LOGIN: "/login",
 };
 
 export const TOKEN_LOGO_BY_ASSET_ID: Record<string, string> = logos;

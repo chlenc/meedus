@@ -7,6 +7,7 @@ import SizedBox from "@components/SizedBox";
 import GetNameBtn from "@screens/NsScreen/GetNameBtn";
 import { useNsScreenVM } from "@screens/NsScreen/NsScreenVm";
 import Button from "@components/Button";
+import { Anchor } from "@components/Anchor";
 
 interface IProps {
   onClose: () => void;
@@ -19,7 +20,7 @@ const Container = styled.div`
   padding: 20px;
   align-items: center;
 
-  @media (min-width: 768px) {
+  @media (min-width: 1280px) {
     padding: 40px;
   }
 `;
@@ -30,16 +31,12 @@ const PreviewModal: React.FC<IProps> = ({ ...rest }) => {
       <Container>
         <Preview />
         <SizedBox height={40} />
-        {vm.existingNftId == null ? (
+        {vm.existingNft == null ? (
           <GetNameBtn fitContent />
         ) : (
-          <Button
-            onClick={() =>
-              window.open(`https://puzzlemarket.org/nft/${vm.existingNftId}`)
-            }
-          >
-            View on Puzzle Market
-          </Button>
+          <Anchor href={`https://puzzlemarket.org/nft/${vm.existingNft?.id}`}>
+            <Button>View on Puzzle Market</Button>
+          </Anchor>
         )}
       </Container>
     </Dialog>

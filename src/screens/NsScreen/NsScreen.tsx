@@ -15,6 +15,7 @@ import GetNameBtn from "@screens/NsScreen/GetNameBtn";
 import Input from "@components/Input";
 import Select from "@components/Select";
 import { Anchor } from "@components/Anchor";
+import Layout from "@components/Layout";
 
 interface IProps {}
 
@@ -30,8 +31,8 @@ const Root = styled.div`
   width: 100%;
   min-height: calc(100vh - 150px);
   max-width: calc(1160px + 32px);
-  margin-top: 40px;
-  @media (min-width: 768px) {
+  //margin-top: 40px;
+  @media (min-width: 1280px) {
     justify-content: stretch;
     padding: 0 24px;
   } ;
@@ -44,13 +45,13 @@ const DesktopPreview = styled(Column)`
   display: none;
   height: 100%;
   position: relative;
-  @media (min-width: 768px) {
+  @media (min-width: 1280px) {
     display: flex;
   }
 `;
 const MobilePreview = styled(Column)`
   display: flex;
-  @media (min-width: 768px) {
+  @media (min-width: 1280px) {
     display: none;
   }
 `;
@@ -80,18 +81,12 @@ const categoriesOptions = [
 const NsScreenImpl: React.FC<IProps> = observer(() => {
   const vm = useNsScreenVM();
   const checkName = useCallback(() => {
-    vm.checkIfNameTaken().then((d) => {
-      if (d.length === 0) {
-        vm.setExistingNftId(null);
-      } else {
-        vm.setExistingNftId(d[0].value.toString());
-      }
-    });
+    vm.getNftData().then(vm.setExistingNft);
   }, [vm]);
   useEffect(() => checkName(), [vm.name, checkName]);
   return (
     <Root>
-      <Row style={{ flex: 1 }}>
+      <Row alignItems="center" style={{ flex: 1 }}>
         <Column
           crossAxisSize="max"
           mainAxisSize="stretch"
@@ -107,7 +102,7 @@ const NsScreenImpl: React.FC<IProps> = observer(() => {
           <Column style={{ maxWidth: 360, width: "100%" }}>
             <Input
               onBlur={(e) => checkName()}
-              onFocus={() => vm.setExistingNftId(null)}
+              onFocus={() => vm.setExistingNft(null)}
               placeholder="Enter your name"
               value={vm.name}
               suffix=".waves"
@@ -149,25 +144,18 @@ const NsScreenImpl: React.FC<IProps> = observer(() => {
           >
             Preview
           </Text>
-          {vm.existingNftId != null && (
-            <Button
-              style={{
-                position: "absolute",
-                top: 24,
-                right: 24,
-                fontSize: 13,
-                height: 40,
-                padding: "10ps 16px",
-              }}
-              fitContent
-              onClick={() =>
-                window.open(`https://puzzlemarket.org/nft/${vm.existingNftId}`)
-              }
-            >
-              View on Puzzle Market
-            </Button>
+          {vm.existingNft != null && (
+            <Anchor href={`https://puzzlemarket.org/nft/${vm.existingNft?.id}`}>
+              <Button
+                style={{ position: "absolute", top: 24, right: 24 }}
+                size="medium"
+                fitContent
+              >
+                View on Puzzle Market
+              </Button>
+            </Anchor>
           )}
-          <Preview style={{ borderRadius: 8, overflow: "hidden" }} />
+          <Preview />
         </DesktopPreview>
       </Row>
       <MobilePreview>
@@ -185,7 +173,9 @@ const NsScreenImpl: React.FC<IProps> = observer(() => {
 
 const NsScreen = () => (
   <NsScreenVMProvider>
-    <NsScreenImpl />
+    <Layout>
+      <NsScreenImpl />
+    </Layout>
   </NsScreenVMProvider>
 );
 

@@ -8,6 +8,7 @@ import { IOption } from "@components/Select";
 import BN from "@src/utils/BN";
 import nodeService from "@src/services/nodeService";
 import { toast } from "react-toastify";
+import makeNodeRequest from "@src/utils/makeNodeRequest";
 
 const ctx = React.createContext<NsScreenVM | null>(null);
 
@@ -19,9 +20,13 @@ export const NsScreenVMProvider: React.FC<PropsWithChildren> = ({
   return <ctx.Provider value={store}>{children}</ctx.Provider>;
 };
 
+const NS_DAPP = "3PGKEe4y59V3WLnHwPEUaMWdbzy8sb982fG";
+
 export const useNsScreenVM = () => useVM(ctx);
 let description =
   "Created by 3PGKEe4y59V3WLnHwPEUaMWdbzy8sb982fG. NFT namespace «.waves». Early adopter's NFT used for MEEDUS. Created by @meedus_nft, launched by @puzzle_swap.";
+
+type TNftData = { id: string; img: string };
 
 class NsScreenVM {
   constructor(private rootStore: RootStore) {
@@ -39,8 +44,8 @@ class NsScreenVM {
   previewModalOpened: boolean = false;
   setPreviewModalOpened = (state: boolean) => (this.previewModalOpened = state);
 
-  existingNftId: string | null = null;
-  setExistingNftId = (v: string | null) => (this.existingNftId = v);
+  existingNft: TNftData | null = null;
+  setExistingNft = (v: TNftData | null) => (this.existingNft = v);
 
   loading = false;
   setLoading = (v: boolean) => (this.loading = v);
@@ -74,7 +79,7 @@ class NsScreenVM {
   mint = async () => {
     this.setLoading(true);
     const link = await this.createImage();
-    if (this.name == null || this.existingNftId != null) {
+    if (this.name == null || this.existingNft != null) {
       return;
     }
     if (link == null) {
@@ -82,7 +87,7 @@ class NsScreenVM {
       return;
     }
     const txId = await this.rootStore.accountStore.invoke({
-      dApp: "3PGKEe4y59V3WLnHwPEUaMWdbzy8sb982fG",
+      dApp: NS_DAPP,
       payment: [
         {
           assetId: "WAVES",
@@ -107,9 +112,13 @@ class NsScreenVM {
     }
   };
 
-  checkIfNameTaken = async () =>
-    await nodeService.nodeKeysRequest(
-      "3PGKEe4y59V3WLnHwPEUaMWdbzy8sb982fG",
-      this.name
-    );
+  getNftData = async (): Promise<TNftData | null> => {
+    const res = await nodeService.nodeKeysRequest(NS_DAPP, this.name);
+    if (res.length === 0) return null;
+    const id = res[0].value.toString();
+    const req = `/addresses/data/3PFQjjDMiZKQZdu5JqTHD7HwgSXyp9Rw9By/nft_${id}_image`;
+    const { data } = await makeNodeRequest(req);
+    const img = data.value;
+    return { id, img };
+  };
 }

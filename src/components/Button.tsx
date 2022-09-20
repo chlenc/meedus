@@ -18,7 +18,7 @@ const Button = styled.button<{
   outline: none;
   cursor: pointer;
   padding: ${({ size }) => (size === "medium" ? "0 16px" : "0 24px")};
-  background: ${({ kind }) => (kind === "secondary" ? "#fffff" : "#a5ffc9")};
+  background: ${({ kind }) => (kind === "secondary" ? "#fff" : "#a5ffc9")};
   font-size: ${({ size }) => (size === "medium" ? 13 : 17)}px;
   line-height: ${({ size }) => (size === "medium" ? 20 : 24)}px;
   font-weight: 700;
@@ -28,7 +28,7 @@ const Button = styled.button<{
   height: ${({ size }) => (size === "medium" ? 40 : 56)}px;
   border: 2px solid #000000;
   box-shadow: 4px 4px 0 #000000;
-  border-radius: 4px;
+  border-radius: ${({ size }) => (size === "medium" ? 4 : 8)}px;
 
   :hover {
     box-shadow: 2px 2px 0 #000000;

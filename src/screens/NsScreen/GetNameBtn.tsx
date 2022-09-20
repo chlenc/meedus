@@ -3,6 +3,8 @@ import { useStores } from "@stores";
 import Button from "@components/Button";
 import { observer } from "mobx-react-lite";
 import { useNsScreenVM } from "@screens/NsScreen/NsScreenVm";
+import { ROUTES } from "@src/constants";
+import { Link } from "react-router-dom";
 
 interface IProps extends HTMLAttributes<HTMLButtonElement> {
   fitContent?: boolean;
@@ -14,14 +16,11 @@ const GetNameBtn: React.FC<IProps> = ({ fitContent, ...rest }) => {
   switch (true) {
     case accountStore.address == null:
       return (
-        <Button
-          {...rest}
-          {...rest}
-          fitContent={fitContent}
-          onClick={() => accountStore.setLoginModalOpened(true)}
-        >
-          Connect wallet
-        </Button>
+        <Link style={{ width: "100%" }} to={ROUTES.LOGIN}>
+          <Button {...rest} {...rest} fitContent={fitContent}>
+            Connect wallet
+          </Button>
+        </Link>
       );
     case vm.name.length === 0:
       return (
@@ -47,7 +46,7 @@ const GetNameBtn: React.FC<IProps> = ({ fitContent, ...rest }) => {
           At least 4 symbols
         </Button>
       );
-    case vm.existingNftId != null:
+    case vm.existingNft != null:
       return (
         <Button {...rest} fitContent={fitContent} disabled>
           Name is already taken

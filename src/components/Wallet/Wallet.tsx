@@ -3,8 +3,9 @@ import React from "react";
 import { useStores } from "@stores";
 import { observer } from "mobx-react-lite";
 import Button from "@components/Button";
-import LoginModal from "./LoginModal";
 import LoggedInAccountInfo from "@components/Wallet/LoggedInAccountInfo";
+import { Link } from "react-router-dom";
+import { ROUTES } from "@src/constants";
 
 interface IProps {}
 
@@ -22,22 +23,13 @@ const Wallet: React.FC<IProps> = () => {
   return (
     <Root>
       {address == null ? (
-        <Button
-          style={{ maxWidth: 170 }}
-          size="medium"
-          onClick={() => accountStore.setLoginModalOpened(true)}
-          fitContent
-        >
-          Connect wallet
-        </Button>
+        <Link to={ROUTES.LOGIN}>
+          <Button style={{ maxWidth: 170 }} size="medium" fitContent>
+            Connect wallet
+          </Button>
+        </Link>
       ) : (
         <LoggedInAccountInfo />
-      )}
-      {accountStore.loginModalOpened && (
-        <LoginModal
-          onLogin={(loginType) => accountStore.login(loginType)}
-          onClose={() => accountStore.setLoginModalOpened(false)}
-        />
       )}
     </Root>
   );
