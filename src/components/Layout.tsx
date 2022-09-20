@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
-import React, { PropsWithChildren } from "react";
+import React, { HTMLAttributes, PropsWithChildren } from "react";
 import Header from "@components/Header";
 
-interface IProps extends PropsWithChildren {
+interface IProps extends PropsWithChildren, HTMLAttributes<HTMLDivElement> {
   header?: JSX.Element;
 }
 
@@ -24,9 +24,9 @@ const Content = styled.div`
   justify-content: center;
 `;
 
-const Layout: React.FC<IProps> = ({ children, header }) => {
+const Layout: React.FC<IProps> = ({ children, header, ...rest }) => {
   return (
-    <Root>
+    <Root {...rest}>
       {header ?? <Header />}
       <Content>{children}</Content>
     </Root>

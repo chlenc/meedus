@@ -80,10 +80,6 @@ const categoriesOptions = [
 ];
 const NsScreenImpl: React.FC<IProps> = observer(() => {
   const vm = useNsScreenVM();
-  const checkName = useCallback(() => {
-    vm.getNftData().then(vm.setExistingNft);
-  }, [vm]);
-  useEffect(() => checkName(), [vm.name, checkName]);
   return (
     <Root>
       <Row alignItems="center" style={{ flex: 1 }}>
@@ -101,7 +97,6 @@ const NsScreenImpl: React.FC<IProps> = observer(() => {
           <SizedBox height={40} />
           <Column style={{ maxWidth: 360, width: "100%" }}>
             <Input
-              onBlur={(e) => checkName()}
               onFocus={() => vm.setExistingNft(null)}
               placeholder="Enter your name"
               value={vm.name}

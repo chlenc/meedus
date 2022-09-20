@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useMemo } from "react";
 import useVM from "@src/hooks/useVM";
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, reaction } from "mobx";
 import { RootStore, useStores } from "@stores";
 import { toBlob } from "html-to-image";
 import nftStorageService from "@src/services/nftStorageService";
@@ -31,7 +31,8 @@ type TNftData = { id: string; img: string };
 class NsScreenVM {
   constructor(private rootStore: RootStore) {
     makeAutoObservable(this);
-    setInterval(() => this.getNftData().then(this.setExistingNft), 30 * 1000);
+    setInterval(this.checkNft, 30 * 1000);
+    reaction(() => this.name, this.checkNft);
   }
 
   get calcPrice(): number {
@@ -113,7 +114,7 @@ class NsScreenVM {
     }
   };
 
-  getNftData = async (): Promise<TNftData | null> => {
+  private getNftData = async (): Promise<TNftData | null> => {
     const res = await nodeService.nodeKeysRequest(NS_DAPP, this.name);
     if (res.length === 0) return null;
     const id = res[0].value.toString();
@@ -122,4 +123,6 @@ class NsScreenVM {
     const img = data.value;
     return { id, img };
   };
+
+  checkNft = () => this.getNftData().then(this.setExistingNft);
 }

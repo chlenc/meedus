@@ -3,29 +3,24 @@ import { useStores } from "@stores";
 import Button from "@components/Button";
 import { observer } from "mobx-react-lite";
 import { useNsScreenVM } from "@screens/NsScreen/NsScreenVm";
-import { ROUTES } from "@src/constants";
-import { Link } from "react-router-dom";
-import styled from "@emotion/styled";
 
 interface IProps extends HTMLAttributes<HTMLButtonElement> {
   fitContent?: boolean;
 }
-const StyledLink = styled(Link)`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-`;
 const GetNameBtn: React.FC<IProps> = ({ fitContent, ...rest }) => {
   const { accountStore } = useStores();
   const vm = useNsScreenVM();
   switch (true) {
     case accountStore.address == null:
       return (
-        <StyledLink to={ROUTES.LOGIN}>
-          <Button {...rest} {...rest} fitContent={fitContent}>
-            Connect wallet
-          </Button>
-        </StyledLink>
+        <Button
+          {...rest}
+          {...rest}
+          fitContent={fitContent}
+          onClick={() => accountStore.setLoginModalOpened(true)}
+        >
+          Connect wallet
+        </Button>
       );
     case vm.name.length === 0:
       return (

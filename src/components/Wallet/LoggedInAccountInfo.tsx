@@ -10,6 +10,7 @@ import { useStores } from "@stores";
 import Tooltip from "@components/Tooltip";
 import arrowIcon from "@src/assets/icons/arrowRightBorderless.svg";
 import WalletActionsTooltip from "@components/Wallet/WalletActionsTooltip";
+import useWindowSize from "@src/hooks/useWindowSize";
 
 interface IProps {}
 
@@ -70,6 +71,7 @@ const LoggedInAccountInfo: React.FC<IProps> = () => {
   const { address } = accountStore;
   const avatar = address && identityImg.create(address, { size: 24 * 3 });
   const [accountOpened, setAccountOpened] = useState<boolean>(false);
+  const { width } = useWindowSize();
   return (
     <Root>
       <SizedBox width={24} />
@@ -83,9 +85,11 @@ const LoggedInAccountInfo: React.FC<IProps> = () => {
       >
         <AddressContainer expanded={accountOpened}>
           <img className="avatar" src={avatar!} alt="avatar" />
-          <Text weight={700} size="medium">
-            {centerEllipsis(address ?? "", 8)}
-          </Text>
+          {width == null || width > 400 ? (
+            <Text weight={700} size="medium">
+              {centerEllipsis(address ?? "", 8)}
+            </Text>
+          ) : null}
           <SizedBox width={12} />
           <img src={arrowIcon} className="menu-arrow" alt="arrow" />
         </AddressContainer>

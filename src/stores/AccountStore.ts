@@ -74,9 +74,9 @@ class AccountStore {
   // setAssetsBalancesLoading = (state: boolean) =>
   //   (this.assetsBalancesLoading = state);
   //
-  // loginModalOpened: boolean = false;
-  // setLoginModalOpened = (state: boolean) => (this.loginModalOpened = state);
-  //
+  loginModalOpened: boolean = false;
+  setLoginModalOpened = (state: boolean) => (this.loginModalOpened = state);
+
   // walletModalOpened: boolean = false;
   // setWalletModalOpened = (state: boolean) => (this.walletModalOpened = state);
   //

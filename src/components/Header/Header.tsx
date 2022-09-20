@@ -8,7 +8,9 @@ interface IProps {}
 const Root = styled.div`
   display: flex;
   box-sizing: border-box;
-  padding: 16px;
+  padding: 0 16px;
+  height: 80px;
+  z-index: 2;
   align-items: center;
   max-width: calc(1160px + 32px);
   width: 100%;

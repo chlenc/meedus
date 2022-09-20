@@ -3,15 +3,16 @@ import styled from "@emotion/styled";
 import logo from "@src/assets/images/bigLogo.svg";
 import { ReactComponent as CloseIcon } from "@src/assets/icons/closeBtn.svg";
 import Button from "@components/Button";
-import { Link } from "react-router-dom";
-import { ROUTES } from "@src/constants";
+import { useStores } from "@stores";
 
 interface IProps {}
 
 const Root = styled.div`
   display: flex;
   box-sizing: border-box;
-  padding: 16px;
+  padding: 0 16px;
+  height: 80px;
+  z-index: 2;
   align-items: center;
   max-width: calc(1160px + 32px);
   width: 100%;
@@ -32,16 +33,19 @@ const CloseButton = styled(Button)`
 `;
 
 const LoginScreenHeader: React.FC<IProps> = () => {
+  const { accountStore } = useStores();
   return (
     <Root>
       <a href="/">
         <Logo src={logo} />
       </a>
-      <Link to={ROUTES.ROOT}>
-        <CloseButton size="medium" kind="secondary">
-          <CloseIcon />
-        </CloseButton>
-      </Link>
+      <CloseButton
+        size="medium"
+        kind="secondary"
+        onClick={() => accountStore.setLoginModalOpened(false)}
+      >
+        <CloseIcon />
+      </CloseButton>
     </Root>
   );
 };

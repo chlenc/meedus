@@ -92,6 +92,9 @@ const Select: React.FC<IProps> = ({
 }) => {
   const [focused, setFocused] = useState(false);
   const [squareRef, { width }] = useElementSize();
+  const handleSelect = (v: IOption) => {
+    onSelect(v);
+  };
   return (
     <Tooltip
       config={{
@@ -108,7 +111,7 @@ const Select: React.FC<IProps> = ({
               <Option
                 active={active}
                 key={v.key + "_option"}
-                onClick={() => onSelect(v)}
+                onClick={() => handleSelect(v)}
               >
                 <Circle bg={v.key} />
                 <SizedBox width={8} />
