@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/meedus/static/css/main.afc8f7b6.css",
-    "main.js": "/meedus/static/js/main.931f9a12.js",
+    "main.js": "/meedus/static/js/main.ebe4124d.js",
     "static/media/connectWalletPic.png": "/meedus/static/media/connectWalletPic.3c756087c991bb95d905.png",
     "static/media/Epilogue-SemiBold.ttf": "/meedus/static/media/Epilogue-SemiBold.ea9abd0ab593c5517725.ttf",
     "static/media/Epilogue-Bold.ttf": "/meedus/static/media/Epilogue-Bold.bdac80b52eb29d7b751b.ttf",
@@ -14,10 +14,10 @@
     "static/media/arrowRightBorderless.svg": "/meedus/static/media/arrowRightBorderless.6a836b6770e14dcb65fe9d70421dbeed.svg",
     "static/media/wavesLogo.svg": "/meedus/static/media/wavesLogo.c1163608478d225143c1ba512a048a52.svg",
     "main.afc8f7b6.css.map": "/meedus/static/css/main.afc8f7b6.css.map",
-    "main.931f9a12.js.map": "/meedus/static/js/main.931f9a12.js.map"
+    "main.ebe4124d.js.map": "/meedus/static/js/main.ebe4124d.js.map"
   },
   "entrypoints": [
     "static/css/main.afc8f7b6.css",
-    "static/js/main.931f9a12.js"
+    "static/js/main.ebe4124d.js"
   ]
 }
