@@ -37,9 +37,9 @@ class NsScreenVM {
 
   get calcPrice(): number {
     const len = this.name.toString().length;
-    if (len >= 8) return 1;
-    else if (len < 8 && len >= 6) return 2;
-    else if (len < 6 && len >= 4) return 3;
+    if (len >= 8) return 15;
+    else if (len < 8 && len >= 6) return 20;
+    else if (len < 6 && len >= 4) return 25;
     else return 0;
   }
 
