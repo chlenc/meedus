@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React, { useCallback, useEffect } from "react";
+import React from "react";
 import {
   NsScreenVMProvider,
   useNsScreenVM,

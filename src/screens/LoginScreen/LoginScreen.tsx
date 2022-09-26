@@ -84,13 +84,13 @@ const LoginScreen: React.FC<IProps> = () => {
             >
               Waves.Exchange email
             </Button>
-            <SizedBox height={16} />
-            <Button
-              kind="secondary"
-              onClick={handleLogin(LOGIN_TYPE.SIGNER_SEED)}
-            >
-              Seed phrase
-            </Button>
+            {/*<SizedBox height={16} />*/}
+            {/*<Button*/}
+            {/*  kind="secondary"*/}
+            {/*  onClick={handleLogin(LOGIN_TYPE.SIGNER_SEED)}*/}
+            {/*>*/}
+            {/*  Seed phrase*/}
+            {/*</Button>*/}
             <SizedBox height={16} />
             <Button
               kind="secondary"
