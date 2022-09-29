@@ -20,7 +20,8 @@ export const NsScreenVMProvider: React.FC<PropsWithChildren> = ({
   return <ctx.Provider value={store}>{children}</ctx.Provider>;
 };
 
-const NS_DAPP = "3PGKEe4y59V3WLnHwPEUaMWdbzy8sb982fG";
+const NS_DAPP = "3PGKEe4y59V3WLnHwPEUaMWdbzy8sb982fG"; //mainnet
+// const NS_DAPP = "3N9CHPgP4cjToRcdiwyvfBhmS1rJp1JXZ6M"; //testnet
 
 export const useNsScreenVM = () => useVM(ctx);
 let description =
@@ -36,6 +37,14 @@ class NsScreenVM {
   }
 
   get calcPrice(): number {
+    const len = this.name.toString().length;
+    if (len >= 8) return 15;
+    else if (len < 8 && len >= 6) return 20;
+    else if (len < 6 && len >= 4) return 25;
+    else return 0;
+  }
+
+  get calcWNSPrice(): number {
     const len = this.name.toString().length;
     if (len >= 8) return 15;
     else if (len < 8 && len >= 6) return 20;
@@ -61,21 +70,25 @@ class NsScreenVM {
   createImage = async () => {
     const element = document.getElementById("nft-preview");
     if (element == null) {
-      console.error("Error while getting element out of pic");
-      toast.error("Something went wrong");
+      const e = "Error while getting element out of pic: element not found";
+      console.error(e);
+      toast.error(e);
       return;
     }
+    console.log(element);
     const blob = await toBlob(element);
     if (blob == null) {
-      console.error("Error while creating blob from pic");
-      toast.error("Something went wrong");
+      const e = "Error while creating blob from pic";
+      console.error(e);
+      toast.error(e);
       return;
     }
     const file = new File([blob], this.name);
-    const res = await nftStorageService.storeNFT(file, this.name, description);
-    return res.data.image
-      .toString()
-      .replace("ipfs://", "https://ipfs.io/ipfs/");
+    console.log(file);
+    // const res = await nftStorageService.storeNFT(file, this.name, description);
+    // return res.data.image
+    //   .toString()
+    //   .replace("ipfs://", "https://ipfs.io/ipfs/");
   };
 
   mint = async () => {
@@ -86,6 +99,7 @@ class NsScreenVM {
     }
     if (link == null) {
       toast.error("Something went wrong");
+      this.setLoading(false);
       return;
     }
     const txId = await this.rootStore.accountStore.invoke({

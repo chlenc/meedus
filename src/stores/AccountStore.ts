@@ -3,11 +3,14 @@ import { Signer } from "@waves/signer";
 import { ProviderWeb } from "@waves.exchange/provider-web";
 import { ProviderCloud } from "@waves.exchange/provider-cloud";
 import { ProviderKeeper } from "@waves/provider-keeper";
-import { NODE_URL } from "@src/constants";
-import { autorun, makeAutoObservable } from "mobx";
+import { NODE_URL, TOKENS_LIST } from "@src/constants";
+import { autorun, makeAutoObservable, reaction } from "mobx";
 import { getCurrentBrowser } from "@src/utils/getCurrentBrowser";
 import { nodeInteraction, waitForTx } from "@waves/waves-transactions";
 import { toast } from "react-toastify";
+import Balance from "@src/entities/Balance";
+import nodeService from "@src/services/nodeService";
+import BN from "@src/utils/BN";
 
 export enum LOGIN_TYPE {
   SIGNER_SEED = "SIGNER_SEED",
@@ -25,13 +28,13 @@ export interface IInvokeTxParams {
   };
 }
 
-export interface ITransferParams {
-  recipient: string;
-  amount: string;
-  assetId?: string;
-  attachment?: string;
-  feeAssetId?: string;
-}
+// export interface ITransferParams {
+//   recipient: string;
+//   amount: string;
+//   assetId?: string;
+//   attachment?: string;
+//   feeAssetId?: string;
+// }
 
 export interface ISerializedAccountStore {
   address: string | null;
@@ -69,11 +72,11 @@ class AccountStore {
   isWavesKeeperInstalled = false;
   setWavesKeeperInstalled = (state: boolean) =>
     (this.isWavesKeeperInstalled = state);
-  //
-  // assetsBalancesLoading = false;
-  // setAssetsBalancesLoading = (state: boolean) =>
-  //   (this.assetsBalancesLoading = state);
-  //
+
+  assetsBalancesLoading = false;
+  setAssetsBalancesLoading = (state: boolean) =>
+    (this.assetsBalancesLoading = state);
+
   loginModalOpened: boolean = false;
   setLoginModalOpened = (state: boolean) => (this.loginModalOpened = state);
 
@@ -91,9 +94,9 @@ class AccountStore {
   // setChangePoolModalOpened = (state: boolean) =>
   //   (this.changePoolModalOpened = state);
   //
-  // public assetBalances: Balance[] | null = null;
-  // setAssetBalances = (assetBalances: Balance[] | null) =>
-  //   (this.assetBalances = assetBalances);
+  public assetBalances: Balance[] | null = null;
+  setAssetBalances = (assetBalances: Balance[] | null) =>
+    (this.assetBalances = assetBalances);
   //
   // findBalanceByAssetId = (assetId: string) =>
   //   this.assetBalances &&
@@ -204,32 +207,28 @@ class AccountStore {
     loginType: this.loginType,
   });
 
-  // updateAccountAssets = async (force = false) => {
-  //   if (this.address == null) {
-  //     this.setAssetBalances([]);
-  //     return;
-  //   }
-  //   if (!force && this.assetsBalancesLoading) return;
-  //   this.setAssetsBalancesLoading(true);
-  //
-  //   const address = this.address;
-  //   const data = await nodeService.getAddressBalances(address);
-  //   const assetBalances = TOKENS_LIST.map((asset) => {
-  //     const t = data.find(({ assetId }) => asset.assetId === assetId);
-  //     const balance = new BN(t != null ? t.balance : 0);
-  //     const rate =
-  //       this.rootStore.poolsStore.usdnRate(asset.assetId, 1) ?? BN.ZERO;
-  //     const usdnEquivalent = rate
-  //       ? rate.times(BN.formatUnits(balance, asset.decimals))
-  //       : BN.ZERO;
-  //     return new Balance({ balance, usdnEquivalent, ...asset });
-  //   });
-  //   const newAddress = this.address;
-  //   if (address !== newAddress) return;
-  //
-  //   this.setAssetBalances(assetBalances);
-  //   this.setAssetsBalancesLoading(false);
-  // };
+  updateAccountAssets = async (force = false) => {
+    if (this.address == null) {
+      this.setAssetBalances([]);
+      return;
+    }
+    if (!force && this.assetsBalancesLoading) return;
+    this.setAssetsBalancesLoading(true);
+
+    const address = this.address;
+    const data = await nodeService.getAddressBalances(address);
+    const assetBalances = TOKENS_LIST.map((asset) => {
+      const t = data.find(({ assetId }) => asset.assetId === assetId);
+      const balance = new BN(t != null ? t.balance : 0);
+      return new Balance({ balance, ...asset });
+    });
+    console.log(assetBalances);
+    const newAddress = this.address;
+    if (address !== newAddress) return;
+
+    this.setAssetBalances(assetBalances);
+    this.setAssetsBalancesLoading(false);
+  };
 
   ///------------------transfer
   // public transfer = async (trParams: ITransferParams) =>

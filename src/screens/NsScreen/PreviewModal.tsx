@@ -14,6 +14,16 @@ interface IProps {
   visible: boolean;
 }
 
+// const Wrapper = styled.div`
+//   position: fixed;
+//   top: 0;
+//   bottom: 0;
+//   left: 0;
+//   right: 0;
+//   background: rgba(0, 0, 0, 0.5);
+//   z-index: 10;
+// `;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -27,7 +37,8 @@ const Container = styled.div`
 const PreviewModal: React.FC<IProps> = ({ ...rest }) => {
   const vm = useNsScreenVM();
   return (
-    <Dialog {...rest}>
+    // <Wrapper></Wrapper>
+    <Dialog {...rest} forceRender>
       <Container>
         <Preview />
         <SizedBox height={40} />
