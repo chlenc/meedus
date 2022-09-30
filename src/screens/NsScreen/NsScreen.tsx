@@ -31,7 +31,7 @@ const Root = styled.div`
   width: 100%;
   min-height: calc(100vh - 150px);
   max-width: calc(1160px + 32px);
-  //margin-top: 40px;
+  position: relative;
   @media (min-width: 1280px) {
     justify-content: stretch;
     padding: 0 24px;
@@ -78,6 +78,11 @@ const categoriesOptions = [
   { title: "Green", key: "#00CC5F" },
   { title: "Purple", key: "#AA00FF" },
 ];
+
+const HiddenPreview = styled.div`
+  position: absolute;
+  opacity: 0;
+`;
 const NsScreenImpl: React.FC<IProps> = observer(() => {
   const vm = useNsScreenVM();
   return (
@@ -162,6 +167,9 @@ const NsScreenImpl: React.FC<IProps> = observer(() => {
         visible={vm.previewModalOpened}
         onClose={() => vm.setPreviewModalOpened(false)}
       />
+      <HiddenPreview>
+        <Preview id="hidden-preview" />
+      </HiddenPreview>
     </Root>
   );
 });
