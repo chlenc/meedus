@@ -87,7 +87,7 @@ const NsScreenImpl: React.FC<IProps> = observer(() => {
   const vm = useNsScreenVM();
   return (
     <Root>
-      <Row alignItems="center" style={{ flex: 1 }}>
+      <Row alignItems="center" style={{ flex: 1, zIndex: 100 }}>
         <Column
           crossAxisSize="max"
           mainAxisSize="stretch"
