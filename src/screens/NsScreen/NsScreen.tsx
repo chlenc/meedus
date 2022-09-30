@@ -82,12 +82,13 @@ const categoriesOptions = [
 const HiddenPreview = styled.div`
   position: absolute;
   opacity: 0;
+  z-index: -1;
 `;
 const NsScreenImpl: React.FC<IProps> = observer(() => {
   const vm = useNsScreenVM();
   return (
     <Root>
-      <Row alignItems="center" style={{ flex: 1, zIndex: 100 }}>
+      <Row alignItems="center" style={{ flex: 1 }}>
         <Column
           crossAxisSize="max"
           mainAxisSize="stretch"
