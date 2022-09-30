@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.762f0bca.css",
-    "main.js": "/static/js/main.fb9a0ae4.js",
+    "main.js": "/static/js/main.edd89b0a.js",
     "static/media/connectWalletPic.png": "/static/media/connectWalletPic.3c756087c991bb95d905.png",
     "static/media/Epilogue-SemiBold.ttf": "/static/media/Epilogue-SemiBold.ea9abd0ab593c5517725.ttf",
     "static/media/Epilogue-Bold.ttf": "/static/media/Epilogue-Bold.bdac80b52eb29d7b751b.ttf",
@@ -14,10 +14,10 @@
     "static/media/arrowRightBorderless.svg": "/static/media/arrowRightBorderless.6a836b6770e14dcb65fe9d70421dbeed.svg",
     "static/media/wavesLogo.svg": "/static/media/wavesLogo.c1163608478d225143c1ba512a048a52.svg",
     "main.762f0bca.css.map": "/static/css/main.762f0bca.css.map",
-    "main.fb9a0ae4.js.map": "/static/js/main.fb9a0ae4.js.map"
+    "main.edd89b0a.js.map": "/static/js/main.edd89b0a.js.map"
   },
   "entrypoints": [
     "static/css/main.762f0bca.css",
-    "static/js/main.fb9a0ae4.js"
+    "static/js/main.edd89b0a.js"
   ]
 }
