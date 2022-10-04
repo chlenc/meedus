@@ -40,12 +40,6 @@ const GetNameBtn: React.FC<IProps> = ({ fitContent, ...rest }) => {
           Loading ...
         </Button>
       );
-    case vm.name.length < 4:
-      return (
-        <Button {...rest} fitContent={fitContent} disabled>
-          At least 4 symbols
-        </Button>
-      );
     case vm.existingNft != null:
       return (
         <Button {...rest} fitContent={fitContent} disabled>
@@ -59,10 +53,30 @@ const GetNameBtn: React.FC<IProps> = ({ fitContent, ...rest }) => {
         </Button>
       );
     default:
+      let disabled = vm.name.length <= 4;
       return (
-        <Button {...rest} fitContent={fitContent} onClick={vm.mint}>
-          Buy for {vm.calcPrice} WAVES
-        </Button>
+        <>
+          <Button
+            {...rest}
+            fitContent={fitContent}
+            onClick={() => !disabled && vm.mint()}
+            disabled={disabled}
+          >
+            {disabled
+              ? "You should use WNS0"
+              : ` Buy for ${vm.calcPrice} WAVES`}
+          </Button>
+          {vm.paymentAsset && (
+            <Button
+              {...rest}
+              style={{ marginTop: 16, background: "#FFDEA6" }}
+              fitContent={fitContent}
+              onClick={() => vm.mint(true)}
+            >
+              Buy for {vm.paymentAsset.symbol} token
+            </Button>
+          )}
+        </>
       );
   }
 };

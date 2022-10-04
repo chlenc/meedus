@@ -9,6 +9,7 @@ import BN from "@src/utils/BN";
 import nodeService from "@src/services/nodeService";
 import { toast } from "react-toastify";
 import makeNodeRequest from "@src/utils/makeNodeRequest";
+import { NS_DAPP, TOKENS_BY_ASSET_ID, TOKENS_BY_SYMBOL } from "@src/constants";
 
 const ctx = React.createContext<NsScreenVM | null>(null);
 
@@ -19,9 +20,6 @@ export const NsScreenVMProvider: React.FC<PropsWithChildren> = ({
   const store = useMemo(() => new NsScreenVM(rootStore), [rootStore]);
   return <ctx.Provider value={store}>{children}</ctx.Provider>;
 };
-
-const NS_DAPP = "3PGKEe4y59V3WLnHwPEUaMWdbzy8sb982fG"; //mainnet
-// const NS_DAPP = "3N9CHPgP4cjToRcdiwyvfBhmS1rJp1JXZ6M"; //testnet
 
 export const useNsScreenVM = () => useVM(ctx);
 let description =
@@ -44,12 +42,26 @@ class NsScreenVM {
     else return 0;
   }
 
-  get calcWNSPrice(): number {
+  get wnsTokensToPayment(): string[] {
     const len = this.name.toString().length;
-    if (len >= 8) return 15;
-    else if (len < 8 && len >= 6) return 20;
-    else if (len < 6 && len >= 4) return 25;
-    else return 0;
+    const wns0 = TOKENS_BY_SYMBOL.WNS0.assetId;
+    const wns1 = TOKENS_BY_SYMBOL.WNS1.assetId;
+    const wns2 = TOKENS_BY_SYMBOL.WNS2.assetId;
+    const wns3 = TOKENS_BY_SYMBOL.WNS3.assetId;
+    if (len >= 8) return [wns3, wns2, wns1, wns0];
+    else if (len < 8 && len >= 6) return [wns2, wns1, wns0];
+    else if (len < 6 && len >= 4) return [wns1, wns0];
+    else return [wns0];
+  }
+
+  get paymentAsset() {
+    const { assetBalances } = this.rootStore.accountStore;
+    const wnsTokens = this.wnsTokensToPayment;
+    const tokenAssetId = wnsTokens?.find((assetId) => {
+      const b = assetBalances?.find((b) => assetId === b.assetId);
+      return b?.balance?.gt(0);
+    });
+    return tokenAssetId != null ? TOKENS_BY_ASSET_ID[tokenAssetId] : null;
   }
 
   previewModalOpened: boolean = false;
@@ -85,13 +97,18 @@ class NsScreenVM {
     }
     const file = new File([blob], this.name);
     console.log(file);
-    // const res = await nftStorageService.storeNFT(file, this.name, description);
-    // return res.data.image
-    //   .toString()
-    //   .replace("ipfs://", "https://ipfs.io/ipfs/");
+    const res = await nftStorageService.storeNFT(file, this.name, description);
+    return res.data.image
+      .toString()
+      .replace("ipfs://", "https://ipfs.io/ipfs/");
   };
 
-  mint = async () => {
+  mint = async (wnsPayment?: boolean) => {
+    const wnsPaymentAssetId = this.paymentAsset?.assetId;
+    if (wnsPayment && wnsPaymentAssetId == null) {
+      toast.error("Try to use WAVES as payment");
+      return;
+    }
     this.setLoading(true);
     const link = await this.createImage();
     if (this.name == null || this.existingNft != null) {
@@ -102,23 +119,28 @@ class NsScreenVM {
       this.setLoading(false);
       return;
     }
-    const txId = await this.rootStore.accountStore.invoke({
-      dApp: NS_DAPP,
-      payment: [
-        {
+
+    const txPayment = wnsPayment
+      ? { assetId: wnsPaymentAssetId ?? "", amount: "1" }
+      : {
           assetId: "WAVES",
           amount: BN.parseUnits(new BN(this.calcPrice), 8).toString(),
-        },
-      ],
-      call: {
-        function: "mint",
-        args: [
-          { type: "string", value: this.name },
-          { type: "string", value: link },
-        ],
+        };
+    const args: Array<{ type: "integer" | "string"; value: string }> = [
+      {
+        type: "string",
+        value: this.name.length <= 3 ? this.name + ".vip" : this.name,
       },
-    });
-    this.setLoading(false);
+      { type: "string", value: link },
+    ];
+    const txParams = {
+      dApp: NS_DAPP,
+      payment: [txPayment],
+      call: { function: "mint", args },
+    };
+    const txId = await this.rootStore.accountStore
+      .invoke(txParams)
+      .finally(() => this.setLoading(false));
     if (txId != null) {
       toast.success("Congrats! You can check your name on puzzlemarket.org");
       return;

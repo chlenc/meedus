@@ -57,13 +57,13 @@ class AccountStore {
       }
       this.setAddress(initState.address);
     }
-    // Promise.all([this.checkScriptedAccount(), this.updateAccountAssets()]);
-    // setInterval(this.updateAccountAssets, 10 * 1000);
-    // reaction(
-    //   () => this.address,
-    //   () =>
-    //     Promise.all([this.checkScriptedAccount(), this.updateAccountAssets()])
-    // );
+    Promise.all([this.checkScriptedAccount(), this.updateAccountAssets()]);
+    setInterval(this.updateAccountAssets, 10 * 1000);
+    reaction(
+      () => this.address,
+      () =>
+        Promise.all([this.checkScriptedAccount(), this.updateAccountAssets()])
+    );
   }
 
   isAccScripted = false;
@@ -222,7 +222,6 @@ class AccountStore {
       const balance = new BN(t != null ? t.balance : 0);
       return new Balance({ balance, ...asset });
     });
-    console.log(assetBalances);
     const newAddress = this.address;
     if (address !== newAddress) return;
 
