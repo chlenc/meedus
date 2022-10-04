@@ -80,7 +80,7 @@ class NsScreenVM {
   setName = (name: string) => (this.name = name.toLowerCase());
 
   createImage = async () => {
-    const element = document.getElementById("nft-preview");
+    const element = document.getElementById("hidden-preview");
     if (element == null) {
       const e = "Error while getting element out of pic: element not found";
       console.error(e);
