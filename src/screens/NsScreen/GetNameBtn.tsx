@@ -53,7 +53,7 @@ const GetNameBtn: React.FC<IProps> = ({ fitContent, ...rest }) => {
         </Button>
       );
     default:
-      let disabled = vm.name.length <= 4;
+      let disabled = true;
       return (
         <>
           <Button
@@ -63,7 +63,7 @@ const GetNameBtn: React.FC<IProps> = ({ fitContent, ...rest }) => {
             disabled={disabled}
           >
             {disabled
-              ? "You should use WNS0"
+              ? "You should use WNS tokens"
               : ` Buy for ${vm.calcPrice} WAVES`}
           </Button>
           {vm.paymentAsset && (

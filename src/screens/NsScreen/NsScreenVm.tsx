@@ -87,7 +87,6 @@ class NsScreenVM {
       toast.error(e);
       return;
     }
-    console.log(element);
     const blob = await toBlob(element);
     if (blob == null) {
       const e = "Error while creating blob from pic";
@@ -96,7 +95,6 @@ class NsScreenVM {
       return;
     }
     const file = new File([blob], this.name);
-    console.log(file);
     const res = await nftStorageService.storeNFT(file, this.name, description);
     return res.data.image
       .toString()
@@ -111,6 +109,7 @@ class NsScreenVM {
     }
     this.setLoading(true);
     const link = await this.createImage();
+    console.log(link);
     if (this.name == null || this.existingNft != null) {
       return;
     }
