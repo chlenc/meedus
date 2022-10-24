@@ -1,23 +1,25 @@
 {
   "files": {
-    "main.css": "/static/css/main.762f0bca.css",
-    "main.js": "/static/js/main.4ef541c8.js",
+    "main.css": "/static/css/main.bbcacf11.css",
+    "main.js": "/static/js/main.14f81888.js",
     "static/media/connectWalletPic.png": "/static/media/connectWalletPic.3c756087c991bb95d905.png",
     "static/media/Epilogue-SemiBold.ttf": "/static/media/Epilogue-SemiBold.ea9abd0ab593c5517725.ttf",
     "static/media/Epilogue-Bold.ttf": "/static/media/Epilogue-Bold.bdac80b52eb29d7b751b.ttf",
     "static/media/Epilogue-Medium.ttf": "/static/media/Epilogue-Medium.ac63e119f7ca3db165bc.ttf",
     "static/media/Epilogue-Regular.ttf": "/static/media/Epilogue-Regular.666614487352ae23e96b.ttf",
-    "static/media/bigLogo.svg": "/static/media/bigLogo.5b24e0c5d5ef4e6ef6d6babbb77ada8c.svg",
+    "static/media/bigLogo.svg": "/static/media/bigLogo.f74a199447552ae1a2ce3d614f09a16c.svg",
+    "static/media/roundLogo.svg": "/static/media/roundLogo.fe3b93a39c218b5e7e48431367752cad.svg",
     "index.html": "/index.html",
-    "static/media/search.svg": "/static/media/search.a4126affe8db25d0dbe2c02758194288.svg",
+    "static/media/burger.svg": "/static/media/burger.e36c70416ec5e26e8714e8e84ef56652.svg",
+    "static/media/search.svg": "/static/media/search.0384bddc15418d23e97c703e28413ac1.svg",
     "static/media/closeBtn.svg": "/static/media/closeBtn.8351a9ab555393ff5271c597c3824fa8.svg",
     "static/media/arrowRightBorderless.svg": "/static/media/arrowRightBorderless.6a836b6770e14dcb65fe9d70421dbeed.svg",
     "static/media/wavesLogo.svg": "/static/media/wavesLogo.c1163608478d225143c1ba512a048a52.svg",
-    "main.762f0bca.css.map": "/static/css/main.762f0bca.css.map",
-    "main.4ef541c8.js.map": "/static/js/main.4ef541c8.js.map"
+    "main.bbcacf11.css.map": "/static/css/main.bbcacf11.css.map",
+    "main.14f81888.js.map": "/static/js/main.14f81888.js.map"
   },
   "entrypoints": [
-    "static/css/main.762f0bca.css",
-    "static/js/main.4ef541c8.js"
+    "static/css/main.bbcacf11.css",
+    "static/js/main.14f81888.js"
   ]
 }
