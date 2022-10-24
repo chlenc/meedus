@@ -6,7 +6,8 @@ const logos = require("./tokenLogos.json");
 
 export const ROUTES = {
   ROOT: "/",
-  LOGIN: "/login",
+  NAMESERVICE: "/nameservice",
+  PARTNERS: "/partners",
 };
 
 export const TOKEN_LOGO_BY_ASSET_ID: Record<string, string> = logos;

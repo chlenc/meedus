@@ -15,16 +15,6 @@ body {
     flex: 1 1 auto;
 }
 
-:root{
-    --rsbs-backdrop-bg: rgba(11, 11, 13, 0.64);
-    --rsbs-bg: #2A2A32;
-    --rsbs-handle-bg: #A2A2C0;
-    --rsbs-max-w: auto;
-    --rsbs-overlay-rounded: 16px;
-    --rsbs-ml: 0;
-    --rsbs-mr: 0;
-}
-
 a {
     text-decoration: none;
 }

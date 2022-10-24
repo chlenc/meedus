@@ -31,7 +31,7 @@ const Text = styled.div<{
         case "large":
           return "font-size: 40px;line-height: 48px;";
         case "title":
-          return "font-size: 26px;line-height: 34px;";
+          return "font-size: 24px;line-height: 32px;";
         case "big":
           return "font-size: 20px; line-height: 28px;";
         case "medium":
@@ -39,7 +39,7 @@ const Text = styled.div<{
         case "small":
           return "font-size: 12px; line-height: 16px;";
         default:
-          return "font-size: 14px; line-height: 20px;";
+          return "font-size: 13px; line-height: 20px;";
       }
     })()}
   ${({ type }) =>
