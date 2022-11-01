@@ -111,6 +111,7 @@ const Header: React.FC<IProps> = () => {
       <MenuWrapperDesktop>
         {menuItems.map((item, i) => (
           <MenuItem
+            key={i}
             to={item.link}
             selected={item.routes.includes(location.pathname)}
           >
