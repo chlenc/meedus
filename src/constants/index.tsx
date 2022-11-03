@@ -8,6 +8,7 @@ export const ROUTES = {
   ROOT: "/",
   NAMESERVICE: "/nameservice",
   PARTNERS: "/partners",
+  AUCTION: "/auction/:id",
 };
 
 export const TOKEN_LOGO_BY_ASSET_ID: Record<string, string> = logos;

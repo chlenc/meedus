@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
 import React, { HTMLAttributes, useState } from "react";
 import Tooltip from "./Tooltip";
-import arrowIcon from "@src/assets/icons/arrowRightBorderless.svg";
 import SizedBox from "@components/SizedBox";
-import { Column } from "./Flex";
+import { Column, Row } from "./Flex";
 import useElementSize from "@src/hooks/useElementSize";
+import Text from "@components/Text";
 
 interface IProps extends Omit<HTMLAttributes<HTMLDivElement>, "onSelect"> {
   options: IOption[];
@@ -98,7 +98,7 @@ const Select: React.FC<IProps> = ({
   return (
     <Tooltip
       config={{
-        placement: "bottom-start",
+        placement: "bottom-end",
         trigger: "click",
         onVisibleChange: setFocused,
       }}
@@ -122,28 +122,33 @@ const Select: React.FC<IProps> = ({
         </Column>
       }
     >
-      <Root
-        focused={focused}
-        ref={squareRef}
-        onClick={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        {...rest}
-      >
-        {selected == null ? (
-          <div style={{ padding: "14px 16px", color: "#aaaaaa" }}>
-            {placeholder}
-          </div>
-        ) : (
-          <Option>
-            <SizedBox width={17} />
-            <Circle bg={selected.key} />
-            <SizedBox width={8} />
-            <p>{selected.title}</p>
-          </Option>
-        )}
-        <SizedBox width={10} />
-        <img src={arrowIcon} className="menu-arrow" alt="arrow" />
-      </Root>
+      <Row justifyContent="flex-end" alignItems="center">
+        <Text fitContent>Select color</Text>
+        <SizedBox width={12} />
+        <Circle bg={selected?.key ?? "#fff"} />
+      </Row>
+      {/*<Root*/}
+      {/*  focused={focused}*/}
+      {/*  ref={squareRef}*/}
+      {/*  onClick={() => setFocused(true)}*/}
+      {/*  onBlur={() => setFocused(false)}*/}
+      {/*  {...rest}*/}
+      {/*>*/}
+      {/*  {selected == null ? (*/}
+      {/*    <div style={{ padding: "14px 16px", color: "#aaaaaa" }}>*/}
+      {/*      {placeholder}*/}
+      {/*    </div>*/}
+      {/*  ) : (*/}
+      {/*    <Option>*/}
+      {/*      <SizedBox width={17} />*/}
+      {/*      <Circle bg={selected.key} />*/}
+      {/*      <SizedBox width={8} />*/}
+      {/*      <p>{selected.title}</p>*/}
+      {/*    </Option>*/}
+      {/*  )}*/}
+      {/*  <SizedBox width={10} />*/}
+      {/*  <img src={arrowIcon} className="menu-arrow" alt="arrow" />*/}
+      {/*</Root>*/}
     </Tooltip>
   );
 };

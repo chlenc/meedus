@@ -1,17 +1,16 @@
 import styled from "@emotion/styled";
 import React from "react";
 import {
-  NsScreenVMProvider,
-  useNsScreenVM,
-} from "@screens/NsScreen/NsScreenVm";
+  AuctionScreenVMProvider,
+  useAuctionScreenVM,
+} from "@screens/AuctionScreen/AuctionScreenVm";
 import { observer } from "mobx-react-lite";
 import Text from "@components/Text";
 import SizedBox from "@components/SizedBox";
 import { Column, Row } from "@src/components/Flex";
 import Preview from "@components/Preview";
-import PreviewModal from "@screens/NsScreen/PreviewModal";
+import PreviewModal from "@screens/AuctionScreen/PreviewModal";
 import Button from "@components/Button";
-import GetNameBtn from "@screens/NsScreen/GetNameBtn";
 import Input from "@components/Input";
 import Select from "@components/Select";
 import { Anchor } from "@components/Anchor";
@@ -84,8 +83,8 @@ const HiddenPreview = styled.div`
   opacity: 0;
   z-index: -1;
 `;
-const NsScreenImpl: React.FC<IProps> = observer(() => {
-  const vm = useNsScreenVM();
+const AuctionScreenImpl: React.FC<IProps> = observer(() => {
+  const vm = useAuctionScreenVM();
   return (
     <Root>
       <Row alignItems="center" style={{ flex: 1 }}>
@@ -118,7 +117,7 @@ const NsScreenImpl: React.FC<IProps> = observer(() => {
               onSelect={(v) => vm.setBg(v)}
             />
             <SizedBox height={40} />
-            <GetNameBtn />
+            {/*<GetNameBtn />*/}
           </Column>
           <SizedBox height={30} />
           <Anchor href="https://t.me/meedus_nft">
@@ -175,12 +174,12 @@ const NsScreenImpl: React.FC<IProps> = observer(() => {
   );
 });
 
-const NsScreen = () => (
-  <NsScreenVMProvider>
+const AuctionScreen = () => (
+  <AuctionScreenVMProvider>
     <Layout>
-      <NsScreenImpl />
+      <AuctionScreenImpl />
     </Layout>
-  </NsScreenVMProvider>
+  </AuctionScreenVMProvider>
 );
 
-export default NsScreen;
+export default AuctionScreen;

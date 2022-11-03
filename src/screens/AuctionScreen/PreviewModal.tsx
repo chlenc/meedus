@@ -4,8 +4,8 @@ import { observer } from "mobx-react-lite";
 import Preview from "@components/Preview";
 import styled from "@emotion/styled";
 import SizedBox from "@components/SizedBox";
-import GetNameBtn from "@screens/NsScreen/GetNameBtn";
-import { useNsScreenVM } from "@screens/NsScreen/NsScreenVm";
+import GetNameBtn from "@screens/AuctionScreen/GetNameBtn";
+import { useAuctionScreenVM } from "@screens/AuctionScreen/AuctionScreenVm";
 import Button from "@components/Button";
 import { Anchor } from "@components/Anchor";
 
@@ -25,7 +25,7 @@ const Container = styled.div`
   }
 `;
 const PreviewModal: React.FC<IProps> = ({ ...rest }) => {
-  const vm = useNsScreenVM();
+  const vm = useAuctionScreenVM();
   return (
     <Dialog {...rest} forceRender>
       <Container>

@@ -29,7 +29,7 @@ const PreviewModal: React.FC<IProps> = ({ ...rest }) => {
   return (
     <Dialog {...rest} forceRender>
       <Container>
-        <Preview />
+        <Preview nft={vm.existingNft} bg={vm.bg} name={vm.name} />
         <SizedBox height={40} />
         {vm.existingNft == null ? (
           <GetNameBtn fitContent />
