@@ -12,6 +12,7 @@ import Input from "@components/Input";
 import Layout from "@components/Layout";
 import ExistPreview from "@screens/NameServiceScreen/ExistPreview";
 import NotExistPreview from "@screens/NameServiceScreen/NotExistPreview";
+import ActiveBids from "@screens/NameServiceScreen/ActiveBids";
 
 interface IProps {}
 
@@ -89,6 +90,7 @@ const NameServiceScreenImpl: React.FC<IProps> = observer(() => {
             ) : (
               <NotExistPreview />
             ))}
+          <ActiveBids />
         </Column>
       </Row>
     </Root>
