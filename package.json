@@ -2,7 +2,7 @@
   "name": "lineup",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ns.meedus.space",
+  "homepage": "https://app.meedus.space",
   "dependencies": {
     "@babel/core": "^7.16.0",
     "@emotion/core": "^11.0.0",
