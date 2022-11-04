@@ -16,6 +16,7 @@ import Input from "@components/Input";
 import Select from "@components/Select";
 import { Anchor } from "@components/Anchor";
 import Layout from "@components/Layout";
+import { BADGE_COLORS } from "@src/constants";
 
 interface IProps {}
 
@@ -67,17 +68,6 @@ const Title = styled(Text)`
     line-height: 64px;
   }
 `;
-const categoriesOptions = [
-  {
-    title: "Waves Blue",
-    key: "#0055FF",
-  },
-  { title: "Red", key: "#FF4940" },
-  { title: "Orange", key: "#FF8D00" },
-  { title: "Yellow", key: "#FFDA0B" },
-  { title: "Green", key: "#00CC5F" },
-  { title: "Purple", key: "#AA00FF" },
-];
 
 const HiddenPreview = styled.div`
   position: absolute;
@@ -112,7 +102,7 @@ const NsScreenImpl: React.FC<IProps> = observer(() => {
             <SizedBox height={16} />
 
             <Select
-              options={categoriesOptions}
+              options={BADGE_COLORS}
               selected={vm.bg}
               placeholder="Select background color"
               onSelect={(v) => vm.setBg(v)}

@@ -13,7 +13,6 @@ const Root = styled.div<{ width?: number }>`
   display: flex;
   background: #ffffff;
   border: 2px solid #000000;
-  min-width: 240px;
   border-radius: 8px;
   ${({ width }) => (width != null ? `width: ${width}px` : "max-width: 320px")};
   box-sizing: border-box;

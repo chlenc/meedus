@@ -4,7 +4,6 @@ import { observer } from "mobx-react-lite";
 import Preview from "@components/Preview";
 import styled from "@emotion/styled";
 import SizedBox from "@components/SizedBox";
-import GetNameBtn from "@screens/AuctionScreen/GetNameBtn";
 import { useAuctionScreenVM } from "@screens/AuctionScreen/AuctionScreenVm";
 import Button from "@components/Button";
 import { Anchor } from "@components/Anchor";
@@ -32,7 +31,9 @@ const PreviewModal: React.FC<IProps> = ({ ...rest }) => {
         <Preview />
         <SizedBox height={40} />
         {vm.existingNft == null ? (
-          <GetNameBtn fitContent />
+          <Button onClick={vm.placeBid} fitContent>
+            Place bid
+          </Button>
         ) : (
           <Anchor href={`https://puzzlemarket.org/nft/${vm.existingNft?.id}`}>
             <Button>View on Puzzle Market</Button>

@@ -10,7 +10,6 @@ import SizedBox from "@components/SizedBox";
 import { Column, Row } from "@src/components/Flex";
 import Input from "@components/Input";
 import Layout from "@components/Layout";
-import Button from "@components/Button";
 import ExistPreview from "@screens/NameServiceScreen/ExistPreview";
 import NotExistPreview from "@screens/NameServiceScreen/NotExistPreview";
 
@@ -35,24 +34,7 @@ const Root = styled.div`
     padding: 0 24px;
   } ;
 `;
-const DesktopPreview = styled(Column)`
-  background: #eeeeee;
-  box-sizing: border-box;
-  padding: 18vh 0;
-  border-radius: 8px;
-  display: none;
-  height: 100%;
-  position: relative;
-  @media (min-width: 1280px) {
-    display: flex;
-  }
-`;
-const MobilePreview = styled(Column)`
-  display: flex;
-  @media (min-width: 1280px) {
-    display: none;
-  }
-`;
+
 const Title = styled(Text)`
   border-radius: 8px;
   padding: 0 8px;
@@ -66,11 +48,6 @@ const Title = styled(Text)`
   }
 `;
 
-const HiddenPreview = styled.div`
-  position: absolute;
-  opacity: 0;
-  z-index: -1;
-`;
 const NameServiceScreenImpl: React.FC<IProps> = observer(() => {
   const vm = useNameServiceScreenVM();
   return (
@@ -93,18 +70,18 @@ const NameServiceScreenImpl: React.FC<IProps> = observer(() => {
             Find your perfect .waves domain
           </Text>
           <SizedBox height={40} />
-          <Row style={{ width: "100%" }}>
-            <Input
-              onFocus={() => vm.setExistingNft(null)}
-              onBlur={() => vm.checkNft()}
-              onChange={(e) => vm.setName(e.target.value)}
-              placeholder="Enter domain"
-              value={vm.name}
-              suffix=".waves"
-            />
-            <SizedBox width={16} />
-            <Button style={{ width: 160 }}>Search</Button>
-          </Row>
+          {/*<Row style={{ width: "100%" }}>*/}
+          <Input
+            onFocus={() => vm.setExistingNft(null)}
+            onBlur={() => vm.checkNft()}
+            onChange={(e) => vm.setName(e.target.value)}
+            placeholder="Enter domain"
+            value={vm.name}
+            suffix=".waves"
+          />
+          {/*<SizedBox width={16} />*/}
+          {/*<Button style={{ width: 160 }}>Search</Button>*/}
+          {/*</Row>*/}
           <SizedBox height={40} />
           {vm.name.length > 0 &&
             (vm.existingNft != null ? (

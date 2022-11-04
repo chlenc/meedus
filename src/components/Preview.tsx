@@ -81,7 +81,7 @@ const Preview: React.FC<IProps> = ({ nft, bg, name, ...rest }) => {
   return (
     <Wrapper>
       {nft != null ? (
-        nft.img != "" ? (
+        nft.img !== "" ? (
           <PreviewImg src={nft.img} alt={nft.id} />
         ) : null
       ) : (

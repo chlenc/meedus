@@ -12,9 +12,10 @@ import Preview from "@components/Preview";
 import PreviewModal from "@screens/AuctionScreen/PreviewModal";
 import Button from "@components/Button";
 import Input from "@components/Input";
-import Select from "@components/Select";
 import { Anchor } from "@components/Anchor";
 import Layout from "@components/Layout";
+import { useParams } from "react-router-dom";
+import { BADGE_COLORS } from "@src/constants";
 
 interface IProps {}
 
@@ -66,17 +67,6 @@ const Title = styled(Text)`
     line-height: 64px;
   }
 `;
-const categoriesOptions = [
-  {
-    title: "Waves Blue",
-    key: "#0055FF",
-  },
-  { title: "Red", key: "#FF4940" },
-  { title: "Orange", key: "#FF8D00" },
-  { title: "Yellow", key: "#FFDA0B" },
-  { title: "Green", key: "#00CC5F" },
-  { title: "Purple", key: "#AA00FF" },
-];
 
 const HiddenPreview = styled.div`
   position: absolute;
@@ -106,23 +96,19 @@ const AuctionScreenImpl: React.FC<IProps> = observer(() => {
               placeholder="Enter your name"
               value={vm.name}
               suffix=".waves"
-              onChange={(e) => vm.setName(e.target.value)}
+              readOnly
             />
             <SizedBox height={16} />
-
-            <Select
-              options={categoriesOptions}
-              selected={vm.bg}
-              placeholder="Select background color"
-              onSelect={(v) => vm.setBg(v)}
-            />
+            <Input suffix="WAVES" placeholder="Your bid" />
+            <SizedBox height={16} />
+            <Input suffix="WAVES" placeholder="Deposit (optional)" />
             <SizedBox height={40} />
-            {/*<GetNameBtn />*/}
+            <Button onClick={vm.placeBid}>Place bid</Button>
           </Column>
           <SizedBox height={30} />
           <Anchor href="https://t.me/meedus_nft">
             <Text weight={700} fitContent size="medium">
-              What is .waves name?
+              How it works?
             </Text>
           </Anchor>
         </Column>
@@ -155,7 +141,7 @@ const AuctionScreenImpl: React.FC<IProps> = observer(() => {
               </Button>
             </Anchor>
           )}
-          <Preview />
+          <Preview name={vm.name} bg={vm.bg} />
         </DesktopPreview>
       </Row>
       <MobilePreview>
@@ -174,12 +160,19 @@ const AuctionScreenImpl: React.FC<IProps> = observer(() => {
   );
 });
 
-const AuctionScreen = () => (
-  <AuctionScreenVMProvider>
-    <Layout>
-      <AuctionScreenImpl />
-    </Layout>
-  </AuctionScreenVMProvider>
-);
+const AuctionScreen = () => {
+  const { name, bg } = useParams<{ name?: string; bg: string }>();
+  console.log({ name, bg });
+  const color =
+    BADGE_COLORS.find(({ key }) => key === `#${bg}`) ?? BADGE_COLORS[0];
+  // if (name == null) return <Navigate to={ROUTES.NAMESERVICE} />;
+  return (
+    <AuctionScreenVMProvider name={name ?? ""} bg={color}>
+      <Layout>
+        <AuctionScreenImpl />
+      </Layout>
+    </AuctionScreenVMProvider>
+  );
+};
 
 export default AuctionScreen;

@@ -21,4 +21,5 @@ export async function storeNFT(image: File, name: string, description: string) {
   });
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default { storeNFT };

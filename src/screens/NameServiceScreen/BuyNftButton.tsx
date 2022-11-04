@@ -3,15 +3,17 @@ import { useStores } from "@stores";
 import Button from "@components/Button";
 import { observer } from "mobx-react-lite";
 import { useNameServiceScreenVM } from "@screens/NameServiceScreen/NameServiceScreenVm";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@src/constants";
 
 interface IProps extends HTMLAttributes<HTMLButtonElement> {
   fitContent?: boolean;
 }
+
 const BuyNftButton: React.FC<IProps> = ({ fitContent, ...rest }) => {
   const { accountStore } = useStores();
   const vm = useNameServiceScreenVM();
+  const navigate = useNavigate();
   switch (true) {
     case accountStore.address == null:
       return (
@@ -57,11 +59,20 @@ const BuyNftButton: React.FC<IProps> = ({ fitContent, ...rest }) => {
     default:
       return (
         <>
-          <Navigate to={ROUTES.AUCTION.replace(":id", vm.name)}>
-            <Button {...rest} fitContent={fitContent}>
-              Go to auction
-            </Button>
-          </Navigate>
+          <Button
+            {...rest}
+            fitContent={fitContent}
+            onClick={() =>
+              navigate(
+                ROUTES.AUCTION.replace(":name", vm.name).replace(
+                  ":bg",
+                  vm.bg?.key.replace("#", "") ?? ""
+                )
+              )
+            }
+          >
+            Go to auction
+          </Button>
           {vm.paymentAsset && (
             <Button
               {...rest}

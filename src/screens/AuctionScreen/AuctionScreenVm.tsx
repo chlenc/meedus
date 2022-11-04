@@ -5,7 +5,6 @@ import { RootStore, useStores } from "@stores";
 import { toBlob } from "html-to-image";
 import nftStorageService from "@src/services/nftStorageService";
 import { IOption } from "@components/Select";
-import BN from "@src/utils/BN";
 import nodeService from "@src/services/nodeService";
 import { toast } from "react-toastify";
 import makeNodeRequest from "@src/utils/makeNodeRequest";
@@ -13,11 +12,21 @@ import { NS_DAPP, TOKENS_BY_ASSET_ID, TOKENS_BY_SYMBOL } from "@src/constants";
 
 const ctx = React.createContext<AuctionScreenVM | null>(null);
 
-export const AuctionScreenVMProvider: React.FC<PropsWithChildren> = ({
+interface IProps extends PropsWithChildren {
+  name: string;
+  bg: IOption;
+}
+
+export const AuctionScreenVMProvider: React.FC<IProps> = ({
+  name,
+  bg,
   children,
 }) => {
   const rootStore = useStores();
-  const store = useMemo(() => new AuctionScreenVM(rootStore), [rootStore]);
+  const store = useMemo(
+    () => new AuctionScreenVM(rootStore, name, bg),
+    [bg, name, rootStore]
+  );
   return <ctx.Provider value={store}>{children}</ctx.Provider>;
 };
 
@@ -28,7 +37,11 @@ let description =
 type TNftData = { id: string; img: string };
 
 class AuctionScreenVM {
-  constructor(private rootStore: RootStore) {
+  constructor(
+    private rootStore: RootStore,
+    public name: string,
+    public bg: IOption
+  ) {
     makeAutoObservable(this);
     setInterval(this.checkNft, 30 * 1000);
     reaction(() => this.name, this.checkNft);
@@ -73,12 +86,6 @@ class AuctionScreenVM {
   loading = false;
   setLoading = (v: boolean) => (this.loading = v);
 
-  bg: IOption | null = null;
-  setBg = (bg: IOption) => (this.bg = bg);
-
-  name: string = "";
-  setName = (name: string) => (this.name = name.toLowerCase());
-
   createImage = async () => {
     const element = document.getElementById("hidden-preview");
     if (element == null) {
@@ -101,53 +108,7 @@ class AuctionScreenVM {
       .replace("ipfs://", "https://ipfs.io/ipfs/");
   };
 
-  mint = async (wnsPayment?: boolean) => {
-    const wnsPaymentAssetId = this.paymentAsset?.assetId;
-    if (wnsPayment && wnsPaymentAssetId == null) {
-      toast.error("Try to use WAVES as payment");
-      return;
-    }
-    this.setLoading(true);
-    const link = await this.createImage();
-    console.log(link);
-    if (this.name == null || this.existingNft != null) {
-      return;
-    }
-    if (link == null) {
-      toast.error("Something went wrong");
-      this.setLoading(false);
-      return;
-    }
-
-    const txPayment = wnsPayment
-      ? { assetId: wnsPaymentAssetId ?? "", amount: "1" }
-      : {
-          assetId: "WAVES",
-          amount: BN.parseUnits(new BN(this.calcPrice), 8).toString(),
-        };
-    const args: Array<{ type: "integer" | "string"; value: string }> = [
-      {
-        type: "string",
-        value: this.name.length <= 3 ? this.name + ".vip" : this.name,
-      },
-      { type: "string", value: link },
-    ];
-    const txParams = {
-      dApp: NS_DAPP,
-      payment: [txPayment],
-      call: { function: "mint", args },
-    };
-    const txId = await this.rootStore.accountStore
-      .invoke(txParams)
-      .finally(() => this.setLoading(false));
-    if (txId != null) {
-      toast.success("Congrats! You can check your name on puzzlemarket.org");
-      return;
-    } else {
-      toast.error("Something went wrong");
-      return;
-    }
-  };
+  placeBid = async () => {};
 
   private getNftData = async (): Promise<TNftData | null> => {
     const res = await nodeService.nodeKeysRequest(NS_DAPP, this.name);

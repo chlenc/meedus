@@ -8,7 +8,7 @@ export const ROUTES = {
   ROOT: "/",
   NAMESERVICE: "/nameservice",
   PARTNERS: "/partners",
-  AUCTION: "/auction/:id",
+  AUCTION: "/auction/:name/:bg",
 };
 
 export const TOKEN_LOGO_BY_ASSET_ID: Record<string, string> = logos;
@@ -40,3 +40,15 @@ export const TOKENS_BY_SYMBOL: Record<string, IToken> = TOKENS_LIST.reduce(
   (acc, t) => ({ ...acc, [t.symbol]: t }),
   {}
 );
+
+export const BADGE_COLORS = [
+  {
+    title: "Waves Blue",
+    key: "#0055FF",
+  },
+  { title: "Red", key: "#FF4940" },
+  { title: "Orange", key: "#FF8D00" },
+  { title: "Yellow", key: "#FFDA0B" },
+  { title: "Green", key: "#00CC5F" },
+  { title: "Purple", key: "#AA00FF" },
+];
