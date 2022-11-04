@@ -16,6 +16,8 @@ import { Anchor } from "@components/Anchor";
 import Layout from "@components/Layout";
 import { useParams } from "react-router-dom";
 import { BADGE_COLORS } from "@src/constants";
+import BigNumberInput from "@components/BigNumberInput";
+import PlaceBidButton from "@screens/AuctionScreen/PlaceBidButton";
 
 interface IProps {}
 
@@ -99,11 +101,37 @@ const AuctionScreenImpl: React.FC<IProps> = observer(() => {
               readOnly
             />
             <SizedBox height={16} />
-            <Input suffix="WAVES" placeholder="Your bid" />
+            <BigNumberInput
+              renderInput={(props, ref) => (
+                <Input
+                  {...props}
+                  value={props.value as string}
+                  inputRef={ref}
+                  suffix="WAVES"
+                  placeholder="Your bid"
+                />
+              )}
+              decimals={8}
+              onChange={vm.setBid}
+              value={vm.bid}
+            />
             <SizedBox height={16} />
-            <Input suffix="WAVES" placeholder="Deposit (optional)" />
+            <BigNumberInput
+              renderInput={(props, ref) => (
+                <Input
+                  {...props}
+                  value={props.value as string}
+                  inputRef={ref}
+                  suffix="WAVES"
+                  placeholder="Your bid"
+                />
+              )}
+              onChange={vm.setDeposit}
+              value={vm.deposit}
+              decimals={8}
+            />
             <SizedBox height={40} />
-            <Button onClick={vm.placeBid}>Place bid</Button>
+            <PlaceBidButton />
           </Column>
           <SizedBox height={30} />
           <Anchor href="https://t.me/meedus_nft">
@@ -162,7 +190,6 @@ const AuctionScreenImpl: React.FC<IProps> = observer(() => {
 
 const AuctionScreen = () => {
   const { name, bg } = useParams<{ name?: string; bg: string }>();
-  console.log({ name, bg });
   const color =
     BADGE_COLORS.find(({ key }) => key === `#${bg}`) ?? BADGE_COLORS[0];
   // if (name == null) return <Navigate to={ROUTES.NAMESERVICE} />;

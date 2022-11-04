@@ -7,6 +7,7 @@ import SizedBox from "@components/SizedBox";
 import { useAuctionScreenVM } from "@screens/AuctionScreen/AuctionScreenVm";
 import Button from "@components/Button";
 import { Anchor } from "@components/Anchor";
+import PlaceBidButton from "@screens/AuctionScreen/PlaceBidButton";
 
 interface IProps {
   onClose: () => void;
@@ -31,9 +32,7 @@ const PreviewModal: React.FC<IProps> = ({ ...rest }) => {
         <Preview />
         <SizedBox height={40} />
         {vm.existingNft == null ? (
-          <Button onClick={vm.placeBid} fitContent>
-            Place bid
-          </Button>
+          <PlaceBidButton />
         ) : (
           <Anchor href={`https://puzzlemarket.org/nft/${vm.existingNft?.id}`}>
             <Button>View on Puzzle Market</Button>

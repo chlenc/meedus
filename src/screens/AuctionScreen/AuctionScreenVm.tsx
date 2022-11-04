@@ -9,6 +9,7 @@ import nodeService from "@src/services/nodeService";
 import { toast } from "react-toastify";
 import makeNodeRequest from "@src/utils/makeNodeRequest";
 import { NS_DAPP, TOKENS_BY_ASSET_ID, TOKENS_BY_SYMBOL } from "@src/constants";
+import BN from "@src/utils/BN";
 
 const ctx = React.createContext<AuctionScreenVM | null>(null);
 
@@ -85,6 +86,11 @@ class AuctionScreenVM {
 
   loading = false;
   setLoading = (v: boolean) => (this.loading = v);
+
+  setBid = (n: BN) => (this.bid = n);
+  bid: BN = BN.ZERO;
+  setDeposit = (n: BN) => (this.deposit = n);
+  deposit: BN = BN.ZERO;
 
   createImage = async () => {
     const element = document.getElementById("hidden-preview");

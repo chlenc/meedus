@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, Ref, RefObject, useState } from "react";
 import Text from "@components/Text";
 import { ReactComponent as SearchIcon } from "@src/assets/icons/search.svg";
 
@@ -20,6 +20,7 @@ interface IProps
   error?: boolean;
   errorText?: string;
   description?: string;
+  inputRef?: RefObject<HTMLInputElement>;
 }
 
 const Root = styled.div<{
@@ -83,6 +84,7 @@ const Input: React.FC<IProps> = ({
   errorText,
   description,
   icon,
+  inputRef,
   ...rest
 }) => {
   const [focused, setFocused] = useState(false);
@@ -97,6 +99,7 @@ const Input: React.FC<IProps> = ({
           placeholder={placeholder}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
+          ref={inputRef}
         />
         {suffix != null && <Text fitContent>{suffix}</Text>}
       </Root>
