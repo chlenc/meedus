@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React, { ChangeEvent, Ref, RefObject, useState } from "react";
+import React, { ChangeEvent, RefObject, useState } from "react";
 import Text from "@components/Text";
 import { ReactComponent as SearchIcon } from "@src/assets/icons/search.svg";
 
