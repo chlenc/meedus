@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.bbcacf11.css",
-    "main.js": "/static/js/main.a9e1c9af.js",
+    "main.js": "/static/js/main.c06402c8.js",
     "static/media/connectWalletPic.png": "/static/media/connectWalletPic.3c756087c991bb95d905.png",
     "static/media/Epilogue-SemiBold.ttf": "/static/media/Epilogue-SemiBold.ea9abd0ab593c5517725.ttf",
     "static/media/Epilogue-Bold.ttf": "/static/media/Epilogue-Bold.bdac80b52eb29d7b751b.ttf",
@@ -12,14 +12,15 @@
     "index.html": "/index.html",
     "static/media/burger.svg": "/static/media/burger.e36c70416ec5e26e8714e8e84ef56652.svg",
     "static/media/search.svg": "/static/media/search.0384bddc15418d23e97c703e28413ac1.svg",
+    "static/media/check.svg": "/static/media/check.5146be9e62689dc0f086068bd629f81c.svg",
     "static/media/closeBtn.svg": "/static/media/closeBtn.8351a9ab555393ff5271c597c3824fa8.svg",
     "static/media/arrowRightBorderless.svg": "/static/media/arrowRightBorderless.6a836b6770e14dcb65fe9d70421dbeed.svg",
     "static/media/wavesLogo.svg": "/static/media/wavesLogo.c1163608478d225143c1ba512a048a52.svg",
     "main.bbcacf11.css.map": "/static/css/main.bbcacf11.css.map",
-    "main.a9e1c9af.js.map": "/static/js/main.a9e1c9af.js.map"
+    "main.c06402c8.js.map": "/static/js/main.c06402c8.js.map"
   },
   "entrypoints": [
     "static/css/main.bbcacf11.css",
-    "static/js/main.a9e1c9af.js"
+    "static/js/main.c06402c8.js"
   ]
 }
