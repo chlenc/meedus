@@ -90,13 +90,13 @@ const menuItems = [
   {
     title: "Name Service",
     link: ROUTES.NAMESERVICE,
-    routes: [ROUTES.NAMESERVICE],
+    routes: [ROUTES.NAMESERVICE, ROUTES.AUCTION],
   },
-  {
-    title: "Partners",
-    link: ROUTES.PARTNERS,
-    routes: [ROUTES.PARTNERS],
-  },
+  // {
+  //   title: "Partners",
+  //   link: ROUTES.PARTNERS,
+  //   routes: [ROUTES.PARTNERS],
+  // },
 ];
 
 const Header: React.FC<IProps> = () => {

@@ -56,7 +56,7 @@ const NotExistPreview: React.FC<IProps> = () => {
         />
       </Row>
       <SizedBox height={42} />
-      <Preview bg={vm.bg} name={vm.name} />
+      <Preview id="hidden-preview" bg={vm.bg} name={vm.name} />
       <SizedBox height={40} />
       <BuyNftButton />
     </Root>
