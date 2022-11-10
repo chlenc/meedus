@@ -2,7 +2,6 @@ import React, { PropsWithChildren, useMemo } from "react";
 import useVM from "@src/hooks/useVM";
 import { makeAutoObservable } from "mobx";
 import { RootStore, useStores } from "@stores";
-import { loadState } from "@src/utils/localStorage";
 import makeNodeRequest from "@src/utils/makeNodeRequest";
 import { AUCTION } from "@src/constants";
 import { IData } from "@src/utils/getStateByKey";
@@ -194,8 +193,82 @@ class MyBidsVM {
   }
 
   private sync = async () => {
-    this.setBackup((loadState("meedus-bid-backup") ?? []) as TBidBackup[]);
+    // this.setBackup((loadState("meedus-bid-backup") ?? []) as TBidBackup[]);
+    this.setBackup(data as TBidBackup[]);
     this.fetchState().then(this.setState);
     this.fetchAuction().then(this.setAuction);
   };
 }
+
+const data = [
+  {
+    id: "AXVGUkBnZ1Lzb7Dt1muQ39bYSKqnoF3fiCH7MeCe8tz7",
+    hash: "CzFUFxD5sLtPxDzazNhf3bHNQ9HPLchCnBuD9gzRZ75z",
+    domain: ".waves",
+    auctionId: 1941,
+    address: "3P6Ksahs71SiKQgQ4qaZuFAVhqncdi2nvJQ",
+    name: "asstree",
+    secret: "bWludXRlIHN3YW1wIHN1c3BlY3Q=",
+    amount: "10000000",
+    deposit: "10000000",
+  },
+  {
+    id: "CEwfa94FSUrQgKUrnFi4bqxuJH1Va6PtLAdHF5FucFCj",
+    hash: "55Tka2wfdxz7KgBTncuSE4d78iCsuCBKpX2a93Nmr4r9",
+    domain: ".waves",
+    auctionId: 1943,
+    address: "3P6Ksahs71SiKQgQ4qaZuFAVhqncdi2nvJQ",
+    name: "asstree",
+    secret: "bXVjaCBuaWdodCBjbG9jaw==",
+    amount: "10000000",
+    deposit: "10000000",
+  },
+  {
+    id: "4C7Ygw51kBaFkocBPFgdzBZG5r4Tp29rfu3vds4WepgL",
+    hash: "AeERmqjhLMVkCWi2ES9poaNhxf4LFivYcMJBaDP6dg1g",
+    domain: ".waves",
+    auctionId: 1968,
+    address: "3P6Ksahs71SiKQgQ4qaZuFAVhqncdi2nvJQ",
+    name: "treeass",
+    color: "#0055FF",
+    secret: "ZGl2b3JjZSBpbm5lciBzZWFzb24=",
+    amount: "100000",
+    deposit: "100000",
+  },
+  {
+    id: "7KhupTdGz3Q7wguWBhsajahvnVURnRXxXqWAEZmsaV17",
+    hash: "Eug8k11MC2oYKudeMR4iUFA9xen4FqBCbLR6NLrXTsTy",
+    domain: ".waves",
+    auctionId: 1969,
+    address: "3P6Ksahs71SiKQgQ4qaZuFAVhqncdi2nvJQ",
+    name: "treeass",
+    color: "#0055FF",
+    secret: "dG9rZW4gY3VwYm9hcmQgb3Jhbmdl",
+    amount: "200000",
+    deposit: "200000",
+  },
+  {
+    id: "CAbavvQXWWMYQuKUfTbcjpGbvPC2MbzgKt27DoXRCr21",
+    hash: "8YvRg9w8VjTv6rModc3BfiaKCecJGvABbQGgKaChWFrc",
+    domain: ".waves",
+    auctionId: 1973,
+    address: "3P6Ksahs71SiKQgQ4qaZuFAVhqncdi2nvJQ",
+    name: "treeass",
+    color: "#FFDA0B",
+    secret: "YXJyYW5nZSB3aGVuIGNvcmFs",
+    amount: "300000",
+    deposit: "300000",
+  },
+  {
+    id: "Gj8cQQHqQkXPEMyzMEStFRW6fN6G3wneKLarN9AEQPEN",
+    hash: "Hx5iraugJbz7ZZygiZYTAQP8wVBjp46bzdzJTHLBufn5",
+    domain: ".waves",
+    auctionId: 1990,
+    address: "3P6Ksahs71SiKQgQ4qaZuFAVhqncdi2nvJQ",
+    name: "blablabla",
+    color: "#00CC5F",
+    secret: "Ym9uZSBkaXN0YW5jZSB6b28=",
+    amount: "100000",
+    deposit: "100000",
+  },
+];

@@ -85,7 +85,7 @@ const Preview: React.FC<IProps> = ({ nft, bg, name, ...rest }) => {
           <PreviewImg src={nft.img} alt={nft.id} />
         ) : null
       ) : (
-        <Root id={rest.id ?? "nft-preview"} {...rest}>
+        <Root id={rest.id ?? "hidden-preview"} {...rest}>
           <Body style={{ background: bg?.key ?? "#fff" }}>
             {name !== "" ? (
               <>

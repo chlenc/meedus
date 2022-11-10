@@ -5,7 +5,7 @@ import Text from "@src/components/Text";
 // import { ReactComponent as More } from "@src/assets/icons/more.svg";
 import SizedBox from "@components/SizedBox";
 import Button from "@components/Button";
-import Preview from "@components/Preview";
+import { labelColorMap } from "@components/Preview";
 import { TBid, TBidStatus } from "@screens/AuctionScreen/MyBids/MyBidsVm";
 import BN from "@src/utils/BN";
 
@@ -70,8 +70,30 @@ const getBtnText = (status?: string) => {
       return "Default";
   }
 };
+const Card = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 176px;
+  width: 100%;
+  border-radius: 8px;
+`;
+const Label = styled.p`
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 40px;
+  width: fit-content;
+  box-sizing: border-box;
+  padding: 0 4px;
+  margin: 0;
+  border-radius: 4px;
+  word-break: break-all;
+  text-align: center;
+`;
 const BidCard: React.FC<IProps> = ({ bid }) => {
-  // console.log(bid);
+  const color = labelColorMap[bid.color ?? ""]?.font ?? "#000";
+  const background = labelColorMap[bid.color ?? ""]?.bg ?? "rgba(0, 0, 0, 0.2)";
   return (
     <Root>
       <Row justifyContent="space-between">
@@ -79,10 +101,14 @@ const BidCard: React.FC<IProps> = ({ bid }) => {
         {/*<More />*/}
       </Row>
       <SizedBox height={18} />
-      <Preview
-        name={bid.name ?? "?"}
-        bg={{ key: bid.color ?? "#fff", title: "" }}
-      />
+      <Card style={{ background: bid.color ?? "#fff" }}>
+        {bid.name !== "" ? (
+          <>
+            <Label style={{ color }}>{bid.name ?? "???"}</Label>
+            <Label style={{ color, background }}>.waves</Label>
+          </>
+        ) : null}
+      </Card>
       <SizedBox height={16} />
       <Row justifyContent="space-between">
         <Column>

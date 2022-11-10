@@ -15,6 +15,7 @@ import NotExistPreview from "@screens/NameServiceScreen/NotExistPreview";
 import Button from "@components/Button";
 import MyBids from "@screens/AuctionScreen/MyBids";
 import { useStores } from "@stores";
+import DialogNotification from "@components/Dialog/DialogNotification";
 
 interface IProps {}
 
@@ -102,6 +103,17 @@ const NameServiceScreenImpl: React.FC<IProps> = observer(() => {
         </Column>
       </Row>
       {vm.name.length === 0 && accountStore.address != null && <MyBids />}
+
+      <DialogNotification
+        domain={vm.notificationParams?.domain}
+        title={vm.notificationParams?.title ?? ""}
+        description={vm.notificationParams?.description}
+        buttonsDirection={vm.notificationParams?.buttonsDirection}
+        type={vm.notificationParams?.type}
+        buttons={vm.notificationParams?.buttons}
+        style={{ maxWidth: 360 }}
+        visible={vm.notificationParams != null}
+      />
     </Root>
   );
 });

@@ -5,12 +5,15 @@ import { RootStore, useStores } from "@stores";
 import { IOption } from "@components/Select";
 import nodeService from "@src/services/nodeService";
 import { toast } from "react-toastify";
-import { AUCTION } from "@src/constants";
+import { AUCTION, EXPLORER_URL } from "@src/constants";
 import BN from "@src/utils/BN";
 import * as libCrypto from "@waves/ts-lib-crypto";
 import Long from "long";
 import { loadState, saveState } from "@src/utils/localStorage";
-import { IDialogNotificationProps } from "@components/Dialog/DialogNotification";
+import {
+  buildSuccessBidPlacementParams,
+  IDialogNotificationProps,
+} from "@components/Dialog/DialogNotification";
 
 const ctx = React.createContext<AuctionScreenVM | null>(null);
 
@@ -43,21 +46,6 @@ class AuctionScreenVM {
     public bg: IOption
   ) {
     makeAutoObservable(this);
-    // const params = this.setNotificationParams(
-    //   buildSuccessPurchaseParams({
-    //     domain: "jorachka.waves",
-    //     onGoMarket: () => {},
-    //     onGoBack: () => {},
-    //   })
-    // );
-    // const params = this.setNotificationParams(
-    //     buildSuccessBidPlacementParams({
-    //       domain: "jorachka.waves",
-    //       onBackToBids: () => {},
-    //       onExplorerClick: () => {},
-    //     })
-    // );
-    // this.setNotificationParams(this.setNotificationParams(params));
   }
 
   previewModalOpened: boolean = false;
@@ -134,7 +122,14 @@ class AuctionScreenVM {
       state.push(backup);
       saveState(state, "meedus-bid-backup");
       console.log(loadState("meedus-bid-backup"));
-      toast.success("Congrats! Bid was made");
+      this.setNotificationParams(
+        buildSuccessBidPlacementParams({
+          domain: `${this.name}.waves`,
+          onBackToBids: () => window.open(`/#/nameservice`, "_self"),
+          onExplorerClick: () =>
+            window.open(`${EXPLORER_URL}/transactions/${txId}`),
+        })
+      );
       return;
     } else {
       toast.error("Something went wrong");
