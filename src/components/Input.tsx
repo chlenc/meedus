@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, RefObject, useState } from "react";
 import Text from "@components/Text";
 import { ReactComponent as SearchIcon } from "@src/assets/icons/search.svg";
 
@@ -20,9 +20,14 @@ interface IProps
   error?: boolean;
   errorText?: string;
   description?: string;
+  inputRef?: RefObject<HTMLInputElement>;
 }
 
-const Root = styled.div<{ focused?: boolean; error?: boolean }>`
+const Root = styled.div<{
+  focused?: boolean;
+  error?: boolean;
+  readOnly?: boolean;
+}>`
   width: 100%;
 
   padding: 16px;
@@ -31,16 +36,21 @@ const Root = styled.div<{ focused?: boolean; error?: boolean }>`
   height: 56px;
   border-radius: 8px;
 
-  background: #ffffff;
-  border: 2px solid #000000;
+  background: ${({ readOnly }) => (readOnly ? "#EEEEEE" : "#ffffff")};
+  border: 2px solid ${({ readOnly }) => (readOnly ? "#AAAAAA" : "#000")};
   background: ${({ focused }) => (focused ? "#fffff" : "#fffff")};
   transition: 0.4s;
   :hover {
     //border: 2px solid #269995;
-    border-color: ${({ focused, error }) =>
-      error ? "#ED827E" : !focused ? "#000000" : "#269995"};
+    border-color: ${({ focused, error, readOnly }) =>
+      error
+        ? "#ED827E"
+        : readOnly
+        ? "#AAAAAA"
+        : !focused
+        ? "#000000"
+        : "#269995"};
   }
-
   align-items: center;
   justify-content: space-between;
   display: flex;
@@ -54,9 +64,12 @@ const Root = styled.div<{ focused?: boolean; error?: boolean }>`
     outline: none;
     border: none;
     background-color: transparent;
-
+    color: ${({ readOnly }) => (readOnly ? "#AAAAAA" : "#000")};
     ::placeholder {
     }
+  }
+  div {
+    color: ${({ readOnly }) => (readOnly ? "#AAAAAA" : "#000")};
   }
 `;
 
@@ -71,6 +84,7 @@ const Input: React.FC<IProps> = ({
   errorText,
   description,
   icon,
+  inputRef,
   ...rest
 }) => {
   const [focused, setFocused] = useState(false);
@@ -85,6 +99,7 @@ const Input: React.FC<IProps> = ({
           placeholder={placeholder}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
+          ref={inputRef}
         />
         {suffix != null && <Text fitContent>{suffix}</Text>}
       </Root>

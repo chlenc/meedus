@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
-import React, { HTMLAttributes, useState } from "react";
+import React, { HTMLAttributes } from "react";
 import Tooltip from "./Tooltip";
-import arrowIcon from "@src/assets/icons/arrowRightBorderless.svg";
 import SizedBox from "@components/SizedBox";
-import { Column } from "./Flex";
+import { Column, Row } from "./Flex";
 import useElementSize from "@src/hooks/useElementSize";
+import Text from "@components/Text";
 
 interface IProps extends Omit<HTMLAttributes<HTMLDivElement>, "onSelect"> {
   options: IOption[];
@@ -18,38 +18,38 @@ export interface IOption {
   title: string;
 }
 
-const Root = styled.div<{ focused?: boolean }>`
-  display: flex;
-  background: #ffffff;
-  border: 2px solid #000000;
-  border-radius: 8px;
-  //padding: 16px;
-  color: #000;
-  outline: none;
-  font-weight: 500;
-  height: 56px;
-  font-size: 17px;
-  line-height: 24px;
-  align-items: center;
-  white-space: nowrap;
-  position: relative;
-  overflow: hidden;
-  transition: 0.4s;
-  :hover {
-    border: 2px solid #269995;
-    background: #fff;
-    & > * {
-      background: #fff !important;
-    }
-  }
-  .menu-arrow {
-    position: absolute;
-    right: 24px;
-    transition: 0.4s;
-    transform: ${({ focused }) =>
-      focused ? "rotate(0deg)" : "rotate(-180deg)"};
-  }
-`;
+// const Root = styled.div<{ focused?: boolean }>`
+//   display: flex;
+//   background: #ffffff;
+//   border: 2px solid #000000;
+//   border-radius: 8px;
+//   //padding: 16px;
+//   color: #000;
+//   outline: none;
+//   font-weight: 500;
+//   height: 56px;
+//   font-size: 17px;
+//   line-height: 24px;
+//   align-items: center;
+//   white-space: nowrap;
+//   position: relative;
+//   overflow: hidden;
+//   transition: 0.4s;
+//   :hover {
+//     border: 2px solid #269995;
+//     background: #fff;
+//     & > * {
+//       background: #fff !important;
+//     }
+//   }
+//   .menu-arrow {
+//     position: absolute;
+//     right: 24px;
+//     transition: 0.4s;
+//     transform: ${({ focused }) =>
+//       focused ? "rotate(0deg)" : "rotate(-180deg)"};
+//   }
+// `;
 const Option = styled.div<{ active?: boolean }>`
   width: 100%;
   display: flex;
@@ -86,11 +86,11 @@ const Circle = styled.div<{ bg: string }>`
 const Select: React.FC<IProps> = ({
   options,
   selected,
-  placeholder,
+  // placeholder,
   onSelect,
-  ...rest
+  // ...rest
 }) => {
-  const [focused, setFocused] = useState(false);
+  // const [focused, setFocused] = useState(false);
   const [squareRef, { width }] = useElementSize();
   const handleSelect = (v: IOption) => {
     onSelect(v);
@@ -98,9 +98,9 @@ const Select: React.FC<IProps> = ({
   return (
     <Tooltip
       config={{
-        placement: "bottom-start",
+        placement: "bottom-end",
         trigger: "click",
-        onVisibleChange: setFocused,
+        // onVisibleChange: setFocused,
       }}
       width={width}
       content={
@@ -122,28 +122,39 @@ const Select: React.FC<IProps> = ({
         </Column>
       }
     >
-      <Root
-        focused={focused}
+      {/*min-width: 240px;*/}
+      <Row
+        // focused={focused}
         ref={squareRef}
-        onClick={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        {...rest}
+        justifyContent="flex-end"
+        alignItems="center"
       >
-        {selected == null ? (
-          <div style={{ padding: "14px 16px", color: "#aaaaaa" }}>
-            {placeholder}
-          </div>
-        ) : (
-          <Option>
-            <SizedBox width={17} />
-            <Circle bg={selected.key} />
-            <SizedBox width={8} />
-            <p>{selected.title}</p>
-          </Option>
-        )}
-        <SizedBox width={10} />
-        <img src={arrowIcon} className="menu-arrow" alt="arrow" />
-      </Root>
+        <Text fitContent>Select color</Text>
+        <SizedBox width={12} />
+        <Circle bg={selected?.key ?? "#fff"} />
+      </Row>
+      {/*<Root*/}
+      {/*  focused={focused}*/}
+      {/*  ref={squareRef}*/}
+      {/*  onClick={() => setFocused(true)}*/}
+      {/*  onBlur={() => setFocused(false)}*/}
+      {/*  {...rest}*/}
+      {/*>*/}
+      {/*  {selected == null ? (*/}
+      {/*    <div style={{ padding: "14px 16px", color: "#aaaaaa" }}>*/}
+      {/*      {placeholder}*/}
+      {/*    </div>*/}
+      {/*  ) : (*/}
+      {/*    <Option>*/}
+      {/*      <SizedBox width={17} />*/}
+      {/*      <Circle bg={selected.key} />*/}
+      {/*      <SizedBox width={8} />*/}
+      {/*      <p>{selected.title}</p>*/}
+      {/*    </Option>*/}
+      {/*  )}*/}
+      {/*  <SizedBox width={10} />*/}
+      {/*  <img src={arrowIcon} className="menu-arrow" alt="arrow" />*/}
+      {/*</Root>*/}
     </Tooltip>
   );
 };

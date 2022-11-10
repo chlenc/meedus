@@ -4,10 +4,10 @@ import { observer } from "mobx-react-lite";
 import Preview from "@components/Preview";
 import styled from "@emotion/styled";
 import SizedBox from "@components/SizedBox";
-import GetNameBtn from "@screens/NsScreen/GetNameBtn";
-import { useNsScreenVM } from "@screens/NsScreen/NsScreenVm";
+import { useAuctionScreenVM } from "@screens/AuctionScreen/AuctionScreenVm";
 import Button from "@components/Button";
 import { Anchor } from "@components/Anchor";
+import PlaceBidButton from "@screens/AuctionScreen/PlaceBidButton";
 
 interface IProps {
   onClose: () => void;
@@ -25,14 +25,14 @@ const Container = styled.div`
   }
 `;
 const PreviewModal: React.FC<IProps> = ({ ...rest }) => {
-  const vm = useNsScreenVM();
+  const vm = useAuctionScreenVM();
   return (
     <Dialog {...rest} forceRender>
       <Container>
         <Preview />
         <SizedBox height={40} />
         {vm.existingNft == null ? (
-          <GetNameBtn fitContent />
+          <PlaceBidButton />
         ) : (
           <Anchor href={`https://puzzlemarket.org/nft/${vm.existingNft?.id}`}>
             <Button>View on Puzzle Market</Button>

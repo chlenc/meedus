@@ -85,7 +85,7 @@ const LoggedInAccountInfo: React.FC<IProps> = () => {
       >
         <AddressContainer expanded={accountOpened}>
           <img className="avatar" src={avatar!} alt="avatar" />
-          {width == null || width > 400 ? (
+          {width == null || width > 436 ? (
             <Text weight={700} size="medium">
               {centerEllipsis(address ?? "", 8)}
             </Text>

@@ -8,6 +8,7 @@ import { ReactComponent as WavesLogo } from "@src/assets/icons/wavesLogo.svg";
 
 interface IProps extends HTMLAttributes<HTMLDivElement> {
   src?: string;
+  id?: string;
 }
 
 const Root = styled.div`
@@ -81,7 +82,7 @@ const Preview: React.FC<IProps> = ({ ...props }) => {
       {vm.existingNft?.img != null ? (
         <PreviewImg src={vm.existingNft?.img} alt={vm.name} />
       ) : (
-        <Root id="nft-preview" {...props}>
+        <Root id={props.id ?? "nft-preview"} {...props}>
           <Body style={{ background: vm.bg?.key ?? "#fff" }}>
             {vm.name !== "" ? (
               <>

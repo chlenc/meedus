@@ -1,22 +1,23 @@
 import styled from "@emotion/styled";
 import React from "react";
 import {
-  NsScreenVMProvider,
-  useNsScreenVM,
-} from "@screens/NsScreen/NsScreenVm";
+  AuctionScreenVMProvider,
+  useAuctionScreenVM,
+} from "@screens/AuctionScreen/AuctionScreenVm";
 import { observer } from "mobx-react-lite";
 import Text from "@components/Text";
 import SizedBox from "@components/SizedBox";
 import { Column, Row } from "@src/components/Flex";
 import Preview from "@components/Preview";
-import PreviewModal from "@screens/NsScreen/PreviewModal";
+import PreviewModal from "@screens/AuctionScreen/PreviewModal";
 import Button from "@components/Button";
-import GetNameBtn from "@screens/NsScreen/GetNameBtn";
 import Input from "@components/Input";
-import Select from "@components/Select";
 import { Anchor } from "@components/Anchor";
 import Layout from "@components/Layout";
+import { useParams } from "react-router-dom";
 import { BADGE_COLORS } from "@src/constants";
+import BigNumberInput from "@components/BigNumberInput";
+import PlaceBidButton from "@screens/AuctionScreen/PlaceBidButton";
 
 interface IProps {}
 
@@ -74,8 +75,8 @@ const HiddenPreview = styled.div`
   opacity: 0;
   z-index: -1;
 `;
-const NsScreenImpl: React.FC<IProps> = observer(() => {
-  const vm = useNsScreenVM();
+const AuctionScreenImpl: React.FC<IProps> = observer(() => {
+  const vm = useAuctionScreenVM();
   return (
     <Root>
       <Row alignItems="center" style={{ flex: 1 }}>
@@ -97,23 +98,45 @@ const NsScreenImpl: React.FC<IProps> = observer(() => {
               placeholder="Enter your name"
               value={vm.name}
               suffix=".waves"
-              onChange={(e) => vm.setName(e.target.value)}
+              readOnly
             />
             <SizedBox height={16} />
-
-            <Select
-              options={BADGE_COLORS}
-              selected={vm.bg}
-              placeholder="Select background color"
-              onSelect={(v) => vm.setBg(v)}
+            <BigNumberInput
+              renderInput={(props, ref) => (
+                <Input
+                  {...props}
+                  value={props.value as string}
+                  inputRef={ref}
+                  suffix="WAVES"
+                  placeholder="Your bid"
+                />
+              )}
+              decimals={8}
+              onChange={vm.setBid}
+              value={vm.bid}
+            />
+            <SizedBox height={16} />
+            <BigNumberInput
+              renderInput={(props, ref) => (
+                <Input
+                  {...props}
+                  value={props.value as string}
+                  inputRef={ref}
+                  suffix="WAVES"
+                  placeholder="Your bid"
+                />
+              )}
+              onChange={vm.setDeposit}
+              value={vm.deposit}
+              decimals={8}
             />
             <SizedBox height={40} />
-            <GetNameBtn />
+            <PlaceBidButton />
           </Column>
           <SizedBox height={30} />
           <Anchor href="https://t.me/meedus_nft">
             <Text weight={700} fitContent size="medium">
-              What is .waves name?
+              How it works?
             </Text>
           </Anchor>
         </Column>
@@ -146,7 +169,7 @@ const NsScreenImpl: React.FC<IProps> = observer(() => {
               </Button>
             </Anchor>
           )}
-          <Preview />
+          <Preview name={vm.name} bg={vm.bg} />
         </DesktopPreview>
       </Row>
       <MobilePreview>
@@ -165,12 +188,18 @@ const NsScreenImpl: React.FC<IProps> = observer(() => {
   );
 });
 
-const NsScreen = () => (
-  <NsScreenVMProvider>
-    <Layout>
-      <NsScreenImpl />
-    </Layout>
-  </NsScreenVMProvider>
-);
+const AuctionScreen = () => {
+  const { name, bg } = useParams<{ name?: string; bg: string }>();
+  const color =
+    BADGE_COLORS.find(({ key }) => key === `#${bg}`) ?? BADGE_COLORS[0];
+  // if (name == null) return <Navigate to={ROUTES.NAMESERVICE} />;
+  return (
+    <AuctionScreenVMProvider name={name ?? ""} bg={color}>
+      <Layout>
+        <AuctionScreenImpl />
+      </Layout>
+    </AuctionScreenVMProvider>
+  );
+};
 
-export default NsScreen;
+export default AuctionScreen;

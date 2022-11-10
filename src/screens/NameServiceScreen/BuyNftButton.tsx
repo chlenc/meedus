@@ -2,14 +2,18 @@ import React, { HTMLAttributes } from "react";
 import { useStores } from "@stores";
 import Button from "@components/Button";
 import { observer } from "mobx-react-lite";
-import { useNsScreenVM } from "@screens/NsScreen/NsScreenVm";
+import { useNameServiceScreenVM } from "@screens/NameServiceScreen/NameServiceScreenVm";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "@src/constants";
 
 interface IProps extends HTMLAttributes<HTMLButtonElement> {
   fitContent?: boolean;
 }
-const GetNameBtn: React.FC<IProps> = ({ fitContent, ...rest }) => {
+
+const BuyNftButton: React.FC<IProps> = ({ fitContent, ...rest }) => {
   const { accountStore } = useStores();
-  const vm = useNsScreenVM();
+  const vm = useNameServiceScreenVM();
+  const navigate = useNavigate();
   switch (true) {
     case accountStore.address == null:
       return (
@@ -53,18 +57,21 @@ const GetNameBtn: React.FC<IProps> = ({ fitContent, ...rest }) => {
         </Button>
       );
     default:
-      let disabled = true;
       return (
         <>
           <Button
             {...rest}
             fitContent={fitContent}
-            onClick={() => !disabled && vm.mint()}
-            disabled={disabled}
+            onClick={() =>
+              navigate(
+                ROUTES.AUCTION.replace(":name", vm.name).replace(
+                  ":bg",
+                  vm.bg?.key.replace("#", "") ?? ""
+                )
+              )
+            }
           >
-            {disabled
-              ? "You should use WNS tokens"
-              : ` Buy for ${vm.calcPrice} WAVES`}
+            Go to auction
           </Button>
           {vm.paymentAsset && (
             <Button
@@ -80,4 +87,4 @@ const GetNameBtn: React.FC<IProps> = ({ fitContent, ...rest }) => {
       );
   }
 };
-export default observer(GetNameBtn);
+export default observer(BuyNftButton);

@@ -10,24 +10,26 @@ import nodeService from "@src/services/nodeService";
 import { toast } from "react-toastify";
 import makeNodeRequest from "@src/utils/makeNodeRequest";
 import { NS_DAPP, TOKENS_BY_ASSET_ID, TOKENS_BY_SYMBOL } from "@src/constants";
+import { WavesDomainsClient } from "@waves-domains/client";
 
-const ctx = React.createContext<NsScreenVM | null>(null);
+const ctx = React.createContext<NameServiceScreenVm | null>(null);
 
-export const NsScreenVMProvider: React.FC<PropsWithChildren> = ({
+export const NameServiceScreenVMProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
   const rootStore = useStores();
-  const store = useMemo(() => new NsScreenVM(rootStore), [rootStore]);
+  const store = useMemo(() => new NameServiceScreenVm(rootStore), [rootStore]);
   return <ctx.Provider value={store}>{children}</ctx.Provider>;
 };
 
-export const useNsScreenVM = () => useVM(ctx);
+export const useNameServiceScreenVM = () => useVM(ctx);
 let description =
   "Created by 3PGKEe4y59V3WLnHwPEUaMWdbzy8sb982fG. NFT namespace «.waves». Early adopter's NFT used for MEEDUS. Created by @meedus_nft, launched by @puzzle_swap.";
 
-type TNftData = { id: string; img: string };
+export type TNftData = { id: string; img: string };
 
-class NsScreenVM {
+class NameServiceScreenVm {
+  client = new WavesDomainsClient({ network: "mainnet" });
   constructor(private rootStore: RootStore) {
     makeAutoObservable(this);
     setInterval(this.checkNft, 30 * 1000);
@@ -150,13 +152,16 @@ class NsScreenVM {
   };
 
   private getNftData = async (): Promise<TNftData | null> => {
+    const domainsId = await this.client.resolve(this.name + ".waves");
     const res = await nodeService.nodeKeysRequest(NS_DAPP, this.name);
-    if (res.length === 0) return null;
-    const id = res[0].value.toString();
-    const req = `/addresses/data/3PFQjjDMiZKQZdu5JqTHD7HwgSXyp9Rw9By/nft_${id}_image`;
-    const { data } = await makeNodeRequest(req);
-    const img = data.value;
-    return { id, img };
+    if (res.length !== 0) {
+      const id = res[0].value.toString();
+      const req = `/addresses/data/3PFQjjDMiZKQZdu5JqTHD7HwgSXyp9Rw9By/nft_${id}_image`;
+      const { data } = await makeNodeRequest(req);
+      const img = data.value;
+      return { id, img };
+    }
+    return domainsId != null ? { id: domainsId, img: "" } : null;
   };
 
   checkNft = () => this.getNftData().then(this.setExistingNft);
