@@ -6,7 +6,7 @@ import makeNodeRequest from "@src/utils/makeNodeRequest";
 import { AUCTION } from "@src/constants";
 import { IData } from "@src/utils/getStateByKey";
 import nodeService from "@src/services/nodeService";
-import {loadState} from "@src/utils/localStorage";
+import { loadState } from "@src/utils/localStorage";
 
 const ctx = React.createContext<MyBidsVM | null>(null);
 
@@ -199,4 +199,3 @@ class MyBidsVM {
     this.fetchAuction().then(this.setAuction);
   };
 }
-
