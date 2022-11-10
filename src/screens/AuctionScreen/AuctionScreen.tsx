@@ -18,6 +18,7 @@ import { useParams } from "react-router-dom";
 import { BADGE_COLORS } from "@src/constants";
 import BigNumberInput from "@components/BigNumberInput";
 import PlaceBidButton from "@screens/AuctionScreen/PlaceBidButton";
+import DialogNotification from "@components/Dialog/DialogNotification";
 
 interface IProps {}
 
@@ -185,6 +186,17 @@ const AuctionScreenImpl: React.FC<IProps> = observer(() => {
       <HiddenPreview>
         <Preview id="hidden-preview" />
       </HiddenPreview>
+
+      <DialogNotification
+        domain={vm.notificationParams?.domain}
+        title={vm.notificationParams?.title ?? ""}
+        description={vm.notificationParams?.description}
+        buttonsDirection={vm.notificationParams?.buttonsDirection}
+        type={vm.notificationParams?.type}
+        buttons={vm.notificationParams?.buttons}
+        style={{ maxWidth: 360 }}
+        visible={vm.notificationParams != null}
+      />
     </Root>
   );
 });
