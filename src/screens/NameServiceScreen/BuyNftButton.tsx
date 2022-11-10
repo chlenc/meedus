@@ -32,7 +32,7 @@ const BuyNftButton: React.FC<IProps> = ({ fitContent, ...rest }) => {
           Enter the name
         </Button>
       );
-    case /[^A-Za-z0-9]/.test(vm.name):
+    case !vm.isValidName():
       return (
         <Button {...rest} fitContent={fitContent} disabled>
           No special symbols

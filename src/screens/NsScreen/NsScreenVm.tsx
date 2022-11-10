@@ -9,7 +9,12 @@ import BN from "@src/utils/BN";
 import nodeService from "@src/services/nodeService";
 import { toast } from "react-toastify";
 import makeNodeRequest from "@src/utils/makeNodeRequest";
-import { NS_DAPP, TOKENS_BY_ASSET_ID, TOKENS_BY_SYMBOL } from "@src/constants";
+import {
+  NFT_STORAGE,
+  NS_DAPP,
+  TOKENS_BY_ASSET_ID,
+  TOKENS_BY_SYMBOL,
+} from "@src/constants";
 
 const ctx = React.createContext<NsScreenVM | null>(null);
 
@@ -153,7 +158,7 @@ class NsScreenVM {
     const res = await nodeService.nodeKeysRequest(NS_DAPP, this.name);
     if (res.length === 0) return null;
     const id = res[0].value.toString();
-    const req = `/addresses/data/3PFQjjDMiZKQZdu5JqTHD7HwgSXyp9Rw9By/nft_${id}_image`;
+    const req = `/addresses/data/${NFT_STORAGE}/nft_${id}_image`;
     const { data } = await makeNodeRequest(req);
     const img = data.value;
     return { id, img };
