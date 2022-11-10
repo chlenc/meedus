@@ -10,6 +10,7 @@ import BN from "@src/utils/BN";
 import * as libCrypto from "@waves/ts-lib-crypto";
 import Long from "long";
 import { loadState, saveState } from "@src/utils/localStorage";
+import { IDialogNotificationProps } from "@components/Dialog/DialogNotification";
 
 const ctx = React.createContext<AuctionScreenVM | null>(null);
 
@@ -42,10 +43,29 @@ class AuctionScreenVM {
     public bg: IOption
   ) {
     makeAutoObservable(this);
+    // const params = this.setNotificationParams(
+    //   buildSuccessPurchaseParams({
+    //     domain: "jorachka.waves",
+    //     onGoMarket: () => {},
+    //     onGoBack: () => {},
+    //   })
+    // );
+    // const params = this.setNotificationParams(
+    //     buildSuccessBidPlacementParams({
+    //       domain: "jorachka.waves",
+    //       onBackToBids: () => {},
+    //       onExplorerClick: () => {},
+    //     })
+    // );
+    // this.setNotificationParams(this.setNotificationParams(params));
   }
 
   previewModalOpened: boolean = false;
   setPreviewModalOpened = (state: boolean) => (this.previewModalOpened = state);
+
+  public notificationParams: IDialogNotificationProps | null = null;
+  public setNotificationParams = (params: IDialogNotificationProps | null) =>
+    (this.notificationParams = params);
 
   existingNft: TNftData | null = null;
   setExistingNft = (v: TNftData | null) => (this.existingNft = v);
