@@ -87,11 +87,12 @@ class AuctionScreenVM {
     const args: Array<{ type: "integer" | "string"; value: string }> = [
       { type: "integer", value: String(auctionId.value) },
       { type: "string", value: hash },
+      { type: "string", value: "meedus" },
     ];
     const txParams = {
       dApp: AUCTION,
       payment: [txPayment],
-      call: { function: "bid", args },
+      call: { function: "bidWithReferrer", args },
     };
     const txId = await this.rootStore.accountStore
       .invoke(txParams)

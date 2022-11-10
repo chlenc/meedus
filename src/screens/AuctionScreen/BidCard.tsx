@@ -1,17 +1,16 @@
 import styled from "@emotion/styled";
 import React from "react";
-import BN from "@src/utils/BN";
 import { Column, Row } from "@src/components/Flex";
 import Text from "@src/components/Text";
-import { ReactComponent as More } from "@src/assets/icons/more.svg";
-import temp from "@src/assets/icons/temp.svg";
+// import { ReactComponent as More } from "@src/assets/icons/more.svg";
 import SizedBox from "@components/SizedBox";
 import Button from "@components/Button";
+import Preview from "@components/Preview";
+import { TBid, TBidStatus } from "@screens/AuctionScreen/MyBids/MyBidsVm";
+import BN from "@src/utils/BN";
 
 interface IProps {
-  status: string;
-  amount: BN;
-  phase: string;
+  bid: TBid;
 }
 
 const Root = styled.div`
@@ -23,7 +22,7 @@ const Root = styled.div`
   padding: 16px;
 `;
 
-const Status = styled.div<{ status: string }>`
+const Status = styled.div<{ status?: TBidStatus }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -41,7 +40,11 @@ const Status = styled.div<{ status: string }>`
           return "background-color: #FF938C";
         case "reveal":
           return "background-color: #FFDEA6";
+        case "needReveal":
+          return "background-color: #FFDEA6";
         case "winner":
+          return "background-color: #A5FFC9";
+        case "leading":
           return "background-color: #A5FFC9";
         case "expired":
           return "background-color: #EEEEEE";
@@ -50,10 +53,8 @@ const Status = styled.div<{ status: string }>`
       }
     })()}
 `;
-const NFT = styled.img`
-  width: 100%;
-`;
-const getBtnText = (status: string) => {
+
+const getBtnText = (status?: string) => {
   switch (status) {
     case "bid":
       return "Open Bid";
@@ -69,30 +70,36 @@ const getBtnText = (status: string) => {
       return "Default";
   }
 };
-const BidCard: React.FC<IProps> = ({ status, amount, phase }) => {
+const BidCard: React.FC<IProps> = ({ bid }) => {
+  // console.log(bid);
   return (
     <Root>
       <Row justifyContent="space-between">
-        <Status status={status}>
-          {status.charAt(0).toUpperCase() + status.slice(1)}
-        </Status>
-        <More />
+        <Status status={bid.status}>{bid.status}</Status>
+        {/*<More />*/}
       </Row>
       <SizedBox height={18} />
-      <NFT src={temp} alt="temp" />
+      <Preview
+        name={bid.name ?? "?"}
+        bg={{ key: bid.color ?? "#fff", title: "" }}
+      />
       <SizedBox height={16} />
       <Row justifyContent="space-between">
         <Column>
           <Text type="grey">My bid</Text>
-          <Text weight={700}>1,000.0000 WAVES</Text>
+          <Text weight={700}>
+            {bid.amount ? BN.formatUnits(bid.amount).toFormat(4) : "?"} WAVES
+          </Text>
         </Column>
-        <Column>
-          <Text type="grey">Next phase</Text>
-          <Text weight={700}>Claim your domain</Text>
-        </Column>
+        {/*<Column>*/}
+        {/*  <Text type="grey">Next phase</Text>*/}
+        {/*  <Text weight={700}>Claim your domain</Text>*/}
+        {/*</Column>*/}
       </Row>
       <SizedBox height={16} />
-      <Button size="medium">{getBtnText(status)}</Button>
+      <Button disabled size="medium">
+        {getBtnText(bid.status)}
+      </Button>
     </Root>
   );
 };
