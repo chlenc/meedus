@@ -6,6 +6,7 @@ import Button from "@components/Button";
 import SizedBox from "@components/SizedBox";
 import BN from "@src/utils/BN";
 import BidCard from "@screens/AuctionScreen/BidCard";
+import TextBtn from "@components/TextBtn";
 
 interface IProps {}
 
@@ -41,15 +42,11 @@ const MyBids: React.FC<IProps> = () => {
           My bids
         </Text>
         <Row mainAxisSize="fit-content" alignItems="center">
-          <Text fitContent weight={700} size="big">
-            Backup
-          </Text>
+          <TextBtn disabled>Backup</TextBtn>
           <SizedBox width={44} />
-          <Text fitContent weight={700} size="big">
-            Restore
-          </Text>
+          <TextBtn disabled>Restore</TextBtn>
           <SizedBox width={44} />
-          <Button fitContent kind="secondary">
+          <Button disabled fitContent kind="secondary">
             Claim All
           </Button>
         </Row>
