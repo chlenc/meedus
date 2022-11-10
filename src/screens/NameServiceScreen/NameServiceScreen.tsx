@@ -86,17 +86,16 @@ const NameServiceScreenImpl: React.FC<IProps> = observer(() => {
             <Button style={{ width: 160 }}>Search</Button>
           </Row>
           <SizedBox height={40} />
-          {vm.name.length > 0 &&
-            (vm.existingNft != null ? (
-              <ExistPreview nft={vm.existingNft} />
-            ) : (
-              <NotExistPreview />
-            ))}
+          {vm.name.length > 0 && vm.existingNft != null && (
+            <ExistPreview nft={vm.existingNft} />
+          )}
+          {vm.name.length > 0 && vm.existingNft == null && <NotExistPreview />}
           <SizedBox height={24} />
-          {/*<ActiveBids />*/}
+          {/*{vm.name.length === 0 && <ActiveBids />}*/}
         </Column>
       </Row>
-      <MyBids />
+      {vm.name.length === 0 && <MyBids />}
+      {/*<MyBids />*/}
     </Root>
   );
 });

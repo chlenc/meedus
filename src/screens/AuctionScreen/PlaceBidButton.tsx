@@ -11,7 +11,7 @@ const PlaceBidButton: React.FC<IProps> = () => {
   const vm = useAuctionScreenVM();
   return (
     <Tooltip content={<Text>Coming soon</Text>}>
-      <Button onClick={vm.placeBid}>Place bid</Button>;
+      <Button onClick={vm.placeBid}>Place bid</Button>
     </Tooltip>
   );
 };
