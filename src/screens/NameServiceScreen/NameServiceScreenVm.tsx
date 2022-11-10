@@ -161,12 +161,8 @@ class NameServiceScreenVm {
       const params = this.setNotificationParams(
         buildSuccessPurchaseParams({
           domain: `${this.name}.waves`,
-          onGoMarket: () =>
-            window.open(`https://puzzlemarket.org/nft/${"txId"}`),
-          onGoBack: () => {
-            window.location.reload();
-            //todo add some more
-          },
+          onGoMarket: () => window.open(`https://puzzlemarket.org/nft/${txId}`),
+          onGoBack: () => window.location.reload(),
         })
       );
       this.setNotificationParams(params);
