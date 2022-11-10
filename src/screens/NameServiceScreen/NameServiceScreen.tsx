@@ -12,8 +12,8 @@ import Input from "@components/Input";
 import Layout from "@components/Layout";
 import ExistPreview from "@screens/NameServiceScreen/ExistPreview";
 import NotExistPreview from "@screens/NameServiceScreen/NotExistPreview";
-import ActiveBids from "@screens/NameServiceScreen/ActiveBids";
 import Button from "@components/Button";
+import MyBids from "@screens/AuctionScreen/MyBids";
 
 interface IProps {}
 
@@ -74,6 +74,7 @@ const NameServiceScreenImpl: React.FC<IProps> = observer(() => {
           <SizedBox height={40} />
           <Row style={{ width: "100%" }}>
             <Input
+
               onChange={(e) => vm.setName(e.target.value)}
               placeholder="Enter domain"
               value={vm.name}
@@ -95,9 +96,12 @@ const NameServiceScreenImpl: React.FC<IProps> = observer(() => {
           {vm.name.length > 0 &&
             vm.existingNft == null &&
             vm.name === vm.search && <NotExistPreview />}
-          {vm.name.length === 0 && <ActiveBids />}
+          <SizedBox height={24} />
+          {/*{vm.name.length === 0 && <ActiveBids />}*/}
         </Column>
       </Row>
+      {vm.name.length === 0 && <MyBids />}
+      {/*<MyBids />*/}
     </Root>
   );
 });

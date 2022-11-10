@@ -86,11 +86,12 @@ const AuctionScreenImpl: React.FC<IProps> = observer(() => {
           alignItems="center"
           justifyContent="center"
         >
-          <Title style={{ background: "#a5ffc9", padding: "0 8px" }} fitContent>
-            .waves
-          </Title>
-          <SizedBox height={8} />
-          <Title fitContent>Name Service</Title>
+          <Title fitContent>Auction</Title>
+          <SizedBox height={16} />
+          <Text size="medium" style={{ maxWidth: 360 }} textAlign="center">
+            Participate in the domain auction, make a bid, and have a chance to
+            win it.
+          </Text>
           <SizedBox height={40} />
           <Column style={{ maxWidth: 360, width: "100%" }}>
             <Input
