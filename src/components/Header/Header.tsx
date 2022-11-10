@@ -105,7 +105,7 @@ const Header: React.FC<IProps> = () => {
 
   return (
     <Root>
-      <a href="https://lineup.finance">
+      <a href="https://meedus.space">
         <Logo src={logo} />
       </a>
       <MenuWrapperDesktop>

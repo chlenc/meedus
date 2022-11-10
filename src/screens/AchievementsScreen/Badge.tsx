@@ -9,6 +9,7 @@ import { ReactComponent as Logo } from "@src/assets/images/roundLogo.svg";
 import BN from "@src/utils/BN";
 import Button from "@components/Button";
 import Tooltip from "@components/Tooltip";
+import ProgressBar from "@components/ProgressBar";
 
 interface IProps {
   badge: TBadge & { progress?: TCheckScriptResult };
@@ -67,11 +68,6 @@ const ProgressWrapper = styled.div`
   border-radius: 8px;
   padding: 12px 16px;
   box-sizing: border-box;
-`;
-const ProgressBar = styled.div`
-  background: #ffffff;
-  border-radius: 2px;
-  height: 8px;
 `;
 
 const tagsColors: Record<string, string> = {
@@ -140,7 +136,11 @@ const Badge: React.FC<IProps> = ({ badge }) => {
               </Text>
             </Row>
             <SizedBox height={4} />
-            <ProgressBar />
+            <ProgressBar
+              progress={new BN(badge.progress.actualActionValue)
+                .div(badge.progress.requiredActionValue)
+                .toNumber()}
+            />
           </ProgressWrapper>
         ))}
     </Root>

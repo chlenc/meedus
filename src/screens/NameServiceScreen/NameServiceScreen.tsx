@@ -74,21 +74,28 @@ const NameServiceScreenImpl: React.FC<IProps> = observer(() => {
           <SizedBox height={40} />
           <Row style={{ width: "100%" }}>
             <Input
-              onFocus={() => vm.setExistingNft(null)}
-              onBlur={() => vm.checkNft()}
+
               onChange={(e) => vm.setName(e.target.value)}
               placeholder="Enter domain"
               value={vm.name}
               suffix=".waves"
             />
             <SizedBox width={16} />
-            <Button style={{ width: 160 }}>Search</Button>
+            <Button
+              disabled={vm.name === ""}
+              onClick={vm.checkNft}
+              style={{ width: 160 }}
+            >
+              Search
+            </Button>
           </Row>
           <SizedBox height={40} />
-          {vm.name.length > 0 && vm.existingNft != null && (
-            <ExistPreview nft={vm.existingNft} />
-          )}
-          {vm.name.length > 0 && vm.existingNft == null && <NotExistPreview />}
+          {vm.name.length > 0 &&
+            vm.existingNft != null &&
+            vm.name === vm.search && <ExistPreview nft={vm.existingNft} />}
+          {vm.name.length > 0 &&
+            vm.existingNft == null &&
+            vm.name === vm.search && <NotExistPreview />}
           <SizedBox height={24} />
           {/*{vm.name.length === 0 && <ActiveBids />}*/}
         </Column>

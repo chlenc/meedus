@@ -124,7 +124,7 @@ const AuctionScreenImpl: React.FC<IProps> = observer(() => {
                   value={props.value as string}
                   inputRef={ref}
                   suffix="WAVES"
-                  placeholder="Your bid"
+                  placeholder="Deposit (optional)"
                 />
               )}
               onChange={vm.setDeposit}
@@ -135,7 +135,7 @@ const AuctionScreenImpl: React.FC<IProps> = observer(() => {
             <PlaceBidButton />
           </Column>
           <SizedBox height={30} />
-          <Anchor href="https://t.me/meedus_nft">
+          <Anchor href="https://medium.com/@MEEDUS3/how-the-waves-namespace-auction-works-f2cfd00a6186">
             <Text weight={700} fitContent size="medium">
               How it works?
             </Text>

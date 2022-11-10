@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useMemo } from "react";
 import useVM from "@src/hooks/useVM";
-import { makeAutoObservable, reaction } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { RootStore, useStores } from "@stores";
 import { toBlob } from "html-to-image";
 import nftStorageService from "@src/services/nftStorageService";
@@ -9,8 +9,16 @@ import BN from "@src/utils/BN";
 import nodeService from "@src/services/nodeService";
 import { toast } from "react-toastify";
 import makeNodeRequest from "@src/utils/makeNodeRequest";
-import { NS_DAPP, TOKENS_BY_ASSET_ID, TOKENS_BY_SYMBOL } from "@src/constants";
+import {
+  AUCTION,
+  NFT_STORAGE,
+  NS_DAPP,
+  REGISTER,
+  TOKENS_BY_ASSET_ID,
+  TOKENS_BY_SYMBOL,
+} from "@src/constants";
 import { WavesDomainsClient } from "@waves-domains/client";
+import InvalidNameErr from "@screens/NameServiceScreen/InvalidNameErr";
 
 const ctx = React.createContext<NameServiceScreenVm | null>(null);
 
@@ -32,8 +40,6 @@ class NameServiceScreenVm {
   client = new WavesDomainsClient({ network: "mainnet" });
   constructor(private rootStore: RootStore) {
     makeAutoObservable(this);
-    setInterval(this.checkNft, 30 * 1000);
-    reaction(() => this.name, this.checkNft);
   }
 
   get calcPrice(): number {
@@ -66,17 +72,17 @@ class NameServiceScreenVm {
     return tokenAssetId != null ? TOKENS_BY_ASSET_ID[tokenAssetId] : null;
   }
 
-  previewModalOpened: boolean = false;
-  setPreviewModalOpened = (state: boolean) => (this.previewModalOpened = state);
-
   existingNft: TNftData | null = null;
   setExistingNft = (v: TNftData | null) => (this.existingNft = v);
 
   loading = false;
   setLoading = (v: boolean) => (this.loading = v);
 
-  bg: IOption | null = null;
+  bg: IOption | null = { title: "Waves Blue", key: "#0055FF" };
   setBg = (bg: IOption) => (this.bg = bg);
+
+  search: string = "";
+  private setSearch = (search: string) => (this.search = search.toLowerCase());
 
   name: string = "";
   setName = (name: string) => (this.name = name.toLowerCase());
@@ -151,17 +157,83 @@ class NameServiceScreenVm {
     }
   };
 
+  //1) вводим имя, нажимаем поиск
+  //
+  // 2.0) проверяем что оно соответствует правилам заведения
+  // - 1й и последний не может быть дефисом, 3й и 4й не могут быть дефисом подряд
+  // - длинна максимальная 53 минимальная  1, из специальных символов только ‘-‘ a-z маленькие буквы и цифры
+  // - не сминчено такое в мидас
+  // 2.1) проверяем доступность: isAvailable(name: String) в контракте регистратора или whoIs в npm пакете
+  // 2.2) проверяем проверяем валидно ли имя при помощи isValid(name: String) в контракте регистратора
+  // 3) узнаем фазу аукциона getAuction() в контракте аукциона, фазу и проверяем что полтзователь может произвести аукцион
+  // 4) делаем ставку
+  // 5) сохраняем файл
+  // [
+  //   {
+  //     "id": "<id транзакции>", //id транзакции ставки
+  //     "hash": "9ezR6Er5hDJWXV5YXXBuZQcxQiNKhyRDBXzQXPagzKaW", // хеш транзакции ставки
+  //     "domain": ".waves", // так надо оставить
+  //     "auctionId": 457, // id аукциона
+  //     "address": "3PAbP5zRZEXU93LaLQPEuYPnn8fnrs28wTB", //адрес пользователя
+  //     "name": "foo-bar", // имя за которое сделана ставка
+  //     "secret": "ZHVuZSBsYXRlciBub21pbmVlIQ==", // автогенеренный секрет, генерит 3 произвольных слова, превращаем в массив UTF-8 byte и кодируем в base64
+  //     "amount": "100001", //деньгт в вейвс
+  //     "deposit": "107000"
+  //   }
+  // ]
+
+  isValidName = (name = this.name) => {
+    const len = name.length;
+    //длинна максимальная 53 минимальная 1
+    if (len < 1 || len > 53) return false;
+    //1й и последний не может быть дефисом
+    else if (name[0] === "-" || name[len - 1] === "-") return false;
+    //3й и 4й не могут быть дефисом подряд
+    else if (name[2] === "-" && name[3] === "-") return false;
+    //из специальных символов только ‘-‘ a-z маленькие буквы и цифры
+    else if (!/^[a-z0-9-]*$/.test(name)) return false;
+    return true;
+  };
+
   private getNftData = async (): Promise<TNftData | null> => {
-    const domainsId = await this.client.resolve(this.name + ".waves");
-    const res = await nodeService.nodeKeysRequest(NS_DAPP, this.name);
+    if (!this.isValidName()) {
+      toast.error(<InvalidNameErr />, { style: { width: 320 } });
+      return null;
+    }
+    //todo
+    // 2.1) проверяем доступность: isAvailable(name: String) в контракте регистратора
+    // 2.2) проверяем проверяем валидно ли имя при помощи isValid(name: String) в контракте регистратора
+    const [isAvailable, isValid, res] = await Promise.all([
+      nodeService
+        .evaluate(REGISTER, `isAvailableName("${this.name}")`)
+        .then(({ result }) => result.value),
+      nodeService
+        .evaluate(AUCTION, `isValidName("${this.name}")`)
+        .then(({ result }) => result.value),
+      nodeService.nodeKeysRequest(NS_DAPP, this.name),
+    ]);
+
     if (res.length !== 0) {
       const id = res[0].value.toString();
-      const req = `/addresses/data/3PFQjjDMiZKQZdu5JqTHD7HwgSXyp9Rw9By/nft_${id}_image`;
+      const req = `/addresses/data/${NFT_STORAGE}/nft_${id}_image`;
       const { data } = await makeNodeRequest(req);
       const img = data.value;
+      this.setSearch(this.name);
       return { id, img };
+    } else if (!isAvailable) {
+      toast.error(
+        `${this.name}.waves is not available right now, please try again later`
+      );
+      return null;
+    } else if (!isValid) {
+      toast.error(
+        `You cannot start auction with ${this.name}.waves right now, please try again later`
+      );
+      return null;
+    } else {
+      this.setSearch(this.name);
+      return null;
     }
-    return domainsId != null ? { id: domainsId, img: "" } : null;
   };
 
   checkNft = () => this.getNftData().then(this.setExistingNft);

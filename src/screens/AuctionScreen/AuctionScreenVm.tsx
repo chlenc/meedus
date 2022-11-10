@@ -1,15 +1,15 @@
 import React, { PropsWithChildren, useMemo } from "react";
 import useVM from "@src/hooks/useVM";
-import { makeAutoObservable, reaction } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { RootStore, useStores } from "@stores";
-import { toBlob } from "html-to-image";
-import nftStorageService from "@src/services/nftStorageService";
 import { IOption } from "@components/Select";
 import nodeService from "@src/services/nodeService";
 import { toast } from "react-toastify";
-import makeNodeRequest from "@src/utils/makeNodeRequest";
-import { NS_DAPP, TOKENS_BY_ASSET_ID, TOKENS_BY_SYMBOL } from "@src/constants";
+import { AUCTION } from "@src/constants";
 import BN from "@src/utils/BN";
+import * as libCrypto from "@waves/ts-lib-crypto";
+import Long from "long";
+import { loadState, saveState } from "@src/utils/localStorage";
 
 const ctx = React.createContext<AuctionScreenVM | null>(null);
 
@@ -32,8 +32,6 @@ export const AuctionScreenVMProvider: React.FC<IProps> = ({
 };
 
 export const useAuctionScreenVM = () => useVM(ctx);
-let description =
-  "Created by 3PGKEe4y59V3WLnHwPEUaMWdbzy8sb982fG. NFT namespace «.waves». Early adopter's NFT used for MEEDUS. Created by @meedus_nft, launched by @puzzle_swap.";
 
 type TNftData = { id: string; img: string };
 
@@ -44,38 +42,6 @@ class AuctionScreenVM {
     public bg: IOption
   ) {
     makeAutoObservable(this);
-    setInterval(this.checkNft, 30 * 1000);
-    reaction(() => this.name, this.checkNft);
-  }
-
-  get calcPrice(): number {
-    const len = this.name.toString().length;
-    if (len >= 8) return 15;
-    else if (len < 8 && len >= 6) return 20;
-    else if (len < 6 && len >= 4) return 25;
-    else return 0;
-  }
-
-  get wnsTokensToPayment(): string[] {
-    const len = this.name.toString().length;
-    const wns0 = TOKENS_BY_SYMBOL.WNS0.assetId;
-    const wns1 = TOKENS_BY_SYMBOL.WNS1.assetId;
-    const wns2 = TOKENS_BY_SYMBOL.WNS2.assetId;
-    const wns3 = TOKENS_BY_SYMBOL.WNS3.assetId;
-    if (len >= 8) return [wns3, wns2, wns1, wns0];
-    else if (len < 8 && len >= 6) return [wns2, wns1, wns0];
-    else if (len < 6 && len >= 4) return [wns1, wns0];
-    else return [wns0];
-  }
-
-  get paymentAsset() {
-    const { assetBalances } = this.rootStore.accountStore;
-    const wnsTokens = this.wnsTokensToPayment;
-    const tokenAssetId = wnsTokens?.find((assetId) => {
-      const b = assetBalances?.find((b) => assetId === b.assetId);
-      return b?.balance?.gt(0);
-    });
-    return tokenAssetId != null ? TOKENS_BY_ASSET_ID[tokenAssetId] : null;
   }
 
   previewModalOpened: boolean = false;
@@ -87,22 +53,94 @@ class AuctionScreenVM {
   loading = false;
   setLoading = (v: boolean) => (this.loading = v);
 
-  setBid = (n: BN) => (this.bid = n);
+  get disabled() {
+    return this.bid.eq(0) || this.deposit.eq(0) || this.deposit.lt(this.bid);
+  }
+
+  setBid = (n: BN) => {
+    if (this.deposit.lte(this.bid)) this.setDeposit(n);
+    this.bid = n;
+  };
   bid: BN = BN.ZERO;
   setDeposit = (n: BN) => (this.deposit = n);
   deposit: BN = BN.ZERO;
 
-  placeBid = async () => {};
+  placeBid = async () => {
+    if (this.disabled) {
+      toast.error("Bid cannot be less then deposit");
+      return;
+    }
 
-  private getNftData = async (): Promise<TNftData | null> => {
-    const res = await nodeService.nodeKeysRequest(NS_DAPP, this.name);
-    if (res.length === 0) return null;
-    const id = res[0].value.toString();
-    const req = `/addresses/data/3PFQjjDMiZKQZdu5JqTHD7HwgSXyp9Rw9By/nft_${id}_image`;
-    const { data } = await makeNodeRequest(req);
-    const img = data.value;
-    return { id, img };
+    //, _2: phase, _3: bidStart, _4: revealStart, _5: auctionEnd,
+    const { _1: auctionId } = await nodeService
+      .evaluate(AUCTION, "getAuction()")
+      .then((d) => d.result.value);
+    const txPayment = { assetId: "WAVES", amount: this.deposit.toString() };
+    const secretWords = libCrypto.randomSeed(3);
+    const secret = libCrypto.base64Encode(libCrypto.stringToBytes(secretWords));
+    const hash = makeBidHash({
+      name: this.name,
+      amount: this.bid.toString(),
+      secret,
+      address: this.rootStore.accountStore.address!,
+    });
+    const args: Array<{ type: "integer" | "string"; value: string }> = [
+      { type: "integer", value: String(auctionId.value) },
+      { type: "string", value: hash },
+    ];
+    const txParams = {
+      dApp: AUCTION,
+      payment: [txPayment],
+      call: { function: "bid", args },
+    };
+    const txId = await this.rootStore.accountStore
+      .invoke(txParams)
+      .finally(() => this.setLoading(false));
+    if (txId != null) {
+      const backup = {
+        id: txId, //id транзакции ставки
+        hash, // хеш ставки
+        domain: ".waves", // так надо оставить
+        auctionId: auctionId.value, // id аукциона
+        address: this.rootStore.accountStore.address, //адрес пользователя
+        name: this.name, // имя за которое сделана ставка
+        secret, // автогенеренный секрет, генерит 3 произвольных слова, превращаем в массив UTF-8 byte и кодируем в base64
+        amount: this.bid.toString(), //деньгт в вейвс
+        deposit: this.deposit.toString(),
+      };
+      const state: any = loadState("meedus-bid-backup") ?? [];
+      state.push(backup);
+      saveState(state, "meedus-bid-backup");
+      console.log(loadState("meedus-bid-backup"));
+      toast.success("Congrats! Bid was made");
+      return;
+    } else {
+      toast.error("Something went wrong");
+      return;
+    }
   };
+}
 
-  checkNft = () => this.getNftData().then(this.setExistingNft);
+type TMakeBidHashProps = {
+  name: string;
+  amount: string;
+  secret: string;
+  address: string;
+};
+
+function makeBidHash({ name, amount, secret, address }: TMakeBidHashProps) {
+  console.log({ name, amount, secret, address });
+  const amountArrayNumbers = Long.fromString(amount);
+  const amountArrayBytes = amountArrayNumbers.toBytes();
+  const amountBytes = Uint8Array.from(amountArrayBytes);
+  const nameBytes = libCrypto.stringToBytes(name);
+  const addrBytes = libCrypto.base58Decode(address);
+  const secretBytes = libCrypto.base64Decode(secret);
+  const hashb2b = libCrypto.blake2b(
+    libCrypto.keccak(
+      libCrypto.concat(nameBytes, amountBytes, addrBytes, secretBytes)
+    )
+  );
+
+  return libCrypto.base58Encode(hashb2b);
 }

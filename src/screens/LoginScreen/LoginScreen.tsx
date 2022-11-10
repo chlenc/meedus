@@ -84,13 +84,13 @@ const LoginScreen: React.FC<IProps> = () => {
             >
               Waves.Exchange email
             </Button>
-            {/*<SizedBox height={16} />*/}
-            {/*<Button*/}
-            {/*  kind="secondary"*/}
-            {/*  onClick={handleLogin(LOGIN_TYPE.SIGNER_SEED)}*/}
-            {/*>*/}
-            {/*  Seed phrase*/}
-            {/*</Button>*/}
+            <SizedBox height={16} />
+            <Button
+              kind="secondary"
+              onClick={handleLogin(LOGIN_TYPE.SIGNER_SEED)}
+            >
+              Seed phrase
+            </Button>
             <SizedBox height={16} />
             <Button
               kind="secondary"
@@ -106,7 +106,10 @@ const LoginScreen: React.FC<IProps> = () => {
           <SizedBox height={8} />
           <Text weight={500} size="medium" textAlign="center">
             <span> New to Waves blockchain?</span> <br />
-            <Anchor style={{ color: "#269995" }} href="https://t.me/meedus_nft">
+            <Anchor
+              style={{ color: "#269995" }}
+              href="https://puzzle-lend.gitbook.io/guidebook/get-started-on-waves/create-wallet"
+            >
               Learn more about wallets
             </Anchor>
           </Text>
