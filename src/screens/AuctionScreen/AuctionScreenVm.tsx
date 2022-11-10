@@ -92,28 +92,6 @@ class AuctionScreenVM {
   setDeposit = (n: BN) => (this.deposit = n);
   deposit: BN = BN.ZERO;
 
-  createImage = async () => {
-    const element = document.getElementById("hidden-preview");
-    if (element == null) {
-      const e = "Error while getting element out of pic: element not found";
-      console.error(e);
-      toast.error(e);
-      return;
-    }
-    const blob = await toBlob(element);
-    if (blob == null) {
-      const e = "Error while creating blob from pic";
-      console.error(e);
-      toast.error(e);
-      return;
-    }
-    const file = new File([blob], this.name);
-    const res = await nftStorageService.storeNFT(file, this.name, description);
-    return res.data.image
-      .toString()
-      .replace("ipfs://", "https://ipfs.io/ipfs/");
-  };
-
   placeBid = async () => {};
 
   private getNftData = async (): Promise<TNftData | null> => {

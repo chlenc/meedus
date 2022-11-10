@@ -12,7 +12,6 @@ import Input from "@components/Input";
 import Layout from "@components/Layout";
 import ExistPreview from "@screens/NameServiceScreen/ExistPreview";
 import NotExistPreview from "@screens/NameServiceScreen/NotExistPreview";
-import ActiveBids from "@screens/NameServiceScreen/ActiveBids";
 import Button from "@components/Button";
 import MyBids from "@screens/AuctionScreen/MyBids";
 
