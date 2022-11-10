@@ -104,6 +104,7 @@ class AuctionScreenVM {
         auctionId: auctionId.value, // id аукциона
         address: this.rootStore.accountStore.address, //адрес пользователя
         name: this.name, // имя за которое сделана ставка
+        color: this.bg.key,
         secret, // автогенеренный секрет, генерит 3 произвольных слова, превращаем в массив UTF-8 byte и кодируем в base64
         amount: this.bid.toString(), //деньгт в вейвс
         deposit: this.deposit.toString(),
@@ -129,7 +130,6 @@ type TMakeBidHashProps = {
 };
 
 function makeBidHash({ name, amount, secret, address }: TMakeBidHashProps) {
-  console.log({ name, amount, secret, address });
   const amountArrayNumbers = Long.fromString(amount);
   const amountArrayBytes = amountArrayNumbers.toBytes();
   const amountBytes = Uint8Array.from(amountArrayBytes);
