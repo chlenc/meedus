@@ -9,6 +9,7 @@ import {
   useMyBidsVM,
 } from "@screens/AuctionScreen/MyBids/MyBidsVm";
 import { observer } from "mobx-react-lite";
+import TextBtn from "@components/TextBtn";
 
 interface IProps {}
 
@@ -39,13 +40,9 @@ const MyBidsImpl: React.FC<IProps> = observer(() => {
           My bids
         </Text>
         <Row mainAxisSize="fit-content" alignItems="center">
-          <Text fitContent weight={700} size="big">
-            Backup
-          </Text>
+          <TextBtn>Backup</TextBtn>
           <SizedBox width={44} />
-          <Text fitContent weight={700} size="big">
-            Restore
-          </Text>
+          <TextBtn>Restore</TextBtn>
           {/*<SizedBox width={44} />*/}
           {/*<Button fitContent kind="secondary">*/}
           {/*  Claim All*/}
