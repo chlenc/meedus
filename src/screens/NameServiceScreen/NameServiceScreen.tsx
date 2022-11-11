@@ -13,7 +13,7 @@ import Layout from "@components/Layout";
 import ExistPreview from "@screens/NameServiceScreen/ExistPreview";
 import NotExistPreview from "@screens/NameServiceScreen/NotExistPreview";
 import Button from "@components/Button";
-import MyBids from "@screens/AuctionScreen/MyBids";
+import MyBids from "./MyBids";
 import { useStores } from "@stores";
 import DialogNotification from "@components/Dialog/DialogNotification";
 

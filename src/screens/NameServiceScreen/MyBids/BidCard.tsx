@@ -1,13 +1,14 @@
 import styled from "@emotion/styled";
-import React from "react";
+import React, { useState } from "react";
 import { Column, Row } from "@src/components/Flex";
 import Text from "@src/components/Text";
 // import { ReactComponent as More } from "@src/assets/icons/more.svg";
 import SizedBox from "@components/SizedBox";
 import Button from "@components/Button";
 import { labelColorMap } from "@components/Preview";
-import { TBid, TBidStatus } from "@screens/AuctionScreen/MyBids/MyBidsVm";
+import { TBid, TBidStatus, useMyBidsVM } from "./MyBidsVm";
 import BN from "@src/utils/BN";
+import CustomCountdown from "@components/CustomCountdown";
 
 interface IProps {
   bid: TBid;
@@ -54,22 +55,22 @@ const Status = styled.div<{ status?: TBidStatus }>`
     })()}
 `;
 
-const getBtnText = (status?: string) => {
-  switch (status) {
-    case "bid":
-      return "Open Bid";
-    case "missed":
-      return "Open Bid";
-    case "reveal":
-      return "Claim NFT";
-    case "winner":
-      return "Refund Bid";
-    case "expired":
-      return "Refund Bid";
-    default:
-      return "Default";
-  }
-};
+// const getBtnText = (status?: string) => {
+//   switch (status) {
+//     case "bid":
+//       return "Open Bid";
+//     case "missed":
+//       return "Open Bid";
+//     case "reveal":
+//       return "Claim NFT";
+//     case "winner":
+//       return "Refund Bid";
+//     case "expired":
+//       return "Refund Bid";
+//     default:
+//       return "Default";
+//   }
+// };
 const Card = styled.div`
   display: flex;
   flex-direction: column;
@@ -92,8 +93,14 @@ const Label = styled.p`
   text-align: center;
 `;
 const BidCard: React.FC<IProps> = ({ bid }) => {
-  const color = labelColorMap[bid.color ?? ""]?.font ?? "#000";
-  const background = labelColorMap[bid.color ?? ""]?.bg ?? "rgba(0, 0, 0, 0.2)";
+  const vm = useMyBidsVM();
+  const [loading, setLoading] = useState(false);
+  const reveal = () => {
+    if (loading) return;
+    setLoading(true);
+    vm.revealBid(bid).finally(() => setLoading(false));
+  };
+
   return (
     <Root>
       <Row justifyContent="space-between">
@@ -117,15 +124,28 @@ const BidCard: React.FC<IProps> = ({ bid }) => {
             {bid.amount ? BN.formatUnits(bid.amount).toFormat(4) : "?"} WAVES
           </Text>
         </Column>
-        {/*<Column>*/}
-        {/*  <Text type="grey">Next phase</Text>*/}
-        {/*  <Text weight={700}>Claim your domain</Text>*/}
-        {/*</Column>*/}
+        <Column>
+          <Text type="grey">Next phase</Text>
+          <Text weight={700}>
+            {bid.nextPhase === 0 && "Claim your domain"}
+            {bid.nextPhase === -1 && "Refund your bid"}
+            {bid.nextPhase != null && bid.nextPhase > 0 && (
+              <CustomCountdown date={new Date(+bid.nextPhase)} />
+            )}
+          </Text>
+        </Column>
       </Row>
       <SizedBox height={16} />
-      <Button disabled size="medium">
-        {getBtnText(bid.status)}
-      </Button>
+
+      {["bid", "needReveal"].includes(bid.status ?? "") && (
+        <Button
+          size="medium"
+          disabled={bid.status === "bid" ?? loading}
+          onClick={reveal}
+        >
+          Open Bid
+        </Button>
+      )}
     </Root>
   );
 };
