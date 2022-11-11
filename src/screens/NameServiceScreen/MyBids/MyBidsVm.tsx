@@ -2,7 +2,7 @@ import React, { PropsWithChildren, useMemo } from "react";
 import useVM from "@src/hooks/useVM";
 import { makeAutoObservable } from "mobx";
 import { RootStore, useStores } from "@stores";
-import { loadState } from "@src/utils/localStorage";
+import { loadState, saveState } from "@src/utils/localStorage";
 import makeNodeRequest from "@src/utils/makeNodeRequest";
 import { AUCTION } from "@src/constants";
 import { IData } from "@src/utils/getStateByKey";
@@ -19,7 +19,7 @@ export const MyBidsVMProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
 export const useMyBidsVM = () => useVM(ctx);
 
-type TBidBackup = {
+export type TBidBackup = {
   id: string;
   hash: string;
   domain: string;
@@ -240,6 +240,18 @@ class MyBidsVM {
       toast.error("Something went wrong");
       return;
     }
+  };
+
+  restore = async (data: TBidBackup[]) => {
+    const backup = (loadState("meedus-bid-backup") ?? []) as TBidBackup[];
+    data.forEach((v) => {
+      if (!backup.some(({ id }) => id === v.id)) {
+        backup.push(v);
+      }
+    });
+    saveState(backup as any, "meedus-bid-backup");
+    await this.sync();
+    toast.success("Success");
   };
 
   private sync = async () => {

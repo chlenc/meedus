@@ -12,6 +12,7 @@ import {
   MyBidsVMProvider,
   useMyBidsVM,
 } from "@screens/NameServiceScreen/MyBids/MyBidsVm";
+import Upload from "@components/Upload";
 
 interface IProps {}
 
@@ -44,7 +45,10 @@ const MyBidsImpl: React.FC<IProps> = observer(() => {
         <Row mainAxisSize="fit-content" alignItems="center">
           <TextBtn onClick={backupBids}>Backup</TextBtn>
           <SizedBox width={44} />
-          <TextBtn>Restore</TextBtn>
+          <Upload onChange={vm.restore}>
+            <TextBtn>Restore</TextBtn>
+          </Upload>
+
           {/*<SizedBox width={44} />*/}
           {/*<Button fitContent kind="secondary">*/}
           {/*  Claim All*/}
