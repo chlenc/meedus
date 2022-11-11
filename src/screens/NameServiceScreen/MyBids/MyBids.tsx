@@ -3,13 +3,15 @@ import React from "react";
 import Text from "@components/Text";
 import { Column, Row } from "@src/components/Flex";
 import SizedBox from "@components/SizedBox";
-import BidCard from "@screens/AuctionScreen/BidCard";
+import BidCard from "./BidCard";
+
+import { observer } from "mobx-react-lite";
+import TextBtn from "@components/TextBtn";
+import { backupBids } from "@src/utils/localStorage";
 import {
   MyBidsVMProvider,
   useMyBidsVM,
-} from "@screens/AuctionScreen/MyBids/MyBidsVm";
-import { observer } from "mobx-react-lite";
-import TextBtn from "@components/TextBtn";
+} from "@screens/NameServiceScreen/MyBids/MyBidsVm";
 
 interface IProps {}
 
@@ -40,7 +42,7 @@ const MyBidsImpl: React.FC<IProps> = observer(() => {
           My bids
         </Text>
         <Row mainAxisSize="fit-content" alignItems="center">
-          <TextBtn>Backup</TextBtn>
+          <TextBtn onClick={backupBids}>Backup</TextBtn>
           <SizedBox width={44} />
           <TextBtn>Restore</TextBtn>
           {/*<SizedBox width={44} />*/}

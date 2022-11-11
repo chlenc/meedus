@@ -7,6 +7,7 @@ import makeNodeRequest from "@src/utils/makeNodeRequest";
 import { AUCTION } from "@src/constants";
 import { IData } from "@src/utils/getStateByKey";
 import nodeService from "@src/services/nodeService";
+import { toast } from "react-toastify";
 
 const ctx = React.createContext<MyBidsVM | null>(null);
 
@@ -63,7 +64,12 @@ export type TBidStatus =
 
 export type TBid = Partial<TBidBackup> &
   Partial<{ name: string; bid: string }> &
-  TStateBid & { top: boolean; reveal: boolean; status?: TBidStatus };
+  TStateBid & {
+    top: boolean;
+    reveal: boolean;
+    status?: TBidStatus;
+    nextPhase?: number;
+  };
 
 class MyBidsVM {
   // private readonly
@@ -154,44 +160,87 @@ class MyBidsVM {
 
   public get bids(): TBid[] {
     return (
-      this.state?.bid.map((bid) => {
-        const backup = this.backup.find(({ hash }) => bid.hash === hash);
-        const reveal = this.state?.reveal?.find(
-          ({ hash }) => bid.hash === hash
-        );
-        const top = this.state?.top?.find(({ hash }) => bid.hash === hash);
-        let status;
-        const auction = this.auction;
-        const isActive = auction != null && bid.auctionId === auction.id;
-        const isReveal = auction?.phase === "REVEAL";
-        if (isActive && auction.phase === "BID") {
-          status = "bid";
-        } else if (isActive && isReveal && reveal == null) {
-          status = "needReveal";
-        } else if (isActive && isReveal && reveal != null && top == null) {
-          status = "reveal";
-        } else if (isActive && isReveal && reveal != null && top != null) {
-          status = "leading";
-        } else if (!isActive && reveal != null && top != null) {
-          status = "winner";
-        } else if (!isActive && reveal != null && top == null) {
-          status = "missed";
-        } else if (!isActive && reveal == null) {
-          status = "expired";
-        }
-        return {
-          ...bid,
-          ...reveal,
-          ...(backup != null
-            ? { ...backup, auctionId: backup.auctionId.toString() }
-            : {}),
-          reveal: reveal != null,
-          top: top != null,
-          status,
-        } as TBid;
-      }) ?? []
+      this.state?.bid
+        .map((bid) => {
+          const backup = this.backup.find(({ hash }) => bid.hash === hash);
+          const reveal = this.state?.reveal?.find(
+            ({ hash }) => bid.hash === hash
+          );
+          const top = this.state?.top?.find(({ hash }) => bid.hash === hash);
+          let status, nextPhase;
+          const auction = this.auction;
+          const isActive = auction != null && bid.auctionId === auction.id;
+          const isReveal = auction?.phase === "REVEAL";
+          if (isActive && auction.phase === "BID") {
+            status = "bid";
+            nextPhase = this.auction?.revealStart;
+          } else if (isActive && isReveal && reveal == null) {
+            status = "needReveal";
+            nextPhase = this.auction?.auctionEnd;
+          } else if (isActive && isReveal && reveal != null && top == null) {
+            nextPhase = this.auction?.auctionEnd;
+            status = "reveal";
+          } else if (isActive && isReveal && reveal != null && top != null) {
+            nextPhase = this.auction?.auctionEnd;
+            status = "leading";
+          } else if (!isActive && reveal != null && top != null) {
+            nextPhase = 0; //Claim your domain
+            status = "winner";
+          } else if (!isActive && reveal != null && top == null) {
+            nextPhase = -1; //Refund your bid
+            status = "missed";
+          } else if (!isActive && reveal == null) {
+            nextPhase = -1; //Refund your bid
+            status = "expired";
+          }
+          return {
+            ...bid,
+            ...reveal,
+            ...(backup != null
+              ? { ...backup, auctionId: backup.auctionId.toString() }
+              : {}),
+            reveal: reveal != null,
+            top: top != null,
+            status,
+            nextPhase,
+          } as TBid;
+        })
+        .reverse() ?? []
     );
   }
+
+  revealBid = async (bid: TBid) => {
+    const { auction, state } = this;
+    const isActive = auction != null && bid.auctionId === auction.id;
+    const isReveal = auction?.phase === "REVEAL";
+    const reveal = state?.reveal.find((b) => bid.hash === b.hash);
+    if (!isActive || !isReveal || reveal != null) return;
+
+    if (bid.name == null || bid.secret == null || bid.amount == null) {
+      toast.error("Need to import this bid backup");
+      return;
+    }
+    const args: any[] = [
+      { type: "integer", value: Number(bid.auctionId) },
+      { type: "string", value: bid.name },
+      { type: "integer", value: bid.amount },
+      { type: "binary", value: `base64:${bid.secret}` },
+    ];
+    const txParams = {
+      dApp: AUCTION,
+      payment: [],
+      call: { function: "reveal", args },
+    };
+    const txId = await this.rootStore.accountStore.invoke(txParams);
+    if (txId != null) {
+      await this.sync();
+      toast.success("Congrats! You can check your name on puzzlemarket.org");
+      return;
+    } else {
+      toast.error("Something went wrong");
+      return;
+    }
+  };
 
   private sync = async () => {
     this.setBackup((loadState("meedus-bid-backup") ?? []) as TBidBackup[]);
