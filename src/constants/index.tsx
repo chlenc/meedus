@@ -16,8 +16,8 @@ export const TOKEN_LOGO_BY_ASSET_ID: Record<string, string> = logos;
 export const NS_DAPP = "3PGKEe4y59V3WLnHwPEUaMWdbzy8sb982fG"; //mainnet
 // export const NS_DAPP = "3N9CHPgP4cjToRcdiwyvfBhmS1rJp1JXZ6M"; //testnet
 
-// export const AUCTION = "3PEAqJwXYEiGJ4vdpKfRF48TFQ1gWfByR9S";//todo
-export const AUCTION = "3PCRdF1bZCesKtAsd8ZdTbgiLB6ZNYEPWSX";
+export const AUCTION = "3PEAqJwXYEiGJ4vdpKfRF48TFQ1gWfByR9S";
+// export const AUCTION = "3PCRdF1bZCesKtAsd8ZdTbgiLB6ZNYEPWSX";//test auction
 export const REGISTER = "3P6utP25F4wMUGG4hGdDtMXMKu2tTeNkgRs";
 export const NFT_STORAGE = "3PFQjjDMiZKQZdu5JqTHD7HwgSXyp9Rw9By";
 
