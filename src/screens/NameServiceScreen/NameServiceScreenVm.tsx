@@ -19,6 +19,10 @@ import {
 } from "@src/constants";
 import { WavesDomainsClient } from "@waves-domains/client";
 import InvalidNameErr from "@screens/NameServiceScreen/InvalidNameErr";
+import {
+  buildSuccessPurchaseParams,
+  IDialogNotificationProps,
+} from "@components/Dialog/DialogNotification";
 
 const ctx = React.createContext<NameServiceScreenVm | null>(null);
 
@@ -38,6 +42,11 @@ export type TNftData = { id: string; img: string };
 
 class NameServiceScreenVm {
   client = new WavesDomainsClient({ network: "mainnet" });
+
+  public notificationParams: IDialogNotificationProps | null = null;
+  public setNotificationParams = (params: IDialogNotificationProps | null) =>
+    (this.notificationParams = params);
+
   constructor(private rootStore: RootStore) {
     makeAutoObservable(this);
   }
@@ -149,7 +158,14 @@ class NameServiceScreenVm {
       .invoke(txParams)
       .finally(() => this.setLoading(false));
     if (txId != null) {
-      toast.success("Congrats! You can check your name on puzzlemarket.org");
+      const params = this.setNotificationParams(
+        buildSuccessPurchaseParams({
+          domain: `${this.name}.waves`,
+          onGoMarket: () => window.open(`https://puzzlemarket.org/nft/${txId}`),
+          onGoBack: () => window.location.reload(),
+        })
+      );
+      this.setNotificationParams(params);
       return;
     } else {
       toast.error("Something went wrong");
