@@ -103,7 +103,7 @@ const NameServiceScreenImpl: React.FC<IProps> = observer(() => {
         </Column>
       </Row>
       {vm.name.length === 0 && accountStore.address != null && <MyBids />}
-
+      <SizedBox height={24} />
       <DialogNotification
         domain={vm.notificationParams?.domain}
         title={vm.notificationParams?.title ?? ""}
