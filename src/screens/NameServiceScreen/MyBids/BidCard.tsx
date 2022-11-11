@@ -95,6 +95,9 @@ const Label = styled.p`
 const BidCard: React.FC<IProps> = ({ bid }) => {
   const vm = useMyBidsVM();
   const [loading, setLoading] = useState(false);
+  const color = labelColorMap[bid?.color ?? ""]?.font ?? "#000";
+  const background =
+    labelColorMap[bid?.color ?? ""]?.bg ?? "rgba(0, 0, 0, 0.2)";
   const reveal = () => {
     if (loading) return;
     setLoading(true);
