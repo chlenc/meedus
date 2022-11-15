@@ -8,6 +8,7 @@ import styled from "@emotion/styled";
 import Button from "@components/Button";
 
 interface IProps extends IDialogPropTypes {}
+
 const CloseButton = styled(Button)`
   width: 40px;
   padding: 0;
@@ -15,9 +16,13 @@ const CloseButton = styled(Button)`
 const Dialog: React.FC<IProps> = ({ children, ...rest }) => (
   <RcDialog
     closeIcon={
-      <CloseButton size="medium" kind="secondary">
-        <CloseIcon />
-      </CloseButton>
+      rest.onClose != null ? (
+        <CloseButton size="medium" kind="secondary">
+          <CloseIcon />
+        </CloseButton>
+      ) : (
+        <></>
+      )
     }
     animation="zoom"
     maskAnimation="fade"

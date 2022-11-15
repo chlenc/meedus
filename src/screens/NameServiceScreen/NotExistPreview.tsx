@@ -8,7 +8,6 @@ import { observer } from "mobx-react-lite";
 import { useNameServiceScreenVM } from "@screens/NameServiceScreen/NameServiceScreenVm";
 import Preview from "@components/Preview";
 import BuyNftButton from "./BuyNftButton";
-import { BADGE_COLORS } from "@src/constants";
 
 interface IProps {}
 
@@ -38,6 +37,18 @@ const Tag = styled.div`
   box-sizing: border-box;
 `;
 
+const categoriesOptions = [
+  {
+    title: "Waves Blue",
+    key: "#0055FF",
+  },
+  { title: "Red", key: "#FF4940" },
+  { title: "Orange", key: "#FF8D00" },
+  { title: "Yellow", key: "#FFDA0B" },
+  { title: "Green", key: "#00CC5F" },
+  { title: "Purple", key: "#AA00FF" },
+];
+
 const NotExistPreview: React.FC<IProps> = () => {
   const vm = useNameServiceScreenVM();
   return (
@@ -49,7 +60,7 @@ const NotExistPreview: React.FC<IProps> = () => {
           Available
         </Tag>
         <Select
-          options={BADGE_COLORS}
+          options={categoriesOptions}
           selected={vm.bg}
           placeholder="Select background color"
           onSelect={(v) => vm.setBg(v)}

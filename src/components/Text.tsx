@@ -6,7 +6,8 @@ type TTextType =
   | "light"
   | "purple"
   | "error"
-  | "success";
+  | "success"
+  | "grey";
 type TTextSize = "small" | "medium" | "large" | "big" | "title";
 type TTextAlign = "center" | "left" | "right" | "justify";
 
@@ -55,6 +56,8 @@ const Text = styled.div<{
           return "color: #E34744;";
         case "success":
           return "color: #7CE34F;";
+        case "grey":
+          return "color: #AAAAAA;";
         default:
           return "color: #000;";
       }

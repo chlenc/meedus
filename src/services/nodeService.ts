@@ -71,6 +71,16 @@ const nodeService = {
     const { data } = await makeNodeRequest(url);
     return data;
   },
+  evaluate: async (
+    address: string,
+    expression: string
+  ): Promise<IEvaluateScript> => {
+    const url = `/utils/script/evaluate/${address}`;
+    const { data } = await makeNodeRequest(url, {
+      postData: { expr: expression },
+    });
+    return data;
+  },
   getAddressBalances: async (address: string | null): Promise<IBalance[]> => {
     if (address == null) return [];
     const assetsUrl = `/assets/balance/${address}`;
@@ -114,5 +124,21 @@ const nodeService = {
     }
   },
 };
+
+export interface IEvaluateScript {
+  result: {
+    type: string;
+    value: Record<
+      string,
+      {
+        type: string;
+        value: string | number | boolean | [];
+      }
+    >;
+  };
+  complexity: number;
+  expr: string;
+  address: string;
+}
 
 export default nodeService;

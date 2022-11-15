@@ -11,6 +11,9 @@ import {
   useAchievementsScreenVM,
 } from "@screens/AchievementsScreen/AchievementsScreenVm";
 import Spinner from "@components/Spinner";
+import { Row } from "@src/components/Flex";
+import Button from "@components/Button";
+import { useStores } from "@stores";
 
 interface IProps {}
 
@@ -26,7 +29,7 @@ const Root = styled.div`
   min-height: calc(100vh - 150px);
   max-width: calc(1160px + 32px);
   position: relative;
-  margin: 24px 0;
+  margin: 40px 0;
   @media (min-width: 1280px) {
     padding: 0 24px;
   } ;
@@ -35,7 +38,7 @@ const Root = styled.div`
 const BadgesGrid = styled.div`
   width: 100%;
   display: inline-grid;
-  gap: 40px;
+  gap: 24px;
   grid-template-columns: 1fr;
   @media (min-width: 768px) {
     grid-template-columns: 1fr 1fr;
@@ -45,7 +48,25 @@ const BadgesGrid = styled.div`
   } ;
 `;
 
+const Title = styled.div`
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 48px;
+  text-align: center;
+  letter-spacing: -0.01em;
+  color: #000000;
+  max-width: 690px;
+  margin-bottom: 40px;
+
+  @media (min-width: 768px) {
+    font-size: 56px;
+    line-height: 64px;
+    margin-bottom: 80px;
+  }
+`;
+
 const AchievementsScreenImpl: React.FC<IProps> = observer(() => {
+  const { accountStore } = useStores();
   const vm = useAchievementsScreenVM();
 
   return vm.loading ? (
@@ -54,13 +75,25 @@ const AchievementsScreenImpl: React.FC<IProps> = observer(() => {
     </Root>
   ) : (
     <Root>
-      <Input
-        value={vm.search}
-        onChange={(e) => vm.setSearch(e.target.value)}
-        icon="search"
-        style={{ height: 48 }}
-        placeholder="Search in Meedus…"
-      />
+      <Title>Explore Achievements of Waves Ecosystem</Title>
+      <Row alignItems="center" justifyContent="space-between">
+        <Button
+          style={{ maxWidth: 160, minWidth: 100, marginRight: 16 }}
+          size="medium"
+          disabled={accountStore.address == null || vm.updateLoading}
+          kind="secondary"
+          onClick={vm.syncProgress}
+        >
+          {vm.updateLoading ? <Spinner size={16} /> : "Check All Eligibility"}
+        </Button>
+        <Input
+          value={vm.search}
+          onChange={(e) => vm.setSearch(e.target.value)}
+          icon="search"
+          style={{ height: 48, maxWidth: 320 }}
+          placeholder="Search in Meedus…"
+        />
+      </Row>
       <SizedBox height={36} />
       <Tabs
         activeTab={vm.tab}
@@ -73,8 +106,14 @@ const AchievementsScreenImpl: React.FC<IProps> = observer(() => {
       />
       <SizedBox height={40} />
       <BadgesGrid>
-        {vm.filteredBadges.map((badge, i) => (
-          <Badge badge={badge} key={i} />
+        {vm.filteredBadges.map((badge) => (
+          <Badge
+            badge={badge}
+            key={badge.id}
+            loading={vm.mintingId === String(badge.id)}
+            mintedTimestamp={vm.mintedDates[String(badge.id)]}
+            onMint={() => vm.mint(String(badge.id))}
+          />
         ))}
       </BadgesGrid>
       <SizedBox height={48} />
