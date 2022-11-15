@@ -8,18 +8,25 @@ import { TBadge, TCheckScriptResult } from "@src/services/badgesService";
 import { ReactComponent as Logo } from "@src/assets/images/roundLogo.svg";
 import BN from "@src/utils/BN";
 import Button from "@components/Button";
-import Tooltip from "@components/Tooltip";
 import ProgressBar from "@components/ProgressBar";
+import Spinner from "@components/Spinner";
+import dayjs from "dayjs";
 
 interface IProps {
   badge: TBadge & { progress?: TCheckScriptResult };
-  onMint?: () => void;
+  onMint: () => void;
+  loading?: boolean;
+  mintedTimestamp?: number;
 }
 
 const Root = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 16px;
+  box-sizing: border-box;
+  border: 2px solid #eeeeee;
+  border-radius: 12px;
 `;
 
 const NftPreview = styled.div<{ src?: string }>`
@@ -78,7 +85,29 @@ const tagsColors: Record<string, string> = {
   General: "#A5FFC9",
 };
 
-const Badge: React.FC<IProps> = ({ badge }) => {
+const UnlockedContainer = styled(Row)`
+  align-items: center;
+  padding: 6px 16px;
+  height: 56px;
+  box-sizing: border-box;
+  background: #ffdea6;
+  border-radius: 8px;
+`;
+
+const Round = styled.div`
+  border: 2px solid #000000;
+  width: 16px;
+  height: 16px;
+  margin-right: 16px;
+  border-radius: 50%;
+`;
+
+const Badge: React.FC<IProps> = ({
+  badge,
+  onMint,
+  loading,
+  mintedTimestamp,
+}) => {
   const [squareRef, { width }] = useElementSize();
 
   return (
@@ -117,14 +146,30 @@ const Badge: React.FC<IProps> = ({ badge }) => {
       {badge.progress &&
         (badge.progress.actualActionValue >=
         badge.progress.requiredActionValue ? (
-          <Tooltip content={<Text>Coming soon</Text>}>
-            <Button style={{ marginTop: 16 }}>Mint</Button>
-          </Tooltip>
+          mintedTimestamp ? (
+            <UnlockedContainer>
+              <Round />
+              <Column alignItems="center">
+                <Text size="medium" weight={700}>
+                  Unlocked
+                </Text>
+                <Text>{dayjs(mintedTimestamp).format("MMM DD, YYYY")}</Text>
+              </Column>
+            </UnlockedContainer>
+          ) : (
+            <Button
+              disabled={loading}
+              onClick={onMint}
+              style={{ marginTop: 16 }}
+            >
+              {loading ? <Spinner size={16} /> : "Mint"}
+            </Button>
+          )
         ) : (
           <ProgressWrapper>
             <Row justifyContent="space-between">
               <Text fitContent>
-                {badge.progress.actualActionValue}/
+                {badge.progress.actualActionValue}&nbsp;/&nbsp;
                 {badge.progress.requiredActionValue}
               </Text>
               <Text fitContent>

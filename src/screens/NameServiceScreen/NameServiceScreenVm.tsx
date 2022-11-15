@@ -253,4 +253,8 @@ class NameServiceScreenVm {
   };
 
   checkNft = () => this.getNftData().then(this.setExistingNft);
+  // checkNft = () => {
+  //   this.setSearch(this.name);
+  //   this.setExistingNft(null);
+  // };
 }

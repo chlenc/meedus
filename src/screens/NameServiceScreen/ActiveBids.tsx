@@ -3,8 +3,8 @@ import React from "react";
 import Text from "@components/Text";
 import SizedBox from "@components/SizedBox";
 import Button from "@components/Button";
-import Tooltip from "@components/Tooltip";
 import image from "@src/assets/images/connectWalletPic.png";
+
 interface IProps {}
 
 const Root = styled.div`
@@ -37,11 +37,9 @@ const ActiveBids: React.FC<IProps> = () => {
         You can keep track of your domain bids on Waves Domains
       </Text>
       <SizedBox height={24} />
-      <Tooltip content={<Text>Coming soon</Text>}>
-        <Button size="medium" style={{ width: "fit-content" }}>
-          Go to Waves Domains
-        </Button>
-      </Tooltip>
+      <Button size="medium" style={{ width: "fit-content" }}>
+        Go to Waves Domains
+      </Button>
       <Pic />
     </Root>
   );

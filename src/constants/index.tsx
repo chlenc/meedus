@@ -13,6 +13,7 @@ export const ROUTES = {
 
 export const TOKEN_LOGO_BY_ASSET_ID: Record<string, string> = logos;
 
+export const CORE = "3P7NhmDt31ekQ2JryxtmdgZ1DXgVPwyocJK";
 export const NS_DAPP = "3PGKEe4y59V3WLnHwPEUaMWdbzy8sb982fG"; //mainnet
 // export const NS_DAPP = "3N9CHPgP4cjToRcdiwyvfBhmS1rJp1JXZ6M"; //testnet
 
