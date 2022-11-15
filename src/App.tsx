@@ -9,6 +9,7 @@ import AuctionScreen from "@screens/AuctionScreen";
 interface IProps {}
 
 const App: React.FunctionComponent<IProps> = () => {
+  console.log(process.env.REACT_APP_BACKEND_URL);
   return (
     <>
       <Routes>
