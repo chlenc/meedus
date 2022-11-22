@@ -26,7 +26,7 @@ const Root = styled.div`
   padding: 0 16px;
   height: 100%;
   width: 100%;
-  min-height: calc(100vh - 150px);
+  //min-height: calc(100vh - 150px);
   max-width: calc(1160px + 32px);
   position: relative;
   margin: 40px 0;

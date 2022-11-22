@@ -9,6 +9,7 @@ import { labelColorMap } from "@components/Preview";
 import { TBid, TBidStatus, useMyBidsVM } from "./MyBidsVm";
 import BN from "@src/utils/BN";
 import CustomCountdown from "@components/CustomCountdown";
+import Spinner from "@components/Spinner";
 
 interface IProps {
   bid: TBid;
@@ -71,6 +72,17 @@ const Status = styled.div<{ status?: TBidStatus }>`
 //       return "Default";
 //   }
 // };
+
+const statusText: Record<TBidStatus, string> = {
+  bid: "Bid",
+  missed: "Missed",
+  needReveal: "Need reveal",
+  reveal: "Reveal",
+  leading: "Leading",
+  winner: "Winner",
+  expired: "Expired",
+};
+
 const Card = styled.div`
   display: flex;
   flex-direction: column;
@@ -103,11 +115,18 @@ const BidCard: React.FC<IProps> = ({ bid }) => {
     setLoading(true);
     vm.revealBid(bid).finally(() => setLoading(false));
   };
+  const finalize = () => {
+    if (loading) return;
+    setLoading(true);
+    vm.finalize(bid).finally(() => setLoading(false));
+  };
 
   return (
     <Root>
       <Row justifyContent="space-between">
-        <Status status={bid.status}>{bid.status}</Status>
+        {bid.status && (
+          <Status status={bid.status}>{statusText[bid.status]}</Status>
+        )}
         {/*<More />*/}
       </Row>
       <SizedBox height={18} />
@@ -143,10 +162,20 @@ const BidCard: React.FC<IProps> = ({ bid }) => {
       {["bid", "needReveal"].includes(bid.status ?? "") && (
         <Button
           size="medium"
-          disabled={bid.status === "bid" ?? loading}
+          disabled={loading ?? bid.status === "bid"}
           onClick={reveal}
         >
-          Open Bid
+          {loading ? <Spinner size={16} /> : "Open Bid"}
+        </Button>
+      )}
+      {["missed"].includes(bid.status ?? "") && (
+        <Button size="medium" disabled={loading} onClick={finalize}>
+          {loading ? <Spinner size={16} /> : "Refund Bid"}
+        </Button>
+      )}
+      {"winner" === (bid.status ?? "") && (
+        <Button size="medium" disabled={loading} onClick={finalize}>
+          {loading ? <Spinner size={16} /> : "Claim NFT"}
         </Button>
       )}
     </Root>

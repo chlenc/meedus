@@ -234,7 +234,32 @@ class MyBidsVM {
     const txId = await this.rootStore.accountStore.invoke(txParams);
     if (txId != null) {
       await this.sync();
-      toast.success("Congrats! You can check your name on puzzlemarket.org");
+      toast.success("Congrats! The bid has been revealed");
+      return;
+    } else {
+      toast.error("Something went wrong");
+      return;
+    }
+  };
+
+  finalize = async (bid: TBid) => {
+    if (bid.name == null || bid.secret == null || bid.amount == null) {
+      toast.error("Need to import this bid backup");
+      return;
+    }
+    const args: any[] = [
+      { type: "integer", value: Number(bid.auctionId) },
+      { type: "list", value: [{ type: "string", value: bid.hash }] },
+    ];
+    const txParams = {
+      dApp: AUCTION,
+      payment: [],
+      call: { function: "finalize", args },
+    };
+    const txId = await this.rootStore.accountStore.invoke(txParams);
+    if (txId != null) {
+      await this.sync();
+      toast.success("Congrats! The bid has been finalized");
       return;
     } else {
       toast.error("Something went wrong");

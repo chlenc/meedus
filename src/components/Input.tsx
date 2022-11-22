@@ -40,6 +40,14 @@ const Root = styled.div<{
   border: 2px solid ${({ readOnly }) => (readOnly ? "#AAAAAA" : "#000")};
   background: ${({ focused }) => (focused ? "#fffff" : "#fffff")};
   transition: 0.4s;
+  border-color: ${({ focused, error, readOnly }) =>
+    error
+      ? "#ED827E"
+      : readOnly
+      ? "#AAAAAA"
+      : !focused
+      ? "#000000"
+      : "#269995"};
   :hover {
     //border: 2px solid #269995;
     border-color: ${({ focused, error, readOnly }) =>
@@ -97,8 +105,14 @@ const Input: React.FC<IProps> = ({
           onChange={onChange}
           value={value}
           placeholder={placeholder}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
+          onFocus={(e) => {
+            rest.onFocus && rest.onFocus(e);
+            setFocused(true);
+          }}
+          onBlur={(e) => {
+            rest.onBlur && rest.onBlur(e);
+            setFocused(false);
+          }}
           ref={inputRef}
         />
         {suffix != null && <Text fitContent>{suffix}</Text>}
