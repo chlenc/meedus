@@ -1,5 +1,4 @@
 import React from "react";
-import "./index.css";
 import App from "./App";
 import { HashRouter as Router } from "react-router-dom";
 import "normalize.css";
@@ -11,6 +10,8 @@ import { createRoot } from "react-dom/client";
 import "react-toastify/dist/ReactToastify.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import "react-spring-bottom-sheet/dist/style.css";
+import "./index.css";
+import { ReactComponent as CloseIcon } from "@src/assets/icons/closeBtn.svg";
 
 const initState = loadState();
 
@@ -30,7 +31,22 @@ root.render(
   <storesContext.Provider value={mobxStore}>
     <Router>
       <App />
-      <ToastContainer />
+      <ToastContainer
+        icon={<div />}
+        position="top-center"
+        autoClose={5000}
+        closeButton={({ closeToast }) => (
+          <CloseIcon onClick={(e) => closeToast(e as any)} />
+        )}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </Router>
   </storesContext.Provider>
 );

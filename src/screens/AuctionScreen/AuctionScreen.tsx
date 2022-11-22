@@ -19,6 +19,7 @@ import { BADGE_COLORS } from "@src/constants";
 import BigNumberInput from "@components/BigNumberInput";
 import PlaceBidButton from "@screens/AuctionScreen/PlaceBidButton";
 import DialogNotification from "@components/Dialog/DialogNotification";
+import Spinner from "@components/Spinner";
 
 interface IProps {}
 
@@ -32,7 +33,7 @@ const Root = styled.div`
   padding: 0 16px;
   height: 100%;
   width: 100%;
-  min-height: calc(100vh - 150px);
+  min-height: calc(100vh - 178px);
   max-width: calc(1160px + 32px);
   position: relative;
   @media (min-width: 1280px) {
@@ -80,6 +81,7 @@ const AuctionScreenImpl: React.FC<IProps> = observer(() => {
   const vm = useAuctionScreenVM();
   return (
     <Root>
+      <SizedBox height={44} />
       <Row alignItems="center" style={{ flex: 1 }}>
         <Column
           crossAxisSize="max"
@@ -111,6 +113,7 @@ const AuctionScreenImpl: React.FC<IProps> = observer(() => {
                   inputRef={ref}
                   suffix="WAVES"
                   placeholder="Your bid"
+                  onBlur={vm.validate}
                 />
               )}
               decimals={8}
@@ -186,6 +189,16 @@ const AuctionScreenImpl: React.FC<IProps> = observer(() => {
       <HiddenPreview>
         <Preview id="hidden-preview" />
       </HiddenPreview>
+
+      {vm.loading && (
+        <DialogNotification
+          icon={<Spinner size={80} />}
+          title="Wait, please"
+          description="If you leave this page while the transaction is in progress, you will lose your money"
+          style={{ maxWidth: 360 }}
+          visible
+        />
+      )}
 
       <DialogNotification
         domain={vm.notificationParams?.domain}

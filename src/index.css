@@ -42,3 +42,39 @@ a {
     font-weight: 700;
 }
 
+:root {
+    --toastify-color-info:  #C1BFFF;
+    --toastify-color-success: #A5FFC9;
+    --toastify-color-warning: #FFDEA6;
+    --toastify-color-error: #FF938C;
+}
+
+.Toastify__toast{
+    padding: 0 24px;
+    min-height: 56px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: none;
+    display: flex;
+    align-items: center;
+}
+
+.Toastify__toast-body{
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: "Epilogue", sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 20px;
+    color: #000000;
+}
+
+.Toastify__toast-icon{
+    display: none;
+}
+
+.Toastify__close-button{
+    position: unset;
+}

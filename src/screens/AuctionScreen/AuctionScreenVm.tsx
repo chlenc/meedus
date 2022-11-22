@@ -62,7 +62,12 @@ class AuctionScreenVM {
   setLoading = (v: boolean) => (this.loading = v);
 
   get disabled() {
-    return this.bid.eq(0) || this.deposit.eq(0) || this.deposit.lt(this.bid);
+    return (
+      this.bid.eq(0) ||
+      this.deposit.eq(0) ||
+      this.deposit.lt(this.bid) ||
+      !this.isValid
+    );
   }
 
   setBid = (n: BN) => {
@@ -73,12 +78,21 @@ class AuctionScreenVM {
   setDeposit = (n: BN) => (this.deposit = n);
   deposit: BN = BN.ZERO;
 
+  isValid = true;
+  validate = () => {
+    this.isValid = this.bid.gte(10 * 1e8) && this.deposit.gte(this.bid);
+    if (!this.isValid) {
+      toast.dismiss();
+      toast.error("Bet must be greater than or equal to 10 waves");
+    }
+  };
+
   placeBid = async () => {
     if (this.disabled) {
       toast.error("Bid cannot be less then deposit");
       return;
     }
-
+    this.setLoading(true);
     //, _2: phase, _3: bidStart, _4: revealStart, _5: auctionEnd,
     const { _1: auctionId } = await nodeService
       .evaluate(AUCTION, "getAuction()")
