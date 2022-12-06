@@ -5,7 +5,7 @@ import { CountdownProps } from "react-countdown/dist/Countdown";
 const CustomCountdown: React.FC<CountdownProps> = (props) => {
   return <Countdown renderer={renderer} {...props} />;
 };
-const Completionist = () => <span>Time is up</span>;
+const Completionist = () => <span>soon</span>;
 
 const renderer = ({ hours, minutes, seconds, days, completed }: any) =>
   completed ? (

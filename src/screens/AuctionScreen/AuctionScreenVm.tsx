@@ -70,6 +70,10 @@ class AuctionScreenVM {
     );
   }
 
+  get minBid() {
+    return this.name.length <= 6 ? 20 : 10;
+  }
+
   setBid = (n: BN) => {
     if (this.deposit.lte(this.bid)) this.setDeposit(n);
     this.bid = n;
@@ -80,10 +84,11 @@ class AuctionScreenVM {
 
   isValid = true;
   validate = () => {
-    this.isValid = this.bid.gte(10 * 1e8) && this.deposit.gte(this.bid);
+    this.isValid =
+      this.bid.gte(this.minBid * 1e8) && this.deposit.gte(this.bid);
     if (!this.isValid) {
       toast.dismiss();
-      toast.error("Bet must be greater than or equal to 10 waves");
+      toast.error(`Bet must be greater than or equal to ${this.minBid} waves`);
     }
   };
 

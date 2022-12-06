@@ -9,6 +9,7 @@ import BottomMenu from "@components/BottomMenu";
 import Text from "@components/Text";
 import { ReactComponent as BurgerIcon } from "@src/assets/icons/burger.svg";
 import { ROUTES } from "@src/constants";
+import Banner from "./Banner";
 
 interface IProps {}
 
@@ -102,41 +103,47 @@ const menuItems = [
 const Header: React.FC<IProps> = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const [bannerClosed, setBannerClosed] = useState(false);
 
   return (
-    <Root>
-      <a href="https://meedus.space">
-        <Logo src={logo} />
-      </a>
-      <MenuWrapperDesktop>
-        {menuItems.map((item, i) => (
-          <MenuItem
-            key={i}
-            to={item.link}
-            selected={item.routes.includes(location.pathname)}
-          >
-            {item.title}
-          </MenuItem>
-        ))}
-      </MenuWrapperDesktop>
-      <Row alignItems="center" mainAxisSize="fit-content">
-        <Wallet />
-        <MenuWrapperMobile>
-          <SizedBox width={16} />
-          <BurgerIcon onClick={() => setOpen(true)} />
-        </MenuWrapperMobile>
-      </Row>
-
-      <BottomMenu open={open} onClose={() => setOpen(false)}>
-        {menuItems.map((item, i) => (
-          <Link to={item.link} key={i}>
-            <MobileMenuItem selected={item.routes.includes(location.pathname)}>
+    <>
+      <Banner closed={bannerClosed} setClosed={setBannerClosed} />
+      <Root>
+        <a href="https://meedus.space">
+          <Logo src={logo} />
+        </a>
+        <MenuWrapperDesktop>
+          {menuItems.map((item, i) => (
+            <MenuItem
+              key={i}
+              to={item.link}
+              selected={item.routes.includes(location.pathname)}
+            >
               {item.title}
-            </MobileMenuItem>
-          </Link>
-        ))}
-      </BottomMenu>
-    </Root>
+            </MenuItem>
+          ))}
+        </MenuWrapperDesktop>
+        <Row alignItems="center" mainAxisSize="fit-content">
+          <Wallet />
+          <MenuWrapperMobile>
+            <SizedBox width={16} />
+            <BurgerIcon onClick={() => setOpen(true)} />
+          </MenuWrapperMobile>
+        </Row>
+
+        <BottomMenu open={open} onClose={() => setOpen(false)}>
+          {menuItems.map((item, i) => (
+            <Link to={item.link} key={i}>
+              <MobileMenuItem
+                selected={item.routes.includes(location.pathname)}
+              >
+                {item.title}
+              </MobileMenuItem>
+            </Link>
+          ))}
+        </BottomMenu>
+      </Root>
+    </>
   );
 };
 export default Header;
