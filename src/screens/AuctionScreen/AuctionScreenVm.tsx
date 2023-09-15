@@ -88,7 +88,7 @@ class AuctionScreenVM {
       this.bid.gte(this.minBid * 1e8) && this.deposit.gte(this.bid);
     if (!this.isValid) {
       toast.dismiss();
-      toast.error(`Bet must be greater than or equal to ${this.minBid} waves`);
+      toast.error(`Bet must be greater than or equal to ${this.minBid} fuel`);
     }
   };
 
@@ -128,7 +128,7 @@ class AuctionScreenVM {
       const backup = {
         id: txId, //id транзакции ставки
         hash, // хеш ставки
-        domain: ".waves", // так надо оставить
+        domain: ".sway", // так надо оставить
         auctionId: auctionId.value, // id аукциона
         address: this.rootStore.accountStore.address, //адрес пользователя
         name: this.name, // имя за которое сделана ставка
@@ -143,7 +143,7 @@ class AuctionScreenVM {
       console.log(loadState("meedus-bid-backup"));
       this.setNotificationParams(
         buildSuccessBidPlacementParams({
-          domain: `${this.name}.waves`,
+          domain: `${this.name}.sway`,
           onBackToBids: () => window.open(`/#/nameservice`, "_self"),
           onExplorerClick: () =>
             window.open(`${EXPLORER_URL}/transactions/${txId}`),

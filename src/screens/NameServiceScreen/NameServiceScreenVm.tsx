@@ -160,7 +160,7 @@ class NameServiceScreenVm {
     if (txId != null) {
       const params = this.setNotificationParams(
         buildSuccessPurchaseParams({
-          domain: `${this.name}.waves`,
+          domain: `${this.name}.sway`,
           onGoMarket: () => window.open(`https://puzzlemarket.org/nft/${txId}`),
           onGoBack: () => window.location.reload(),
         })
@@ -238,12 +238,12 @@ class NameServiceScreenVm {
       return { id, img };
     } else if (!isAvailable) {
       toast.error(
-        `${this.name}.waves is not available right now, please try again later`
+        `${this.name}.sway is not available right now, please try again later`
       );
       return null;
     } else if (!isValid) {
       toast.error(
-        `You cannot start auction with ${this.name}.waves right now, please try again later`
+        `You cannot start auction with ${this.name}.sway right now, please try again later`
       );
       return null;
     } else {

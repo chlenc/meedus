@@ -28,7 +28,7 @@ export const NsScreenVMProvider: React.FC<PropsWithChildren> = ({
 
 export const useNsScreenVM = () => useVM(ctx);
 let description =
-  "Created by 3PGKEe4y59V3WLnHwPEUaMWdbzy8sb982fG. NFT namespace «.waves». Early adopter's NFT used for MEEDUS. Created by @meedus_nft, launched by @puzzle_swap.";
+  "Created by 3PGKEe4y59V3WLnHwPEUaMWdbzy8sb982fG. NFT namespace «.sway». Early adopter's NFT used for MEEDUS. Created by @meedus_nft.";
 
 type TNftData = { id: string; img: string };
 

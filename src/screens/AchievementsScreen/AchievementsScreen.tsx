@@ -75,7 +75,7 @@ const AchievementsScreenImpl: React.FC<IProps> = observer(() => {
     </Root>
   ) : (
     <Root>
-      <Title>Explore Achievements of Waves Ecosystem</Title>
+      <Title>Explore Achievements of Fuel Ecosystem</Title>
       <Row alignItems="center" justifyContent="space-between">
         <Button
           style={{ maxWidth: 160, minWidth: 100, marginRight: 16 }}

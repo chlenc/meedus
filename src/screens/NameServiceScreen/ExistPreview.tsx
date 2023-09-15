@@ -37,7 +37,7 @@ const ExistPreview: React.FC<IProps> = ({ nft, bg, name }) => {
                 style={{ width: "fit-content" }}
                 size="medium"
               >
-                View on Puzzle Market
+                View on Thunder Marketplace
               </Button>
             </Anchor>
           </Row>

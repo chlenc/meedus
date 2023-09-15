@@ -13,8 +13,6 @@ import Layout from "@components/Layout";
 import ExistPreview from "@screens/NameServiceScreen/ExistPreview";
 import NotExistPreview from "@screens/NameServiceScreen/NotExistPreview";
 import Button from "@components/Button";
-import MyBids from "./MyBids";
-import { useStores } from "@stores";
 import DialogNotification from "@components/Dialog/DialogNotification";
 
 interface IProps {}
@@ -53,7 +51,6 @@ const Title = styled(Text)`
 `;
 
 const NameServiceScreenImpl: React.FC<IProps> = observer(() => {
-  const { accountStore } = useStores();
   const vm = useNameServiceScreenVM();
   return (
     <Root>
@@ -66,13 +63,13 @@ const NameServiceScreenImpl: React.FC<IProps> = observer(() => {
           style={{ maxWidth: 536 }}
         >
           <Title style={{ background: "#a5ffc9", padding: "0 8px" }} fitContent>
-            .waves
+            .sway
           </Title>
           <SizedBox height={8} />
           <Title fitContent>Name Service</Title>
           <SizedBox height={16} />
           <Text size="medium" textAlign="center">
-            Find your perfect .waves domain
+            Find your perfect .sway domain
           </Text>
           <SizedBox height={40} />
           <Row style={{ width: "100%" }}>
@@ -80,7 +77,7 @@ const NameServiceScreenImpl: React.FC<IProps> = observer(() => {
               onChange={(e) => vm.setName(e.target.value)}
               placeholder="Enter domain"
               value={vm.name}
-              suffix=".waves"
+              suffix=".sway"
             />
             <SizedBox width={16} />
             <Button
@@ -102,7 +99,6 @@ const NameServiceScreenImpl: React.FC<IProps> = observer(() => {
           {/*{vm.name.length === 0 && <ActiveBids />}*/}
         </Column>
       </Row>
-      {vm.name.length === 0 && accountStore.address != null && <MyBids />}
       <SizedBox height={24} />
       <DialogNotification
         domain={vm.notificationParams?.domain}

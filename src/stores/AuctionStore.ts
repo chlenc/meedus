@@ -11,7 +11,7 @@ export type TAuction = {
   auctionEnd: string;
 };
 
-export default class TokenStore {
+export default class AuctionStore {
   public rootStore: RootStore;
 
   constructor(rootStore: RootStore) {

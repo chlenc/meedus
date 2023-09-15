@@ -101,7 +101,7 @@ const AuctionScreenImpl: React.FC<IProps> = observer(() => {
               onFocus={() => vm.setExistingNft(null)}
               placeholder="Enter your name"
               value={vm.name}
-              suffix=".waves"
+              suffix=".sway"
               readOnly
             />
             <SizedBox height={16} />
@@ -170,7 +170,7 @@ const AuctionScreenImpl: React.FC<IProps> = observer(() => {
                 size="medium"
                 fitContent
               >
-                View on Puzzle Market
+                View on Thunder Marketplace
               </Button>
             </Anchor>
           )}

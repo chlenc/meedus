@@ -17,7 +17,9 @@ const GetNameBtn: React.FC<IProps> = ({ fitContent, ...rest }) => {
           {...rest}
           {...rest}
           fitContent={fitContent}
-          onClick={() => accountStore.setLoginModalOpened(true)}
+          onClick={() => {
+            accountStore.setLoginModalOpened(true);
+          }}
         >
           Connect wallet
         </Button>
