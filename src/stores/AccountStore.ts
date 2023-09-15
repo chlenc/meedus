@@ -3,7 +3,7 @@ import { Signer } from "@waves/signer";
 import { ProviderWeb } from "@waves.exchange/provider-web";
 import { ProviderCloud } from "@waves.exchange/provider-cloud";
 import { ProviderKeeper } from "@waves/provider-keeper";
-import { NODE_URL, TOKENS_LIST } from "@src/constants";
+import { NODE_URL } from "@src/constants";
 import { autorun, makeAutoObservable, reaction } from "mobx";
 import { getCurrentBrowser } from "@src/utils/getCurrentBrowser";
 import { nodeInteraction, waitForTx } from "@waves/waves-transactions";
@@ -44,26 +44,9 @@ export interface ISerializedAccountStore {
 class AccountStore {
   public readonly rootStore: RootStore;
 
-  constructor(rootStore: RootStore, initState?: ISerializedAccountStore) {
+  constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
     makeAutoObservable(this);
-    if (this.isBrowserSupportsWavesKeeper) {
-      this.setupWavesKeeper();
-    }
-    if (initState) {
-      this.setLoginType(initState.loginType);
-      if (initState.loginType === LOGIN_TYPE.KEEPER) {
-        this.setupSynchronizationWithKeeper();
-      }
-      this.setAddress(initState.address);
-    }
-    Promise.all([this.checkScriptedAccount(), this.updateAccountAssets()]);
-    setInterval(this.updateAccountAssets, 10 * 1000);
-    reaction(
-      () => this.address,
-      () =>
-        Promise.all([this.checkScriptedAccount(), this.updateAccountAssets()])
-    );
   }
 
   isAccScripted = false;
@@ -216,16 +199,16 @@ class AccountStore {
     this.setAssetsBalancesLoading(true);
 
     const address = this.address;
-    const data = await nodeService.getAddressBalances(address);
-    const assetBalances = TOKENS_LIST.map((asset) => {
-      const t = data.find(({ assetId }) => asset.assetId === assetId);
-      const balance = new BN(t != null ? t.balance : 0);
-      return new Balance({ balance, ...asset });
-    });
+    // const data = await nodeService.getAddressBalances(address);
+    // const assetBalances = TOKENS_LIST.map((asset) => {
+    //   const t = data.find(({ assetId }) => asset.assetId === assetId);
+    //   const balance = new BN(t != null ? t.balance : 0);
+    //   return new Balance({ balance, ...asset });
+    // });
     const newAddress = this.address;
     if (address !== newAddress) return;
 
-    this.setAssetBalances(assetBalances);
+    // this.setAssetBalances(assetBalances);
     this.setAssetsBalancesLoading(false);
   };
 

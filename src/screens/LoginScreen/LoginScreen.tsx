@@ -57,11 +57,6 @@ const layoutStyle: React.CSSProperties = {
 
 const LoginScreen: React.FC<IProps> = () => {
   const { accountStore } = useStores();
-  const handleLogin = (loginType: LOGIN_TYPE) => () =>
-    accountStore
-      .login(loginType)
-      .then(() => accountStore.setLoginModalOpened(false));
-  const isKeeperDisabled = !accountStore.isWavesKeeperInstalled;
   if (!accountStore.loginModalOpened) return null;
   return (
     <Layout style={layoutStyle} header={<LoginScreenHeader />}>
@@ -105,7 +100,7 @@ const LoginScreen: React.FC<IProps> = () => {
             <span> New to Fuel blockchain?</span> <br />
             <Anchor
               style={{ color: "#269995" }}
-              href="https://puzzle-lend.gitbook.io/guidebook/get-started-on-waves/create-wallet"
+              href="https://wallet.fuel.network/docs/install/"
             >
               Learn more about wallets
             </Anchor>

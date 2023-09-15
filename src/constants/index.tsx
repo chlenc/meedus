@@ -1,8 +1,5 @@
 import { IToken } from "@src/entities/Balance";
 import tokens from "./tokens.json";
-import tokenLogos from "./tokenLogos.json";
-
-const logos = require("./tokenLogos.json");
 
 export const ROUTES = {
   ROOT: "/",
@@ -10,8 +7,6 @@ export const ROUTES = {
   PARTNERS: "/partners",
   AUCTION: "/auction/:name/:bg",
 };
-
-export const TOKEN_LOGO_BY_ASSET_ID: Record<string, string> = logos;
 
 export const CORE = "3P7NhmDt31ekQ2JryxtmdgZ1DXgVPwyocJK";
 export const NS_DAPP = "3PGKEe4y59V3WLnHwPEUaMWdbzy8sb982fG"; //mainnet
@@ -35,7 +30,8 @@ export const PUZZLE_MARKET_URL = "https://puzzlemarket.org";
 
 export const TOKENS_LIST: Array<IToken> = Object.values(tokens).map((t) => ({
   ...t,
-  logo: (tokenLogos as Record<string, string>)[t.symbol],
+  // logo: (tokenLogos as Record<string, string>)[t.symbol],
+  logo: "",
 }));
 
 export const TOKENS_BY_ASSET_ID: Record<string, IToken> = TOKENS_LIST.reduce(

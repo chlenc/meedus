@@ -1,8 +1,6 @@
 import styled from "@emotion/styled";
 import React from "react";
 import { ReactComponent as CloseIcon } from "@src/assets/icons/closeBtn.svg";
-import { useStores } from "@stores";
-import CustomCountdown from "../CustomCountdown";
 import { observer } from "mobx-react-lite";
 
 interface IProps {
@@ -48,36 +46,21 @@ const Root = styled.div<{ closed: boolean }>`
     }
   }
 `;
+//
+// const BoldText = styled.div`
+//   font-size: 16px;
+//   line-height: 24px;
+//   font-weight: 500;
+//   color: #fff;
+//   padding: 0;
+// `;
 
-const BoldText = styled.div`
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 500;
-  color: #fff;
-  padding: 0;
-`;
-
-const Banner: React.FC<IProps> = ({ closed, setClosed }) => {
-  const { auctionStore } = useStores();
-  const time =
-    auctionStore.auction?.phase === "BID"
-      ? auctionStore.auction.revealStart
-      : auctionStore.auction?.auctionEnd;
-  const nextPhase = auctionStore.auction?.phase === "BID" ? "REVEAL" : "BID";
+const Banner: React.FC<IProps> = observer(({ closed, setClosed }) => {
   return (
     <Root closed={closed}>
-      {auctionStore.auction == null ? (
-        <>👑 Meedus is alive 🎉</>
-      ) : (
-        <>
-          ⏰ Phase &nbsp;<BoldText>{nextPhase}</BoldText>&nbsp; will start&nbsp;
-          <BoldText>
-            in {<CustomCountdown date={new Date(+(time ?? 0))} />}
-          </BoldText>
-        </>
-      )}
+      👑 Meedus is alive 🎉
       <CloseIcon className="close" onClick={() => setClosed(true)} />
     </Root>
   );
-};
-export default observer(Banner);
+});
+export default Banner;

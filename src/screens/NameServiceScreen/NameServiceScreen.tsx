@@ -13,8 +13,6 @@ import Layout from "@components/Layout";
 import ExistPreview from "@screens/NameServiceScreen/ExistPreview";
 import NotExistPreview from "@screens/NameServiceScreen/NotExistPreview";
 import Button from "@components/Button";
-import MyBids from "./MyBids";
-import { useStores } from "@stores";
 import DialogNotification from "@components/Dialog/DialogNotification";
 
 interface IProps {}
@@ -53,7 +51,6 @@ const Title = styled(Text)`
 `;
 
 const NameServiceScreenImpl: React.FC<IProps> = observer(() => {
-  const { accountStore } = useStores();
   const vm = useNameServiceScreenVM();
   return (
     <Root>
@@ -102,7 +99,6 @@ const NameServiceScreenImpl: React.FC<IProps> = observer(() => {
           {/*{vm.name.length === 0 && <ActiveBids />}*/}
         </Column>
       </Row>
-      {vm.name.length === 0 && accountStore.address != null && <MyBids />}
       <SizedBox height={24} />
       <DialogNotification
         domain={vm.notificationParams?.domain}

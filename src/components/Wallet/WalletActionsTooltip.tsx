@@ -45,7 +45,7 @@ const WalletActionsTooltip: React.FC<IProps> = () => {
         Copy address
       </Text>
       <Anchor href={`${EXPLORER_URL}/address/${address}`} className="menu-item">
-        <Text>View in Waves Explorer</Text>
+        <Text>View in Explorer</Text>
       </Anchor>
       <Anchor
         href={`${PUZZLE_MARKET_URL}/address/${address}`}
