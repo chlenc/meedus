@@ -134,7 +134,7 @@ const BidCard: React.FC<IProps> = ({ bid }) => {
         {bid.name !== "" ? (
           <>
             <Label style={{ color }}>{bid.name ?? "???"}</Label>
-            <Label style={{ color, background }}>.waves</Label>
+            <Label style={{ color, background }}>.sway</Label>
           </>
         ) : null}
       </Card>

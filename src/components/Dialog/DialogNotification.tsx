@@ -139,7 +139,7 @@ export const buildSuccessPurchaseParams = ({
     buttons: [
       () => (
         <Button size="medium" onClick={onGoMarket}>
-          View in Puzzle Market
+          View in Thunder Marketplace
         </Button>
       ),
       () => (

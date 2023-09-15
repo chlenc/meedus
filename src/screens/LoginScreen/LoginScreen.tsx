@@ -80,32 +80,29 @@ const LoginScreen: React.FC<IProps> = () => {
             <SizedBox height={40} />
             <Button
               kind="secondary"
-              onClick={handleLogin(LOGIN_TYPE.SIGNER_EMAIL)}
+              // onClick={handleLogin(LOGIN_TYPE.SIGNER_EMAIL)}
             >
-              Waves.Exchange email
+              Metamask
             </Button>
             <SizedBox height={16} />
             <Button
               kind="secondary"
-              onClick={handleLogin(LOGIN_TYPE.SIGNER_SEED)}
+              // onClick={handleLogin(LOGIN_TYPE.SIGNER_SEED)}
             >
-              Seed phrase
+              Fuel Wallet
             </Button>
             <SizedBox height={16} />
             <Button
               kind="secondary"
-              onClick={
-                !isKeeperDisabled ? handleLogin(LOGIN_TYPE.KEEPER) : undefined
-              }
-              disabled={isKeeperDisabled}
+              // onClick={!isKeeperDisabled ? handleLogin(LOGIN_TYPE.KEEPER) : undefined}
             >
-              Keeper Wallet
+             Fuelet
             </Button>
             <SizedBox height={40} />
           </Column>
           <SizedBox height={8} />
           <Text weight={500} size="medium" textAlign="center">
-            <span> New to Waves blockchain?</span> <br />
+            <span> New to Fuel blockchain?</span> <br />
             <Anchor
               style={{ color: "#269995" }}
               href="https://puzzle-lend.gitbook.io/guidebook/get-started-on-waves/create-wallet"

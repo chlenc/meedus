@@ -35,7 +35,7 @@ const PreviewModal: React.FC<IProps> = ({ ...rest }) => {
           <GetNameBtn fitContent />
         ) : (
           <Anchor href={`https://puzzlemarket.org/nft/${vm.existingNft?.id}`}>
-            <Button>View on Puzzle Market</Button>
+            <Button>View on Thunder Marketplace</Button>
           </Anchor>
         )}
       </Container>

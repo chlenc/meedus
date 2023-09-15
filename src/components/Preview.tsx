@@ -90,13 +90,13 @@ const Preview: React.FC<IProps> = ({ nft, bg, name, ...rest }) => {
             {name !== "" ? (
               <>
                 <Label style={{ color }}>{name}</Label>
-                <Label style={{ color, background }}>.waves</Label>
+                <Label style={{ color, background }}>.sway</Label>
               </>
             ) : null}
           </Body>
           <Footer>
             <Text style={{ color: "#ffffff" }} size="small" weight={600}>
-              Waves Name Service
+              Sway Name Service
             </Text>
             <WavesLogo />
           </Footer>

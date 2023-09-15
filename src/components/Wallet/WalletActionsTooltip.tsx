@@ -51,7 +51,7 @@ const WalletActionsTooltip: React.FC<IProps> = () => {
         href={`${PUZZLE_MARKET_URL}/address/${address}`}
         className="menu-item"
       >
-        <Text>View on Puzzle Market</Text>
+        <Text>View on Thunder Marketplace</Text>
       </Anchor>
       <StyledDivider className="menu-item" />
       <Text onClick={handleLogout} className="menu-item">

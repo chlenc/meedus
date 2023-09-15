@@ -86,7 +86,7 @@ const NsScreenImpl: React.FC<IProps> = observer(() => {
           justifyContent="center"
         >
           <Title style={{ background: "#a5ffc9", padding: "0 8px" }} fitContent>
-            .waves
+            .sway
           </Title>
           <SizedBox height={8} />
           <Title fitContent>Name Service</Title>
@@ -96,7 +96,7 @@ const NsScreenImpl: React.FC<IProps> = observer(() => {
               onFocus={() => vm.setExistingNft(null)}
               placeholder="Enter your name"
               value={vm.name}
-              suffix=".waves"
+              suffix=".sway"
               onChange={(e) => vm.setName(e.target.value)}
             />
             <SizedBox height={16} />
@@ -113,7 +113,7 @@ const NsScreenImpl: React.FC<IProps> = observer(() => {
           <SizedBox height={30} />
           <Anchor href="https://t.me/meedus_nft">
             <Text weight={700} fitContent size="medium">
-              What is .waves name?
+              What is .sway name?
             </Text>
           </Anchor>
         </Column>
@@ -142,7 +142,7 @@ const NsScreenImpl: React.FC<IProps> = observer(() => {
                 size="medium"
                 fitContent
               >
-                View on Puzzle Market
+                View on Thunder Marketplace
               </Button>
             </Anchor>
           )}

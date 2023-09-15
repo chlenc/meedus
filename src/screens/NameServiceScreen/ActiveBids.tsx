@@ -34,11 +34,11 @@ const ActiveBids: React.FC<IProps> = () => {
     <Root>
       <Text size="medium">You have {"0"} active bids</Text>
       <Text style={{ color: "#666666", maxWidth: 220 }}>
-        You can keep track of your domain bids on Waves Domains
+        You can keep track of your domain bids on Fuel Domains
       </Text>
       <SizedBox height={24} />
       <Button size="medium" style={{ width: "fit-content" }}>
-        Go to Waves Domains
+        Go to Fuel Domains
       </Button>
       <Pic />
     </Root>
